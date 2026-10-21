@@ -169,4 +169,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Sayfa 3 düzenlemeleri (kullanıcı isteği): kaynak satırı yalnızca "Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları."; özet kutusu "Rezervasyon sayısı"; **sınıf bilgisi "0" olan kayıtlar** betikte tamamen çıkarıldı (Medya Merkezi zaten hariç) → 845 rezervasyon; sınıf grafiğinde yalnızca 1–4. **Teslim alma / iade günü** artık çubuk değil **ısı haritası**: satır Pazartesi–Cuma (hafta sonu yok), sütun ay, hücrede sayı yok; tek ton 5 düzey (Çok sakin → Çok yoğun), "Sakin → Yoğun" göstergesi, dokununca "Pazartesi · Aralık 2025 — Çok yoğun". Çubuklar genişletildi (dikey en fazla 110 px / bandın %80'i, yatay 48 px). Dar ekranda ısı haritası ay etiketleri yıl olmadan. `ocinfo-v11`.
 - **Doğrulama:** Tüm görünümler 1080×810, 1024×768, 810×1080'de taşmasız; ısı haritasında `.val` (sayı) yok; dokunma metni doğru. Excel geçici kopyası JSON üretildikten sonra silindi.
 - **Sıradaki adım:** Önceki yılların Excel'leri gelince betiğe ver.
-- **Commit:** (doldurulacak)
+- **Commit:** `aa70d14`

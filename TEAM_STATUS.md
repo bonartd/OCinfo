@@ -121,4 +121,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı yeni `anket.gs`'yi Apps Script'e yapıştırıp **sürüm 2** olarak dağıttı (web uygulaması adresi değişmedi). Canlı uç noktaya iki deneme satırı gönderildi; kullanıcı tabloda doğruladı: başlıkta **Bölüm** ve **Not** sütunları var, bölüm değerleri yazılıyor, 5 sn arayla gelen ikinci satırda "şüpheli" notu var. Anket sayfası (Sayfa 2) uçtan uca çalışır durumda.
 - **Not:** Tabloda "TEST … (silinebilir)" deneme satırları var; kullanıcı silecek.
 - **Sıradaki adım:** iPad'de canlı deneme. Betik ileride değişirse güncellemeyi kolaylaştırmak için `clasp` kurulumu düşünülebilir (Node.js gerekir; kullanıcı onayı alınmadı). Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
-- **Commit:** (doldurulacak)
+- **Commit:** `da6f74a`

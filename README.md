@@ -12,7 +12,7 @@ bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunula
 > 🚧 **Durum:** Kiosk kabuğu (PWA, çevrimdışı önbellek, otomatik sayfa dönüşü, hareketsizlikte
 > başa dönüş), **Sayfa 1 — rezervasyon QR + kurallar**, **Sayfa 2 — memnuniyet anketi**
 > (Google E-Tablosu'na bağlı; [`docs/ANKET_KURULUM.md`](docs/ANKET_KURULUM.md)) ve
-> **Sayfa 3 — kullanım istatistikleri** (seçilebilir grafikler) hazır. En çok kullanılan
+> **Sayfa 3 — kullanım bilgileri** (seçilebilir grafikler, eğitim yılı bazında) hazır. En çok kullanılan
 > ekipmanlar sayfası planlandı (bkz. AGENTS.md 4.2.1).
 
 - **Depo:** https://github.com/bonartd/OCinfo (herkese açık / public)

@@ -160,12 +160,17 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   içerik güncellemesi kod değiştirmeden bu dosyalarla yapılır.
 - **Ham veri (Excel/CSV) depoya ASLA girmez** (`.gitignore`: `*.xlsx`, `*.xls`, `*.csv`); kişisel
   bilgi (ad soyad vb.) içerir ve depo herkese açıktır. İstatistikler yalnızca
-  `tools/veri/istatistik_olustur.py` ile üretilen **anonim sayımlar** olarak yayınlanır; 5 kişiden
-  az kullanıcılı birimler "Diğer"de birleştirilir. Güncelleme:
-  `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya>.xlsx"`
+  `tools/veri/istatistik_olustur.py` ile üretilen **anonim rezervasyon sayımları** olarak
+  yayınlanır. Kurallar: veri **eğitim yılı** (1 Eylül – 31 Ağustos) bazında tutulur; yalnızca
+  **tamamlanmış** eğitim yılları alınır; **Medya Merkezi Müdürlüğü** (personel) kayıtları alınmaz;
+  bir yılda 5 kişiden az kullanıcılı birimler "Diğer"de birleştirilir; yalnızca rezervasyon
+  sayısı gösterilir (kişi sayısı yok). Önceki yıllar eklenirken betik yalnızca verilen
+  dosyalardaki yılları yeniler, diğer yılları korur; sütunlar başlık adından bulunur ve tarihte
+  saat varsa teslim alma / iade saati grafikleri kendiliğinden açılır. Güncelleme:
+  `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya1>.xlsx" ["<dosya2>.xlsx" …]`
   → `app/data/istatistik.json` değişir → `sw.js` sürümünü artır → commit/push.
-- Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. Görüş ve
-  bölüm isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
+- Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. **Bölüm
+  zorunludur** ("Diğer" seçilirse bölüm adı yazılır), görüş isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
   yanıt alınmaz; betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
   "şüpheli" işaretler. Ortak kioskta kişi başı tek yanıt garanti edilemez.
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
@@ -249,7 +254,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Kullanım istatistikleri (seçilebilir grafikler: bölüm, sınıf, ay, gün) | `pages/istatistik.js` | ✅ Hazır |
+| 3 | Kullanım bilgileri (seçilebilir grafikler: bölüm, sınıf, ay, teslim alma / iade günü; saat ve yıllar veri varsa) | `pages/istatistik.js` | ✅ Hazır |
 | 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`

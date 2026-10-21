@@ -412,6 +412,9 @@ input, textarea {
 .sv-dept input[hidden] { display: none; }
 .sv-wait { font-size: 16px; color: var(--muted); }
 .sv-privacy { font-size: 14px; color: var(--muted); }
+.sv-required { font-size: 15px; color: var(--muted); text-align: right; }
+.sv-required[hidden] { display: none; }
+.btn:disabled { opacity: 0.35; }
 .sv-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 4px; }
 .sv-actions .btn--primary { flex: 1; max-width: 360px; }
 
@@ -462,8 +465,7 @@ input, textarea {
   height: 100%;
   min-height: 560px;
 }
-.st-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.st-sub { color: var(--muted); font-size: 16px; margin-top: 2px; }
+.st-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .st-kpis { display: flex; gap: 10px; margin: 0; flex-wrap: wrap; }
 .st-kpis > div {
   min-width: 120px;
@@ -475,7 +477,6 @@ input, textarea {
 .st-kpis dt { font-size: 13px; color: var(--muted); }
 .st-kpis dd { margin: 2px 0 0; font-size: 20px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
 .st-controls { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.st-filters { display: flex; gap: 10px; flex-wrap: wrap; }
 .st-chart {
   flex: 1 1 auto;
   min-height: 0;
@@ -485,6 +486,8 @@ input, textarea {
 }
 .st-detail { font-size: 17px; color: var(--text); min-height: 24px; }
 .st-detail strong { color: var(--navy); }
+.st-note { font-size: 14px; color: var(--muted); margin-top: 2px; }
+.st-note[hidden] { display: none; }
 .st-svg { flex: 1 1 auto; min-height: 0; width: 100%; display: block; overflow: visible; }
 .st-svg .bar { fill: var(--blue); transition: opacity 200ms ease; }
 .st-svg .bar--max { fill: var(--navy); }

@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/{anket,istatistik}.js`, `app/data/istatistik.json`, `app/assets/css/app.css`, `app/sw.js`, `tools/veri/`, `AGENTS.md`, `README.md` | 2026-10-21 16:30 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -153,3 +153,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Service Worker kurulumunda kabuk dosyaları artık `cache: 'reload'` ile sunucudan taze alınıyor; önceden `cache.addAll` tarayıcının HTTP önbelleğinden (GitHub Pages 10 dk) eski kopya alıp yeni sürüm önbelleğine kalıcı yazabilirdi. `ocinfo-v9`. Canlıda Sayfa 3 dosyalarının önbellekte doğru olduğu doğrulandı.
 - **Sıradaki adım:** Sayfa 4 için ekipman bazlı veri.
 - **Commit:** `1140d80`
+
+### 2026-10-21 16:50 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/anket.js`, `app/assets/js/pages/istatistik.js`, `app/data/istatistik.json`, `tools/veri/istatistik_olustur.py`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `README.md`, `docs/ANKET_KURULUM.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** **Anket:** gizlilik metni yalnızca "Yanıtlar anonimdir."; **bölüm zorunlu** (seçilmeden "Gönder" pasif, altında "Göndermek için bölümünü seç."; "Diğer"de ad yazılmadan pasif); seçeneklere **Endüstriyel Tasarım** eklendi. **Sayfa 3:** başlık "Ödünç Cihaz Sistemi Kullanım Bilgileri", tarih alt satırı kaldırıldı; yalnızca rezervasyon (kişi ölçüsü ve kitle filtresi kaldırıldı); **Medya Merkezi verisi ve 31 Ağustos 2026 sonrası** dahil değil (850 rezervasyon). Yeni görünümler: **Teslim alma günü** (rezervasyon başlangıç tarihine göre; notla belirtildi) ve **İade günü**. Özet kutuları: rezervasyon, en yoğun ay, en yoğun iade günü, en çok kullanan bölüm. **Çok yıllı hazırlık:** JSON eğitim yılı bazında (`yillar`); betik birden çok Excel alır, yalnızca tamamlanmış yılları yazar, verilen yılları yeniler/diğerlerini korur, sütunları başlık adından bulur (sıra ve ad varyasyonları), bölüm yazımlarını birleştirir, Türkçe büyük/küçük harfe dikkat eder; tarihte saat varsa teslim alma/iade **saati** grafikleri, birden çok yıl varsa **yıl seçimi** ve **Yıllar** grafiği kendiliğinden açılır. `sw.js` → `ocinfo-v10`.
+- **Değerlendirme:** Excel'de **saat bilgisi yok** (2.398 tarih değerinin tümü yalnızca gün) → yoğun saat analizi bu veriyle yapılamaz. Gün bazında anlamlı: iadelerin %45'i pazartesi (380/850), hafta sonu iade yok; teslim alma (rezervasyon başlangıcı) da en çok pazartesi (212), ancak 111 rezervasyon hafta sonu başlıyor.
+- **Doğrulama:** Anket zorunluluk mantığı ve "Endüstriyel Tasarım" gönderimi (sahte uç nokta). Sayfa 3 tüm görünümleri gerçek veriyle; çok yıllı/saatli yapı **sahte (kişisel veri içermeyen) 2024-2025 dosyasıyla** denendi (farklı başlık sırası/adları, saatli tarihler, yazım farklılıkları) ve ardından gerçek JSON geri yüklendi. 1080×810, 1024×768, 810×1080'de taşma yok. Geçici Excel kopyaları silindi.
+- **Sıradaki adım:** Kullanıcı önceki yılların Excel'lerini iletince betiğe verip JSON'u yenile. Saatli veri mümkünse ofisten iste.
+- **Commit:** (doldurulacak)

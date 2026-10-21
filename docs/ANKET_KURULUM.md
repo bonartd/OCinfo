@@ -23,9 +23,10 @@ olarak indirilebilir.
 
 - Başlık satırını betik yazar; sütunların sırasını değiştirmeyin.
 - **Tarih/Saat:** Yanıtın iPad'de verildiği an (internet yokken verilen yanıtlar da doğru saatle gelir).
-- **Yanıtlar anonimdir.** Ad, öğrenci numarası, e-posta istenmez. **Görüş ve bölüm isteğe bağlıdır.**
+- **Yanıtlar anonimdir.** Ad, öğrenci numarası, e-posta istenmez. **Bölüm zorunludur**, görüş isteğe bağlıdır.
   Bölüm seçenekleri: Radyo, Televizyon ve Sinema · Görsel İletişim Tasarımı · Yeni Medya ve İletişim ·
-  Halkla İlişkiler ve Reklamcılık · Çizgi Film ve Animasyon · Diğer (yazılırsa `Diğer: …`).
+  Halkla İlişkiler ve Reklamcılık · Çizgi Film ve Animasyon · Endüstriyel Tasarım · Diğer (adı yazılır,
+  `Diğer: …` olarak kaydedilir).
 - **Not:** iPad saatine göre önceki yanıttan 55 sn'den kısa sürede gelen yanıtlar
   `şüpheli: önceki yanıta çok yakın` olarak işaretlenir (silinmez; değerlendirmede ayıklanabilir).
 - **Kayıt ID:** Aynı yanıtın iki kez yazılmasını önler; dokunmayın.

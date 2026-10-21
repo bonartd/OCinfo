@@ -1,4 +1,4 @@
-// Sayfa 2 — Memnuniyet anketi: gülen yüzlerle puan + isteğe bağlı görüş ve bölüm.
+// Sayfa 2 — Memnuniyet anketi: gülen yüzlerle puan + zorunlu bölüm + isteğe bağlı görüş.
 // Yanıtlar anonimdir. Önce iPad'de kuyruğa yazılır, sonra config.surveyEndpoint'e
 // (Google Apps Script) gönderilir. Bağlantı yoksa kuyrukta bekler (AGENTS.md 3.4).
 // Arka arkaya yanıtı zorlaştırmak için gönderimden sonra config.surveyCooldownSec
@@ -22,6 +22,7 @@ const BOLUMLER = [
   'Yeni Medya ve İletişim',
   'Halkla İlişkiler ve Reklamcılık',
   'Çizgi Film ve Animasyon',
+  'Endüstriyel Tasarım',
 ];
 const DIGER = 'Diğer';
 
@@ -140,7 +141,7 @@ export default {
               placeholder="Hizmetimizi nasıl daha iyi hâle getirebiliriz?"></textarea>
           </label>
           <fieldset class="sv-field sv-dept">
-            <legend>Bölümün <em>(isteğe bağlı)</em></legend>
+            <legend>Bölümün</legend>
             <div class="sv-chips">
               ${BOLUMLER.concat(DIGER).map((b) => `
                 <button type="button" class="sv-chip" data-bolum="${b}" aria-pressed="false">${b}</button>`).join('')}
@@ -148,11 +149,12 @@ export default {
             <input name="diger" type="text" maxlength="80" autocorrect="off" spellcheck="false"
               placeholder="Bölümünü yaz" hidden>
           </fieldset>
-          <p class="sv-privacy">Yanıtlar anonimdir; adın veya öğrenci numaran istenmez.</p>
+          <p class="sv-privacy">Yanıtlar anonimdir.</p>
           <div class="sv-actions">
             <button type="button" class="btn btn--ghost" data-action="back">Geri</button>
-            <button type="submit" class="btn btn--primary">Gönder</button>
+            <button type="submit" class="btn btn--primary" disabled>Gönder</button>
           </div>
+          <p class="sv-required" aria-live="polite">Göndermek için bölümünü seç.</p>
         </form>
 
         <div class="sv-step sv-step--thanks" role="status">
@@ -174,6 +176,8 @@ export default {
     const digerInput = form.elements.diger;
     const thanksFace = el.querySelector('.sv-thanks-face');
     const waitText = el.querySelector('.sv-wait');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const requiredText = el.querySelector('.sv-required');
     let level = null;
     let bolum = '';
     let waitTimer = null;
@@ -187,11 +191,24 @@ export default {
       return Math.max(0, load(COOLDOWN_KEY, 0) + cooldownMs - Date.now());
     }
 
+    // Bölüm zorunludur; "Diğer" seçilirse bölüm adı da yazılmalıdır.
+    function bolumValid() {
+      return bolum !== '' && (bolum !== DIGER || digerInput.value.trim() !== '');
+    }
+
+    function updateSubmit() {
+      const ok = bolumValid();
+      submitBtn.disabled = !ok;
+      requiredText.hidden = ok;
+      requiredText.textContent = bolum === DIGER ? 'Göndermek için bölümünün adını yaz.' : 'Göndermek için bölümünü seç.';
+    }
+
     function selectBolum(value) {
       bolum = bolum === value ? '' : value;
       chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.bolum === bolum)));
       digerInput.hidden = bolum !== DIGER;
       if (bolum !== DIGER) digerInput.value = '';
+      updateSubmit();
     }
 
     // Bekleme süresi boyunca teşekkür ekranı kalır; kalan süre her saniye güncellenir.
@@ -236,11 +253,13 @@ export default {
       if (chip) selectBolum(chip.dataset.bolum);
     });
 
+    digerInput.addEventListener('input', updateSubmit);
+
     form.querySelector('[data-action="back"]').addEventListener('click', resetView);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!level || remainingMs() > 0) return;
+      if (!level || remainingMs() > 0 || !bolumValid()) return;
       const digerText = digerInput.value.trim();
       const bolumValue = bolum === DIGER ? (digerText ? `${DIGER}: ${digerText}` : DIGER) : bolum;
       const entry = makeEntry(level, bolumValue, form.elements.gorus.value);

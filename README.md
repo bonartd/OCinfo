@@ -14,6 +14,8 @@ bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunula
 
 - **Depo:** https://github.com/bonartd/OCinfo (herkese açık / public)
 - **Canlı adres:** https://bonartd.github.io/OCinfo/
+- **Ofisin resmî sitesi (rezervasyon):** https://odunccihaz.yasar.edu.tr/ — kurallar ve
+  inceleme: [`docs/OFIS_KURALLARI.md`](docs/OFIS_KURALLARI.md)
 
 ---
 
@@ -77,7 +79,9 @@ OCinfo/
 ├── .github/
 │   ├── copilot-instructions.md   # Copilot köprüsü
 │   └── workflows/pages.yml       # GitHub Pages yayını
-├── docs/EKIP_KURULUM.md # Ekibe gönderilecek metin + hazır prompt
+├── docs/
+│   ├── EKIP_KURULUM.md  # Ekibe gönderilecek metin + hazır prompt
+│   └── OFIS_KURALLARI.md # Ofis kuralları + inceleme
 └── app/                 # Yayınlanan uygulama (yalnızca bu klasör yayınlanır)
     ├── index.html       # (yer tutucu)
     ├── assets/{css,js,img}/

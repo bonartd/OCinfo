@@ -9,6 +9,9 @@ istatistiklerini ve pratik bilgileri interaktif olarak sunan, kullanıcı memnun
 ölçen dijital bilgilendirme uygulaması. Ofis önündeki bir iPad'de (iPadOS 15.5) kiosk
 olarak çalışan bir PWA'dır.
 
+**Ofisin resmî sitesi (rezervasyon sistemi):** https://odunccihaz.yasar.edu.tr/ —
+kurallar ve inceleme: [`docs/OFIS_KURALLARI.md`](docs/OFIS_KURALLARI.md).
+
 ---
 
 ## 1. Zorunlu çalışma döngüsü
@@ -156,6 +159,11 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 - Ekipman listesi, istatistikler ve pratik bilgiler `app/data/*.json` dosyalarında tutulur;
   içerik güncellemesi kod değiştirmeden bu dosyalarla yapılır.
 - Memnuniyet anketi **anonimdir**; öğrenci adı, numarası, e-posta toplanmaz.
+- **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
+  **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
+  Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar).
+- Ofis kuralları için asıl kaynak resmî sitedir; kiosk metinleri `docs/OFIS_KURALLARI.md`
+  Bölüm 3'teki sorular netleşene kadar sitedeki ifadeye sadık kalır.
 - Anket yanıtlarının nereye gönderileceği (ör. Google Apps Script, form servisi) **henüz
   kararlaştırılmadı** — karar verilmeden uç nokta eklenmez; anahtar/URL gizliyse depoya girmez.
 
@@ -189,7 +197,8 @@ OCinfo/
 │   ├── copilot-instructions.md  # Copilot köprüsü → AGENTS.md
 │   └── workflows/pages.yml      # app/ klasörünü GitHub Pages'e yayınlar
 ├── docs/
-│   └── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
+│   ├── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
+│   └── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
     ├── index.html             # (şu an yer tutucu)
     ├── manifest.webmanifest   # (henüz yok)

@@ -1,7 +1,11 @@
 # Memnuniyet Anketi — Google Drive Kurulumu
 
-OCinfo'nun 2. sayfasındaki memnuniyet anketi, yanıtları Google Drive'daki bir
-**Google E-Tablosu**na yazar. Tablo istenildiği an **Excel (.xlsx)** olarak indirilebilir.
+OCinfo'nun 2. sayfasındaki memnuniyet anketi, yanıtları ekibin ortak Google E-Tablosu
+**"Mega Tablo - 2026"** içindeki **"OCinfo"** sayfasına yazar. Tablo istenildiği an
+**Excel (.xlsx)** olarak indirilebilir.
+
+> Tablonun kimliği (ID) depo herkese açık olduğu için buraya yazılmaz. Tablo adresindeki
+> `/d/` ile `/edit` arasındaki kısımdır; Drive'da tabloyu açarak alabilirsiniz.
 
 ## Toplanan sütunlar
 
@@ -9,30 +13,39 @@ OCinfo'nun 2. sayfasındaki memnuniyet anketi, yanıtları Google Drive'daki bir
 |---|---|---|---|---|---|---|---|
 | 2026-10-21 | 12:34:05 | (boş olabilir) | 5 | Çok memnunum | … | lz3k…-a1b2c3 | (sunucu saati) |
 
+- Sütunlar "OCinfo" sayfasının ilk satırına betik tarafından yazılır; sıralarını değiştirmeyin.
 - **Tarih/Saat:** Yanıtın iPad'de verildiği an (internet yokken verilen yanıtlar da doğru saatle gelir).
 - **Kullanıcı adı ve görüş isteğe bağlıdır.** Öğrenci numarası, e-posta vb. istenmez.
 - **Kayıt ID:** Aynı yanıtın iki kez yazılmasını önler; dokunmayın.
 
 ## Kurulum (bir kez, ~5 dakika)
 
-1. **Google Drive**'da yeni bir **Google E-Tablosu** oluşturun, adı: `OCinfo Memnuniyet Anketi`.
-2. Tabloda **Uzantılar → Apps Script**'i açın.
-3. Açılan düzenleyicideki `Kod.gs` içeriğini silin; depodaki
+Betik **bağımsız** bir Apps Script projesidir: ortak tabloya bağlı başka betiklerle
+çakışmaz ve tabloda **yalnızca "OCinfo" sayfasına** yazar (sayfa yoksa yeni sayfa açmaz,
+hata verir).
+
+1. Tablonun sahibi / düzenleme yetkisi olan hesapla **https://script.google.com** → **Yeni proje**.
+   Proje adı: `OCinfo Anket`.
+2. `Kod.gs` içeriğini silin; depodaki
    [`tools/google-apps-script/anket.gs`](../tools/google-apps-script/anket.gs) dosyasının
-   **tamamını** yapıştırın ve **Kaydet**'e basın.
-4. Sağ üstte **Dağıt → Yeni dağıtım**:
-   - Tür: **Web uygulaması**
+   **tamamını** yapıştırın, **Kaydet**.
+3. Soldaki ⚙️ **Proje Ayarları** → en altta **Komut dosyası özellikleri** → **Özellik ekle**:
+   - Özellik: `SPREADSHEET_ID`
+   - Değer: tablo adresindeki `/d/` ile `/edit` arasındaki kısım → **Kaydet**.
+4. Düzenleyiciye dönün, üstteki işlev listesinden **`kurulumTesti`**'ni seçip **Çalıştır**.
+   İzin isteyecek: hesabı seçin → "Gelişmiş" → "OCinfo Anket'e git (güvenli değil)" → **İzin ver**
+   (kendi betiğiniz için bu uyarı normaldir). Günlükte `Tamam: "OCinfo" sayfası…` görmelisiniz;
+   tablodaki "OCinfo" sayfasına başlık satırı yazılır.
+5. Sağ üstte **Dağıt → Yeni dağıtım** → ⚙️ tür: **Web uygulaması**
    - Açıklama: `OCinfo anket`
    - Şu kullanıcı olarak yürüt: **Ben**
    - Erişimi olan kullanıcılar: **Herkes**
-   - **Dağıt** → Google hesap izinlerini onaylayın ("Gelişmiş → … sayfasına git (güvenli değil)"
-     uyarısı kendi betiğiniz için normaldir).
-5. Verilen **Web uygulaması URL'sini** (`https://script.google.com/macros/s/…/exec`) kopyalayın.
-6. URL'yi tarayıcıda açın: `{"ok":true,"mesaj":"OCinfo anket uç noktası çalışıyor"}` görmelisiniz.
-7. URL'yi `app/assets/js/config.js` içindeki `surveyEndpoint` alanına yapıştırın, commit + push edin.
-   (Ya da URL'yi YZ aracınıza verip bu adımı ona yaptırın.)
-
-İlk yanıt geldiğinde tabloda **"Yanıtlar"** sayfası başlıklarıyla birlikte otomatik oluşur.
+   - **Dağıt**
+6. Verilen **Web uygulaması URL'sini** (`https://script.google.com/macros/s/…/exec`) kopyalayın
+   ve tarayıcıda açın: `{"ok":true,"mesaj":"OCinfo anket uç noktası çalışıyor","sayfa":"OCinfo",…}`
+   görmelisiniz.
+7. URL'yi `app/assets/js/config.js` içindeki `surveyEndpoint` alanına yazın, commit + push edin
+   (ya da URL'yi YZ aracınıza verip bu adımı ona yaptırın).
 
 ## Excel olarak indirme
 
@@ -49,4 +62,6 @@ Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
   görülürse Kayıt ID / Alınma zamanı ile ayıklanabilir; gerekirse yeni dağıtımla URL değiştirilir.
 - **KVKK:** Ad toplandığı için kurumun KVKK birimiyle aydınlatma metni teyit edilmelidir.
   Ekrandaki kısa bilgilendirme metni **yer tutucudur**.
-- Tablonun sahibi dağıtımı yapan hesaptır; ekip arkadaşlarıyla tabloyu Drive'dan paylaşabilirsiniz.
+- Betik, dağıtımı yapan hesabın yetkisiyle yazar; o hesabın tabloda **düzenleme** yetkisi olmalıdır.
+- Ortak tablodaki **diğer sayfalara dokunulmaz**; "OCinfo" sayfasının adı değiştirilirse betikteki
+  `SHEET_NAME` de güncellenmeli ve yeni sürüm dağıtılmalıdır.

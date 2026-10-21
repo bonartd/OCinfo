@@ -1,12 +1,16 @@
 /**
  * OCinfo — Memnuniyet anketi alıcısı (Google Apps Script).
  *
- * Kurulum: docs/ANKET_KURULUM.md. Bu betik, yanıtların toplanacağı Google E-Tablosu'na
- * bağlı (Uzantılar → Apps Script) olarak çalışır ve web uygulaması olarak dağıtılır.
- * iPad'deki OCinfo her yanıtı JSON olarak POST eder; betik "Yanıtlar" sayfasına satır ekler.
+ * Kurulum: docs/ANKET_KURULUM.md. BAĞIMSIZ bir Apps Script projesi olarak çalışır
+ * (e-tabloya bağlı değildir; ortak tablodaki başka betiklerle çakışmaz) ve web uygulaması
+ * olarak dağıtılır. iPad'deki OCinfo her yanıtı JSON olarak POST eder; betik yalnızca
+ * SHEET_NAME sayfasına satır ekler, tablodaki diğer sayfalara dokunmaz.
+ *
+ * Tablo kimliği depoya yazılmaz: Proje Ayarları → Komut dosyası özellikleri →
+ * SPREADSHEET_ID = (tablo adresindeki /d/ ile /edit arasındaki kısım).
  */
 
-var SHEET_NAME = 'Yanıtlar';
+var SHEET_NAME = 'OCinfo';
 var HEADERS = ['Tarih', 'Saat', 'Kullanıcı adı', 'Puan (1-5)', 'Memnuniyet', 'Görüş ve öneri', 'Kayıt ID', 'Alınma zamanı'];
 // Tekrar gönderimleri ayıklamak için son kaç satırın ID'si kontrol edilir.
 var DEDUPE_ROWS = 500;
@@ -44,17 +48,29 @@ function doPost(e) {
   }
 }
 
-// Tarayıcıda adres açılınca çalıştığını gösterir.
+// Tarayıcıda adres açılınca çalıştığını ve tabloya erişebildiğini gösterir.
 function doGet() {
-  return json({ ok: true, mesaj: 'OCinfo anket uç noktası çalışıyor' });
+  try {
+    var sheet = getSheet();
+    return json({ ok: true, mesaj: 'OCinfo anket uç noktası çalışıyor', sayfa: sheet.getName(), satir: sheet.getLastRow() });
+  } catch (err) {
+    return json({ ok: false, error: String(err) });
+  }
+}
+
+// Kurulumda Apps Script düzenleyicisinden bir kez çalıştırın: izinleri ister ve
+// "OCinfo" sayfasına başlık satırını yazar (sayfa boşsa).
+function kurulumTesti() {
+  var sheet = getSheet();
+  Logger.log('Tamam: "' + sheet.getName() + '" sayfası, ' + sheet.getLastRow() + ' satır');
 }
 
 function getSheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-  }
+  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+  if (!id) throw new Error('SPREADSHEET_ID komut dosyası özelliği tanımlı değil');
+  var sheet = SpreadsheetApp.openById(id).getSheetByName(SHEET_NAME);
+  // Ortak tabloda yeni sayfa açılmaz; sayfa yoksa hata verilir.
+  if (!sheet) throw new Error('"' + SHEET_NAME + '" sayfası bulunamadı');
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);

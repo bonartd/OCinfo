@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `tools/google-apps-script/anket.gs`, `docs/ANKET_KURULUM.md`, `AGENTS.md` | 2026-10-21 13:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -84,3 +84,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yer tutucu:** `config.surveyEndpoint` boş (yanıtlar iPad'de birikir). Ekrandaki gizlilik/KVKK metni yer tutucu.
 - **Sıradaki adım:** `docs/ANKET_KURULUM.md`'ye göre Drive'da e-tabloyu ve Apps Script dağıtımını kur, URL'yi `config.surveyEndpoint`'e yaz; iPad'de gerçek gönderimi dene. KVKK metnini kurumla teyit et.
 - **Commit:** `987719b`
+
+### 2026-10-21 13:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (Apps Script dağıtımı kullanıcıda bekliyor)
+- **Dokunulan dosyalar:** `tools/google-apps-script/anket.gs`, `docs/ANKET_KURULUM.md`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı anket yanıtları için ortak "Mega Tablo - 2026" e-tablosundaki boş **"OCinfo"** sayfasını belirledi. Tablo birçok başka projenin sayfasını içerdiği için betik **bağımsız Apps Script projesi** olarak yeniden düzenlendi: `openById` + yalnızca `OCinfo` sayfası (sayfa yoksa yeni sayfa açmaz, hata verir); tablo kimliği depo herkese açık olduğu için betiğin `SPREADSHEET_ID` komut dosyası özelliğinde tutulur. `kurulumTesti()` (izin + başlık satırı) ve tabloya erişimi doğrulayan `doGet` eklendi. Kurulum rehberi buna göre yeniden yazıldı. Uygulama koduna dokunulmadı.
+- **Sıradaki adım:** Kullanıcı `docs/ANKET_KURULUM.md` adımlarıyla betiği dağıtıp Web uygulaması URL'sini verecek → `app/assets/js/config.js` `surveyEndpoint`'e yazılacak, `sw.js` sürümü artırılacak ve gerçek gönderim denenecek.
+- **Commit:** (doldurulacak)

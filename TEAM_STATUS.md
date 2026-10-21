@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/css/app.css`, `app/sw.js` | 2026-10-21 12:05 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -68,3 +68,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yer tutucu:** İkonlar geçici "OC info" ikonu. Kural kartlarındaki kısa metinler sadeleştirmedir; asıl metin JSON'daki `orijinal` alanında.
 - **Sıradaki adım:** iPad'de canlı adresten test (ana ekrana ekle, uçak modunda aç). Sonra Sayfa 2 (memnuniyet anketi + görüş/öneri) — önce anket yanıtlarının nereye gönderileceğine karar verilmeli.
 - **Commit:** `58291e9`
+
+### 2026-10-21 12:05 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/sw.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 1'deki kurallar iki sütunlu kartlardan **tek sütunlu, ince çizgilerle ayrılmış sade listeye** çevrildi ("Başlık — açıklama" aynı satırda, küçük yuvarlak numara). Kural 7 kutu yerine kırmızı numara ve kırmızı metinle vurgulanıyor. Yalnızca CSS değişti (HTML/JSON aynı). `sw.js` önbellek sürümü `ocinfo-v2` yapıldı. 1024×768, 1080×810 ve 810×1080'de taşma olmadığı doğrulandı.
+- **Sıradaki adım:** iPad'de canlı test; Sayfa 2 (memnuniyet anketi) için yanıtların gideceği yer kararı.
+- **Commit:** (doldurulacak)

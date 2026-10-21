@@ -211,41 +211,44 @@ img { -webkit-user-drag: none; }
 }
 
 .rz-rules { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 0; }
+/* Kurallar: tek sütun, ince çizgilerle ayrılmış sade liste */
 .rules {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-auto-rows: 1fr;
-  gap: 10px;
   flex: 1 1 auto;
   min-height: 0;
+  padding: 4px 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 .rule {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 10px 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
 }
+.rule:last-child { border-bottom: 0; }
 .rule-no {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--navy);
-  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--navy);
   font-weight: 800;
-  font-size: 16px;
+  font-size: 14px;
 }
-.rule-title { font-size: 16.5px; font-weight: 700; color: var(--navy); line-height: 1.25; }
-.rule-text { font-size: 15px; line-height: 1.32; color: var(--text); margin-top: 2px; }
-.rule--warn { background: var(--warn-soft); border-color: #f4b8b0; }
-.rule--warn .rule-no { background: var(--warn); }
+.rule-title { display: inline; font-size: 16px; font-weight: 700; color: var(--navy); }
+.rule-title::after { content: " — "; font-weight: 400; color: var(--muted); }
+.rule-text { display: inline; font-size: 15.5px; line-height: 1.35; color: var(--text); }
+.rule--warn .rule-no { background: var(--warn); color: #fff; }
 .rule--warn .rule-title { color: var(--warn); }
+.rule--warn .rule-text { color: var(--warn); font-weight: 600; }
 
 /* Dikey iPad: QR üstte yatay kart, kurallar altta */
 @media (orientation: portrait) {
@@ -277,8 +280,7 @@ img { -webkit-user-drag: none; }
 /* Dar ekran (telefon vb.) — kiosk dışı önizleme için */
 @media (max-width: 640px) {
   .rz { height: auto; }
-  .rules { grid-auto-rows: auto; }
-  .rules { grid-template-columns: 1fr; }
+  .rules { grid-auto-rows: auto; padding: 4px 14px; }
   .rz-qr { display: flex; text-align: center; align-items: center; }
   .brand-sub, .clock-date { display: none; }
 }

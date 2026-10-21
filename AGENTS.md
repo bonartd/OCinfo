@@ -166,8 +166,8 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   **sınıf bilgisi 1–4 olmayan** (ör. "0") kayıtlar hiçbir yerde kullanılmaz;
   bir yılda 5 kişiden az kullanıcılı birimler "Diğer"de birleştirilir; yalnızca rezervasyon
   sayısı gösterilir (kişi sayısı yok). Önceki yıllar eklenirken betik yalnızca verilen
-  dosyalardaki yılları yeniler, diğer yılları korur; sütunlar başlık adından bulunur ve tarihte
-  saat varsa teslim alma / iade saati grafikleri kendiliğinden açılır. Güncelleme:
+  dosyalardaki yılları yeniler, diğer yılları korur; sütunlar başlık adından bulunur. Betik
+  teslim alma / iade günü ve saatini de JSON'a yazar ancak sayfada şu an gösterilmez. Güncelleme:
   `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya1>.xlsx" ["<dosya2>.xlsx" …]`
   → `app/data/istatistik.json` değişir → `sw.js` sürümünü artır → commit/push.
 - Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. **Bölüm
@@ -255,7 +255,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Kullanım bilgileri (bölüm, sınıf, ay çubuk grafikleri; teslim alma / iade günü ısı haritası Pzt–Cum × ay, sayısız; saat ve yıllar veri varsa) | `pages/istatistik.js` | ✅ Hazır |
+| 3 | Kullanım bilgileri (açılır menü: bölümlere / sınıflara / aylara / yıllara göre rezervasyon; varsayılan bölümler; çok yıl varsa yıl seçimi) | `pages/istatistik.js` | ✅ Hazır |
 | 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`

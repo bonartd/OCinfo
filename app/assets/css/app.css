@@ -496,6 +496,19 @@ input, textarea {
 .st-svg .val { font-size: 15px; font-weight: 700; fill: var(--text); font-variant-numeric: tabular-nums; }
 .st-svg .lbl { font-size: 15px; fill: var(--muted); }
 .st-svg .base { stroke: var(--line); stroke-width: 1; }
+/* Isı haritası: tek ton, açıktan koyuya (0 = işlem yok) */
+.st-svg .cell { cursor: pointer; transition: opacity 200ms ease; }
+.st-svg .cell--dim { opacity: 0.35; }
+.cell--0 { fill: #eef1f6; background: #eef1f6; }
+.cell--1 { fill: #d6e5fa; background: #d6e5fa; }
+.cell--2 { fill: #a4c6f2; background: #a4c6f2; }
+.cell--3 { fill: #6aa0e6; background: #6aa0e6; }
+.cell--4 { fill: #2f6fcf; background: #2f6fcf; }
+.cell--5 { fill: #12397a; background: #12397a; }
+.st-legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 8px; font-size: 14px; color: var(--muted); }
+.st-legend[hidden] { display: none; }
+.st-legend span { margin: 0 6px; }
+.st-legend i { display: inline-block; width: 28px; height: 14px; border-radius: 3px; }
 
 @media (orientation: portrait) {
   .st-head { align-items: flex-start; }

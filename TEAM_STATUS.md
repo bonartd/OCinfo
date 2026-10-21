@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/istatistik.js`, `app/data/istatistik.json`, `app/assets/css/app.css`, `app/sw.js`, `tools/veri/istatistik_olustur.py`, `AGENTS.md` | 2026-10-21 17:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -162,3 +162,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Anket zorunluluk mantığı ve "Endüstriyel Tasarım" gönderimi (sahte uç nokta). Sayfa 3 tüm görünümleri gerçek veriyle; çok yıllı/saatli yapı **sahte (kişisel veri içermeyen) 2024-2025 dosyasıyla** denendi (farklı başlık sırası/adları, saatli tarihler, yazım farklılıkları) ve ardından gerçek JSON geri yüklendi. 1080×810, 1024×768, 810×1080'de taşma yok. Geçici Excel kopyaları silindi.
 - **Sıradaki adım:** Kullanıcı önceki yılların Excel'lerini iletince betiğe verip JSON'u yenile. Saatli veri mümkünse ofisten iste.
 - **Commit:** `19b8db0`
+
+### 2026-10-21 17:20 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/istatistik.js`, `app/data/istatistik.json`, `tools/veri/istatistik_olustur.py`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Sayfa 3 düzenlemeleri (kullanıcı isteği): kaynak satırı yalnızca "Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları."; özet kutusu "Rezervasyon sayısı"; **sınıf bilgisi "0" olan kayıtlar** betikte tamamen çıkarıldı (Medya Merkezi zaten hariç) → 845 rezervasyon; sınıf grafiğinde yalnızca 1–4. **Teslim alma / iade günü** artık çubuk değil **ısı haritası**: satır Pazartesi–Cuma (hafta sonu yok), sütun ay, hücrede sayı yok; tek ton 5 düzey (Çok sakin → Çok yoğun), "Sakin → Yoğun" göstergesi, dokununca "Pazartesi · Aralık 2025 — Çok yoğun". Çubuklar genişletildi (dikey en fazla 110 px / bandın %80'i, yatay 48 px). Dar ekranda ısı haritası ay etiketleri yıl olmadan. `ocinfo-v11`.
+- **Doğrulama:** Tüm görünümler 1080×810, 1024×768, 810×1080'de taşmasız; ısı haritasında `.val` (sayı) yok; dokunma metni doğru. Excel geçici kopyası JSON üretildikten sonra silindi.
+- **Sıradaki adım:** Önceki yılların Excel'leri gelince betiğe ver.
+- **Commit:** (doldurulacak)

@@ -13,8 +13,10 @@ const SINIFLAR = [
   { id: '2', etiket: '2. sınıf' },
   { id: '3', etiket: '3. sınıf' },
   { id: '4', etiket: '4. sınıf' },
-  { id: '0', etiket: 'Sınıf bilgisi yok', kisa: 'Bilgi yok' },
 ];
+// Isı haritasında gösterilen günler (hafta sonu gösterilmez) ve yoğunluk düzeyleri.
+const IS_GUNLERI = [0, 1, 2, 3, 4];
+const DUZEYLER = ['Çok sakin', 'Sakin', 'Orta', 'Yoğun', 'Çok yoğun'];
 
 // Kayıt sütunları: [bölüm, sınıf, ay, teslim günü, iade günü, teslim saati, iade saati, sayı]
 const C = { bolum: 0, sinif: 1, ay: 2, tg: 3, ig: 4, ts: 5, is: 6, n: 7 };
@@ -23,8 +25,8 @@ const VIEWS = [
   { id: 'bolum', etiket: 'Bölüm' },
   { id: 'sinif', etiket: 'Sınıf' },
   { id: 'ay', etiket: 'Aylar' },
-  { id: 'teslimGun', etiket: 'Teslim alma günü', not: 'Teslim alma günü, rezervasyonun başlangıç tarihine göredir.' },
-  { id: 'iadeGun', etiket: 'İade günü' },
+  { id: 'teslimGun', etiket: 'Teslim alma günü', isi: true, not: 'Teslim alma günü, rezervasyonun başlangıç tarihine göredir.' },
+  { id: 'iadeGun', etiket: 'İade günü', isi: true },
   { id: 'teslimSaat', etiket: 'Teslim alma saati', saat: true },
   { id: 'iadeSaat', etiket: 'İade saati', saat: true },
   { id: 'yillar', etiket: 'Yıllar', cokYil: true },
@@ -86,8 +88,7 @@ function aggregate(data, state) {
     }
     case 'sinif': {
       const m = sumBy(rows, C.sinif);
-      return SINIFLAR.filter((s) => s.id !== '0' || m.get('0'))
-        .map((s) => ({ label: s.etiket, short: s.kisa || s.etiket, value: m.get(s.id) || 0 }));
+      return SINIFLAR.map((s) => ({ label: s.etiket, value: m.get(s.id) || 0 }));
     }
     case 'ay': {
       const m = sumBy(rows, C.ay);
@@ -95,8 +96,21 @@ function aggregate(data, state) {
     }
     case 'teslimGun':
     case 'iadeGun': {
-      const m = sumBy(rows, state.view === 'teslimGun' ? C.tg : C.ig);
-      return GUNLER.map((g, i) => ({ label: g, short: GUN_KISA[i], value: m.get(i) || 0 }));
+      // Isı haritası: satır = iş günü, sütun = ay. Hücre değeri yalnızca renk için kullanılır.
+      const col = state.view === 'teslimGun' ? C.tg : C.ig;
+      const cell = new Map();
+      rows.forEach((r) => {
+        if (IS_GUNLERI.indexOf(r[col]) === -1) return;
+        const key = r[col] + '|' + r[C.ay];
+        cell.set(key, (cell.get(key) || 0) + r[C.n]);
+      });
+      return {
+        heat: true,
+        rows: IS_GUNLERI.map((g) => ({ label: GUNLER[g], short: GUN_KISA[g] })),
+        cols: yil.aylar.map((a) => ({ label: ayAdi(a), short: ayAdi(a, true) })),
+        value: (ri, ci) => cell.get(IS_GUNLERI[ri] + '|' + yil.aylar[ci]) || 0,
+        rowTotals: IS_GUNLERI.map((g) => yil.aylar.reduce((t, a) => t + (cell.get(g + '|' + a) || 0), 0)),
+      };
     }
     case 'teslimSaat':
       return hourItems(sumBy(rows, C.ts));
@@ -110,7 +124,7 @@ function aggregate(data, state) {
 function kpis(data, state) {
   const rows = data.yillar[state.yil].kayit;
   const ay = maxEntry(sumBy(rows, C.ay));
-  const iade = maxEntry(sumBy(rows, C.ig));
+  const iade = maxEntry(sumBy(rows, C.ig), (g) => IS_GUNLERI.indexOf(g) === -1);
   const bolum = maxEntry(sumBy(rows, C.bolum), (k) => k === 'Diğer');
   return {
     rez: num.format(rows.reduce((t, r) => t + r[C.n], 0)),
@@ -165,7 +179,7 @@ function drawChart(svg, items, opts) {
       const labelW = Math.min(300, W * 0.36);
       const valueW = 56;
       const band = H / items.length;
-      h = Math.min(34, band * 0.62);
+      h = Math.min(48, band * 0.74);
       x = labelW;
       w = Math.max(2, ((W - labelW - valueW) * d.value) / max);
       y = i * band + (band - h) / 2;
@@ -177,7 +191,7 @@ function drawChart(svg, items, opts) {
       const top = 30;
       const plotH = H - top - bottom;
       const band = W / items.length;
-      w = Math.min(64, band * 0.62);
+      w = Math.min(110, band * 0.8);
       h = d.value ? Math.max(2, (plotH * d.value) / max) : 0;
       x = i * band + (band - w) / 2;
       y = top + plotH - h;
@@ -191,6 +205,52 @@ function drawChart(svg, items, opts) {
     hit.setAttribute('aria-label', `${d.label}: ${num.format(d.value)} rezervasyon`);
     g.appendChild(hit);
   });
+}
+
+// ---- Isı haritası (sayı yok; yoğunluk tek renk tonuyla, açıktan koyuya) ----
+// Düzey: 0 = işlem yok, 1–5 = en yoğun hücreye göre beşte birlik dilimler.
+function level(v, max) {
+  return v ? Math.min(5, Math.ceil((v / max) * 5)) : 0;
+}
+
+function drawHeatmap(svg, hm, sel) {
+  const W = Math.max(280, svg.clientWidth || svg.parentNode.clientWidth);
+  const H = Math.max(200, svg.clientHeight || svg.parentNode.clientHeight);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  const labelW = W < 700 ? 52 : 110;
+  const bottom = 34;
+  const gap = 3;
+  const cw = (W - labelW) / hm.cols.length;
+  const ch = (H - bottom) / hm.rows.length;
+  let max = 1;
+  hm.rows.forEach((_, ri) => hm.cols.forEach((__, ci) => { max = Math.max(max, hm.value(ri, ci)); }));
+  const g = svg.appendChild(svgEl('g', {}));
+
+  hm.rows.forEach((row, ri) => {
+    g.appendChild(svgEl('text', { x: labelW - 12, y: ri * ch + ch / 2, class: 'lbl', 'text-anchor': 'end', 'dominant-baseline': 'central' },
+      labelW < 100 ? row.short : row.label));
+    hm.cols.forEach((col, ci) => {
+      const lv = level(hm.value(ri, ci), max);
+      const cls = ['cell', `cell--${lv}`];
+      if (sel && (sel[0] !== ri || sel[1] !== ci)) cls.push('cell--dim');
+      const cell = svgEl('rect', {
+        x: labelW + ci * cw + gap / 2, y: ri * ch + gap / 2, width: cw - gap, height: ch - gap, rx: 4, class: cls.join(' '),
+      });
+      cell.setAttribute('data-r', ri);
+      cell.setAttribute('data-c', ci);
+      cell.setAttribute('role', 'button');
+      cell.setAttribute('aria-label', `${row.label}, ${col.label}: ${lv ? DUZEYLER[lv - 1] : 'İşlem yok'}`);
+      g.appendChild(cell);
+    });
+  });
+  // Dar sütunlarda yalnızca ay adı ("Eyl 25" yerine "Eyl").
+  hm.cols.forEach((col, ci) => {
+    g.appendChild(svgEl('text', { x: labelW + ci * cw + cw / 2, y: H - bottom + 22, class: 'lbl', 'text-anchor': 'middle' },
+      cw < 66 ? col.short.split(' ')[0] : col.short));
+  });
+  return max;
 }
 
 // ---- Sayfa ----
@@ -224,7 +284,7 @@ export default {
         <header class="st-head">
           <h2 class="section-title">Ödünç Cihaz Sistemi Kullanım Bilgileri</h2>
           <dl class="st-kpis">
-            <div><dt>Rezervasyon <span data-k="yil"></span></dt><dd data-k="rez"></dd></div>
+            <div><dt>Rezervasyon sayısı <span data-k="yil"></span></dt><dd data-k="rez"></dd></div>
             <div><dt>En yoğun ay</dt><dd data-k="enAy"></dd></div>
             <div><dt>En yoğun iade günü</dt><dd data-k="enIade"></dd></div>
             <div><dt>En çok kullanan bölüm</dt><dd data-k="enBolum"></dd></div>
@@ -240,22 +300,39 @@ export default {
           <p class="st-detail" aria-live="polite"></p>
           <p class="st-note"></p>
           <svg class="st-svg" role="img"></svg>
+          <div class="st-legend" aria-hidden="true">
+            <span>Sakin</span>
+            ${[1, 2, 3, 4, 5].map((lv) => `<i class="cell--${lv}"></i>`).join('')}
+            <span>Yoğun</span>
+          </div>
         </section>
 
-        <p class="source">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları (eğitim yılı: 1 Eylül – 31 Ağustos).
-          Her kayıt bir rezervasyondur. Medya Merkezi (personel) kayıtları dahil değildir; 5 kişiden az
-          kullanıcısı olan birimler "Diğer" altındadır. Ayrıntı için bir çubuğa dokun.</p>
+        <p class="source">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları.</p>
       </div>`;
 
     const svg = el.querySelector('.st-svg');
     const detail = el.querySelector('.st-detail');
     const note = el.querySelector('.st-note');
     const yilSeg = el.querySelector('.seg[data-name="yil"]');
+    const legend = el.querySelector('.st-legend');
     let state = Object.assign({}, DEFAULT);
-    let selected = null;
+    let selected = null; // çubuk grafikte indeks, ısı haritasında [satır, sütun]
     let items = [];
+    let heatMax = 1;
+
+    // Isı haritasında sayı gösterilmez; yalnızca yoğunluk düzeyi yazılır.
+    function heatText() {
+      if (selected === null) {
+        const best = items.rowTotals.indexOf(Math.max(...items.rowTotals));
+        return `En yoğun gün: <strong>${esc(items.rows[best].label)}</strong> · Bir kareye dokunarak ayrıntısını gör.`;
+      }
+      const [ri, ci] = selected;
+      const lv = level(items.value(ri, ci), heatMax);
+      return `<strong>${esc(items.rows[ri].label)} · ${esc(items.cols[ci].label)}</strong> — ${lv ? DUZEYLER[lv - 1] : 'İşlem yok'}`;
+    }
 
     function detailText() {
+      if (items.heat) return heatText();
       if (!items.length) {
         return VIEWS.find((v) => v.id === state.view).saat
           ? `${esc(state.yil)} verisinde saat bilgisi yok.`
@@ -282,8 +359,10 @@ export default {
       const view = VIEWS.find((v) => v.id === state.view);
       note.textContent = view.not || '';
       note.hidden = !view.not;
-      svg.setAttribute('aria-label', `${view.etiket} grafiği`);
-      drawChart(svg, items, { horizontal: state.view === 'bolum', selected });
+      svg.setAttribute('aria-label', `${view.etiket} ${view.isi ? 'yoğunluk haritası' : 'grafiği'}`);
+      legend.hidden = !items.heat;
+      if (items.heat) heatMax = drawHeatmap(svg, items, selected);
+      else drawChart(svg, items, { horizontal: state.view === 'bolum', selected });
       detail.innerHTML = detailText();
     }
 
@@ -296,6 +375,13 @@ export default {
     });
 
     svg.addEventListener('click', (e) => {
+      const cell = e.target.closest('.cell');
+      if (cell) {
+        const rc = [Number(cell.getAttribute('data-r')), Number(cell.getAttribute('data-c'))];
+        selected = selected && selected[0] === rc[0] && selected[1] === rc[1] ? null : rc;
+        update();
+        return;
+      }
       const hit = e.target.closest('.hit');
       if (!hit) return;
       const i = Number(hit.getAttribute('data-i'));

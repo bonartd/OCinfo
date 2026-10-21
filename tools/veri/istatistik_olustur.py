@@ -15,7 +15,7 @@ Kullanım (depo kökünden):
   veya Excel tarih-saat hücresi) teslim alma / iade saatleri de çıkarılır.
 
 GİZLİLİK: Excel kişisel veri (ad soyad) içerir ve depoya ASLA eklenmez (.gitignore *.xlsx).
-Çıktıya yalnızca sayımlar yazılır; ad, satır no veya tam tarih yazılmaz. Bir yılda farklı
+Medya Merkezi Müdürlüğü ve sınıf bilgisi 1–4 olmayan kayıtlar hiç alınmaz. Çıktıya yalnızca sayımlar yazılır; ad, satır no veya tam tarih yazılmaz. Bir yılda farklı
 kullanıcı sayısı KUCUK_GRUP'tan az olan birimler o yıl için "Diğer" altında birleştirilir.
 """
 
@@ -124,10 +124,14 @@ def oku(xlsx):
             continue
         iade, iade_saat = tarih_saat(al("iade"))
         sinif = str(al("sinif") or "").strip()
+        # Sınıf bilgisi 1–4 olmayan kayıtlar (ör. "0") hiç kullanılmaz.
+        if sinif not in {"1", "2", "3", "4"}:
+            atlanan["sınıf 1–4 değil"] += 1
+            continue
         kayitlar.append({
             "kullanici": norm(al("kullanici")),
             "bolum": bolum_adi(al("bolum")),
-            "sinif": sinif if sinif in {"1", "2", "3", "4"} else "0",
+            "sinif": sinif,
             "yil": egitim_yili(teslim),
             "ay": teslim.strftime("%Y-%m"),
             "tg": teslim.weekday(),            # teslim alma günü, 0 = Pazartesi
@@ -186,7 +190,7 @@ def main(dosyalar):
     veri["yillar"] = dict(sorted(veri["yillar"].items()))
     veri["olusturulma"] = bugun.isoformat()
     veri["not"] = ("Her kayıt bir rezervasyondur (cihaz adedi değildir). Eğitim yılı 1 Eylül – 31 Ağustos. "
-                   "Medya Merkezi Müdürlüğü (personel) kayıtları dahil değildir. Sınıf '0' = sınıf bilgisi yok. "
+                   "Medya Merkezi Müdürlüğü (personel) kayıtları ve sınıf bilgisi 1–4 olmayan kayıtlar dahil değildir. "
                    f"Bir yılda {KUCUK_GRUP} kişiden az kullanıcısı olan birimler '{DIGER}' altındadır. "
                    "Teslim alma günü = rezervasyon başlangıç tarihi.")
     CIKTI.write_text(json.dumps(veri, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")

@@ -162,7 +162,8 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   bilgi (ad soyad vb.) içerir ve depo herkese açıktır. İstatistikler yalnızca
   `tools/veri/istatistik_olustur.py` ile üretilen **anonim rezervasyon sayımları** olarak
   yayınlanır. Kurallar: veri **eğitim yılı** (1 Eylül – 31 Ağustos) bazında tutulur; yalnızca
-  **tamamlanmış** eğitim yılları alınır; **Medya Merkezi Müdürlüğü** (personel) kayıtları alınmaz;
+  **tamamlanmış** eğitim yılları alınır; **Medya Merkezi Müdürlüğü** (personel) kayıtları ve
+  **sınıf bilgisi 1–4 olmayan** (ör. "0") kayıtlar hiçbir yerde kullanılmaz;
   bir yılda 5 kişiden az kullanıcılı birimler "Diğer"de birleştirilir; yalnızca rezervasyon
   sayısı gösterilir (kişi sayısı yok). Önceki yıllar eklenirken betik yalnızca verilen
   dosyalardaki yılları yeniler, diğer yılları korur; sütunlar başlık adından bulunur ve tarihte
@@ -254,7 +255,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Kullanım bilgileri (seçilebilir grafikler: bölüm, sınıf, ay, teslim alma / iade günü; saat ve yıllar veri varsa) | `pages/istatistik.js` | ✅ Hazır |
+| 3 | Kullanım bilgileri (bölüm, sınıf, ay çubuk grafikleri; teslim alma / iade günü ısı haritası Pzt–Cum × ay, sayısız; saat ve yıllar veri varsa) | `pages/istatistik.js` | ✅ Hazır |
 | 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`

@@ -53,7 +53,10 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
 
   // Basit yatay kaydırma (swipe) ile sayfa değiştirme.
   let startX = null;
-  stage.addEventListener('pointerdown', (e) => { startX = e.clientX; }, { passive: true });
+  stage.addEventListener('pointerdown', (e) => {
+    // Form alanlarında metin seçerken sayfa değişmesin.
+    startX = e.target.closest('input, textarea') ? null : e.clientX;
+  }, { passive: true });
   stage.addEventListener('pointerup', (e) => {
     if (startX === null || pages.length < 2) return;
     const dx = e.clientX - startX;

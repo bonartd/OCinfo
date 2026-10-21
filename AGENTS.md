@@ -158,14 +158,18 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 
 - Ekipman listesi, istatistikler ve pratik bilgiler `app/data/*.json` dosyalarında tutulur;
   içerik güncellemesi kod değiştirmeden bu dosyalarla yapılır.
-- Memnuniyet anketi **anonimdir**; öğrenci adı, numarası, e-posta toplanmaz.
+- Memnuniyet anketinde **ad ve görüş isteğe bağlıdır**; öğrenci numarası, e-posta, telefon
+  toplanmaz. Ad toplandığı için KVKK aydınlatma metni kurumla teyit edilmelidir (ekrandaki
+  kısa metin yer tutucudur).
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
   **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
   Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar).
 - Ofis kuralları için asıl kaynak resmî sitedir; kiosk metinleri `docs/OFIS_KURALLARI.md`
   Bölüm 3'teki sorular netleşene kadar sitedeki ifadeye sadık kalır.
-- Anket yanıtlarının nereye gönderileceği (ör. Google Apps Script, form servisi) **henüz
-  kararlaştırılmadı** — karar verilmeden uç nokta eklenmez; anahtar/URL gizliyse depoya girmez.
+- Anket yanıtları **Google Drive'daki bir Google E-Tablosu**na, e-tabloya bağlı bir
+  **Google Apps Script web uygulaması** üzerinden yazılır (`tools/google-apps-script/anket.gs`,
+  kurulum: `docs/ANKET_KURULUM.md`). Adres `config.surveyEndpoint` alanındadır; bu adres gizli
+  değildir ama betik girdiyi doğrular. Başka bir uç nokta/servis eklemeden önce kullanıcıya sorulur.
 
 ---
 
@@ -198,7 +202,10 @@ OCinfo/
 │   └── workflows/pages.yml      # app/ klasörünü GitHub Pages'e yayınlar
 ├── docs/
 │   ├── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
-│   └── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
+│   ├── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
+│   └── ANKET_KURULUM.md       # Anket → Google E-Tablosu kurulumu
+├── tools/google-apps-script/
+│   └── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
     ├── index.html             # Kiosk kabuğu: üst çubuk (saat), sahne, sayfa noktaları
     ├── manifest.webmanifest   # PWA manifest'i
@@ -210,7 +217,8 @@ OCinfo/
     │   ├── idle.js            # Hareketsizlik zamanlayıcısı
     │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, kaydırma)
     │   └── pages/             # Her kiosk sayfası ayrı modül
-    │       └── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
+    │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
+    │       └── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)
     ├── assets/img/            # İkonlar (geçici "OC" ikonu) ve QR SVG
     └── data/kurallar.json     # Ödünç alma kuralları (docs/OFIS_KURALLARI.md kaynaklı)
 ```
@@ -224,15 +232,17 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 | Sıra | Sayfa | Modül | Durum |
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
-| 2 | Memnuniyet anketi + görüş/öneri | — | Planlandı |
+| 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | 🧪 Deneme (Drive bağlantısı kurulacak) |
 | 3 | En çok kullanılan ekipmanlar | — | Planlandı |
 | 4 | Ekipman kullanım yoğunlukları (grafikler) | — | Planlandı |
 
-**Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config) }`
+**Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`
 nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni
 dosyaları `sw.js` içindeki `SHELL` listesine yazın ve `CACHE` sürümünü artırın. Stilleri
 `app.css` içinde sayfaya özel önekle (ör. `.rz-`) ayrı bir bölümde tutun.
 `render` içinde `setInterval` vb. kullanan sayfa, gün boyu çalışma için bunları temizlemelidir.
+Kullanıcı girdisi tutan sayfa `reset()` sağlamalıdır; hareketsizlikte çağrılır ve yarım kalan
+girdiyi temizler. Form alanları `font-size` ≥ 16px olmalıdır (iOS odaklanınca yakınlaştırmasın).
 
 ### 4.3 Yayın akışı
 

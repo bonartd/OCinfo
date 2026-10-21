@@ -3,9 +3,10 @@ import { config } from './config.js';
 import { createIdleTimer } from './idle.js';
 import { createRotator } from './rotator.js';
 import rezervasyon from './pages/rezervasyon.js';
+import anket from './pages/anket.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
-const PAGE_MODULES = [rezervasyon];
+const PAGE_MODULES = [rezervasyon, anket];
 
 const stage = document.getElementById('stage');
 const dots = document.getElementById('dots');
@@ -26,7 +27,7 @@ async function init() {
       console.error(mod.id, err);
       el.innerHTML = '<p class="page-error">Bu bölüm şu anda yüklenemedi.</p>';
     }
-    pages.push({ id: mod.id, title: mod.title, durationSec: mod.durationSec, el });
+    pages.push({ id: mod.id, title: mod.title, durationSec: mod.durationSec, reset: mod.reset, el });
   }
 
   const rotator = createRotator({ pages, stage, dots, defaultSec: config.rotationSec });
@@ -35,7 +36,11 @@ async function init() {
     timeoutSec: config.idleTimeoutSec,
     onActive: () => rotator.stop(),
     onIdle: () => {
-      document.querySelectorAll('.page').forEach((p) => { p.scrollTop = 0; });
+      pages.forEach((p) => {
+        p.el.scrollTop = 0;
+        // Sayfa yarım kalan durumu (ör. anket formu) temizlesin.
+        if (p.reset) p.reset();
+      });
       rotator.home();
       rotator.start();
     },

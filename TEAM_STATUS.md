@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/anket.js`, `app/assets/js/{app,config}.js`, `app/assets/css/app.css`, `app/sw.js`, `tools/google-apps-script/`, `docs/ANKET_KURULUM.md`, `AGENTS.md`, `README.md` | 2026-10-21 12:15 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -75,3 +75,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı isteğiyle Sayfa 1'deki kurallar iki sütunlu kartlardan **tek sütunlu, ince çizgilerle ayrılmış sade listeye** çevrildi ("Başlık — açıklama" aynı satırda, küçük yuvarlak numara). Kural 7 kutu yerine kırmızı numara ve kırmızı metinle vurgulanıyor. Yalnızca CSS değişti (HTML/JSON aynı). `sw.js` önbellek sürümü `ocinfo-v2` yapıldı. 1024×768, 1080×810 ve 810×1080'de taşma olmadığı doğrulandı.
 - **Sıradaki adım:** iPad'de canlı test; Sayfa 2 (memnuniyet anketi) için yanıtların gideceği yer kararı.
 - **Commit:** `0b23e92`
+
+### 2026-10-21 12:50 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (deneme sürümü; Drive bağlantısı **kurulmadı**)
+- **Dokunulan dosyalar:** `app/assets/js/pages/anket.js` (yeni), `app/assets/js/{app,config,rotator}.js`, `app/index.html`, `app/assets/css/app.css`, `app/sw.js`, `tools/google-apps-script/anket.gs` (yeni), `docs/ANKET_KURULUM.md` (yeni), `AGENTS.md`, `README.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** **Sayfa 2 — memnuniyet anketi:** "Ödünç Cihaz Ofisi'nin hizmetlerinden memnun musun?" sorusu, 5 gülen yüz (Hiç memnun değilim → Çok memnunum). Yüze dokununca isteğe bağlı görüş/öneri + ad formu, Gönder → 6 sn teşekkür ekranı → başa dönüş. Yanıtlar (tarih, saat, ad, puan, memnuniyet, görüş, id) önce iPad'de `localStorage` kuyruğuna yazılır, `config.surveyEndpoint`'e (Google Apps Script) gönderilir; bağlantı yoksa bekler, `online` olayında ve 60 sn'de bir tekrar denenir; betik id ile tekrarları ayıklar. Apps Script betiği "Yanıtlar" sayfasına başlıklı satır ekler, girdiyi doğrular, formül enjeksiyonunu engeller. Altyapı: sayfalar `reset()` sağlayabilir (hareketsizlikte çağrılır); sayfa noktaları üst çubuğa taşındı; form alanlarında kaydırma ile sayfa değişmez. `sw.js` → `ocinfo-v3`. AGENTS.md 3.6 güncellendi: ad ve görüş isteğe bağlı (önceki "anonim" kuralı kullanıcı isteğiyle değişti).
+- **Doğrulama:** Tarayıcıda yüz → form → gönder → teşekkür → 6 sn sonra sıfırlama; kuyruğa doğru kayıt; sahte uç noktayla hata durumunda bekleme, `online` ile gönderip kuyruğu boşaltma; hareketsizlikte formun temizlenip Sayfa 1'e dönmesi; 1080×810, 1024×768, 810×1080 düzenleri. Gerçek Apps Script ile ve iPad klavyesiyle **test edilmedi**.
+- **Yer tutucu:** `config.surveyEndpoint` boş (yanıtlar iPad'de birikir). Ekrandaki gizlilik/KVKK metni yer tutucu.
+- **Sıradaki adım:** `docs/ANKET_KURULUM.md`'ye göre Drive'da e-tabloyu ve Apps Script dağıtımını kur, URL'yi `config.surveyEndpoint`'e yaz; iPad'de gerçek gönderimi dene. KVKK metnini kurumla teyit et.
+- **Commit:** (doldurulacak)

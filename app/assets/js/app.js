@@ -14,6 +14,12 @@ const dots = document.getElementById('dots');
 const clock = document.getElementById('clock');
 const offline = document.getElementById('offline');
 
+// Telefonda (ekranın kısa kenarı küçük) kiosk davranışları kapalıdır: otomatik sayfa geçişi,
+// hareketsizlikte başa dönme ve gece yenilemesi yok; sayfalar .is-phone ile kendini uyarlar.
+// iPad kiosk her yönde kısa kenarı ≥ 768 olduğundan etkilenmez.
+const isPhone = Math.min(screen.width, screen.height) < config.phoneMaxShortSide;
+document.documentElement.classList.toggle('is-phone', isPhone);
+
 async function init() {
   const pages = [];
   for (const mod of PAGE_MODULES) {
@@ -32,6 +38,13 @@ async function init() {
   }
 
   const rotator = createRotator({ pages, stage, dots, defaultSec: config.rotationSec });
+
+  if (isPhone) {
+    // Yalnızca saat; sayfalar arasında noktalar ve kaydırma ile geçilir.
+    setInterval(updateClock, 1000);
+    updateClock();
+    return;
+  }
 
   const idle = createIdleTimer({
     timeoutSec: config.idleTimeoutSec,

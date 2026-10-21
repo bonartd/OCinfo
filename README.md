@@ -41,6 +41,7 @@ içindedir. Özet:
 | Cihaz | iPad, **iPadOS 15.5 (19F77)**, Safari/WebKit 15.5 |
 | Uygulama türü | Ana ekrana eklenen, tam ekran (standalone) **PWA** |
 | Etkileşim | Dokunmatik; hedefler ≥ 44×44 pt; dikey + yatay responsive |
+| Telefon | Telefondan açılınca kiosk davranışları kapalı, QR yerine bağlantı düğmesi (AGENTS.md 3.3.1) |
 | Hareketsizlik | Varsayılan **90 sn** işlem yoksa ana sayfaya dönüş (`config.js` ile ayarlanır) |
 | Uzun çalışma | Gün boyu açık; bellek sızıntısı yok, zamanlayıcılar temizlenir |
 | Kiosk | **Güdümlü Erişim** + **Otomatik Kilit: Asla** + şarja bağlı (aşağıya bakın) |

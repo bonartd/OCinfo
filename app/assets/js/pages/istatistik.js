@@ -124,15 +124,22 @@ function drawChart(svg, items, opts) {
     if (sel !== null && sel !== i) cls.push('bar--dim');
 
     if (horizontal) {
-      const labelW = Math.min(300, W * 0.36);
+      // Dar ekranda (telefon) etiket çubuğun üstüne yazılır; geniş ekranda solda.
+      const stacked = W < 520;
+      const labelW = stacked ? 0 : Math.min(300, W * 0.36);
+      const labelH = stacked ? 22 : 0;
       const valueW = 56;
       const band = H / items.length;
-      h = Math.min(48, band * 0.74);
+      h = Math.min(48, (band - labelH) * 0.74);
       x = labelW;
       w = Math.max(2, ((W - labelW - valueW) * d.value) / max);
-      y = i * band + (band - h) / 2;
+      y = i * band + labelH + (band - labelH - h) / 2;
       hit = svgEl('rect', { x: 0, y: i * band, width: W, height: band, class: 'hit' });
-      g.appendChild(svgEl('text', { x: labelW - 12, y: y + h / 2, class: 'lbl', 'text-anchor': 'end', 'dominant-baseline': 'central' }, d.label));
+      if (stacked) {
+        g.appendChild(svgEl('text', { x: 0, y: y - 6, class: 'lbl' }, d.label));
+      } else {
+        g.appendChild(svgEl('text', { x: labelW - 12, y: y + h / 2, class: 'lbl', 'text-anchor': 'end', 'dominant-baseline': 'central' }, d.label));
+      }
       g.appendChild(svgEl('path', { d: barPath(x, y, w, h, true), class: cls.join(' ') }));
       g.appendChild(svgEl('text', { x: x + w + 8, y: y + h / 2, class: 'val', 'dominant-baseline': 'central' }, num.format(d.value)));
     } else {
@@ -146,7 +153,10 @@ function drawChart(svg, items, opts) {
       hit = svgEl('rect', { x: i * band, y: 0, width: band, height: H, class: 'hit' });
       if (h) g.appendChild(svgEl('path', { d: barPath(x, y, w, h, false), class: cls.join(' ') }));
       g.appendChild(svgEl('text', { x: x + w / 2, y: y - 8, class: 'val', 'text-anchor': 'middle' }, num.format(d.value)));
-      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 24, class: 'lbl', 'text-anchor': 'middle' }, d.short || d.label));
+      // Dar sütunlarda yalnızca ilk kelime ("Eyl 25" → "Eyl").
+      const label = d.short || d.label;
+      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 24, class: 'lbl', 'text-anchor': 'middle' },
+        band < 50 ? label.split(' ')[0] : label));
     }
     hit.setAttribute('data-i', i);
     hit.setAttribute('role', 'button');

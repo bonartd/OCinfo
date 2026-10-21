@@ -132,6 +132,17 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 - Kod bu ayarları varsaymamalıdır: uygulama arka plana gidip geri geldiğinde
   (`visibilitychange`, `pageshow`) kendini toparlamalı ve ana sayfaya dönebilmelidir.
 
+### 3.3.1 Telefon modu
+
+- `app.js`, ekranın kısa kenarı `config.phoneMaxShortSide` (600 px) değerinden küçükse
+  `<html>`'e `is-phone` sınıfı ekler. iPad'in kısa kenarı her yönde ≥ 768 olduğundan kiosk etkilenmez.
+- Telefon modunda **otomatik sayfa geçişi, hareketsizlikte başa dönme ve gece yenilemesi kapalıdır**;
+  sayfalar arasında üstteki noktalar ve yatay kaydırma ile geçilir.
+- Yalnızca kiosk'ta görünecek öğelere `kiosk-only`, yalnızca telefonda görünecek öğelere
+  `phone-only` sınıfı verilir. Telefona özel stiller `app.css` sonundaki "Telefon" bölümünde,
+  `.is-phone` önekiyle yazılır (telefon yatay tutulduğunda da geçerli olsun diye medya sorgusu değil).
+- Yeni sayfa eklerken 360×740, 375×812 ve yatay telefonda yatay taşma olmadığı kontrol edilir.
+
 ### 3.4 Çevrimdışı çalışma
 
 - **Service Worker** ile uygulama kabuğu (HTML, CSS, JS, ikonlar, temel veri JSON'ları)
@@ -176,7 +187,8 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   "şüpheli" işaretler. Ortak kioskta kişi başı tek yanıt garanti edilemez.
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
   **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
-  Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar).
+  Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar). Uygulama telefondan
+  açıldığında (bkz. 3.7) QR yerine doğrudan bağlantı düğmesi gösterilir; kiosk'ta bu düğme gizlidir.
 - Ofis kuralları için asıl kaynak resmî sitedir; kiosk metinleri `docs/OFIS_KURALLARI.md`
   Bölüm 3'teki sorular netleşene kadar sitedeki ifadeye sadık kalır.
 - Anket yanıtları **yalnızca anket için açılmış ayrı bir Google E-Tablosu**na ("Yanıtlar"

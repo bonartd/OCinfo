@@ -30,18 +30,23 @@ export default {
       <div class="rz">
         <section class="rz-qr card" aria-labelledby="rz-qr-title">
           <p class="eyebrow">Cihaz ödünç almak ister misin?</p>
-          <h2 id="rz-qr-title" class="rz-qr-title">QR kodu telefonunla okut</h2>
-          <div class="rz-qr-code">
+          <h2 id="rz-qr-title" class="rz-qr-title">
+            <span class="kiosk-only">QR kodu telefonunla okut</span>
+            <span class="phone-only">Ödünç Cihaz Sistemi'ne gir</span>
+          </h2>
+          <div class="rz-qr-code kiosk-only">
             <img src="assets/img/qr-odunccihaz.svg" alt="Ödünç Cihaz Sistemi QR kodu: ${esc(host)}"
                  width="320" height="320" draggable="false">
           </div>
+          <!-- Telefonda QR okutulamaz; doğrudan bağlantı verilir (kiosk'ta gizli, AGENTS.md 3.6). -->
+          <a class="btn btn--primary rz-link phone-only" href="${esc(config.reservationUrl)}" rel="noopener">Ödünç Cihaz Sistemi'ne git</a>
           <p class="rz-url">${esc(host)}</p>
           <ol class="rz-steps">
-            <li><span>1</span>Telefonunun kamerasını QR koda tut.</li>
+            <li><span>1</span><em class="kiosk-only">Telefonunun kamerasını QR koda tut.</em><em class="phone-only">Yukarıdaki düğmeye dokun.</em></li>
             <li><span>2</span>YAŞAR ID ve şifrenle giriş yap.</li>
             <li><span>3</span>Kuralları onayla, talep formunu doldur.</li>
           </ol>
-          <p class="rz-note">Güvenliğin için bu ekranda giriş yapılmaz.</p>
+          <p class="rz-note kiosk-only">Güvenliğin için bu ekranda giriş yapılmaz.</p>
         </section>
 
         <section class="rz-rules" aria-labelledby="rz-rules-title">

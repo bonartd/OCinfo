@@ -550,3 +550,39 @@ input, textarea {
 @media (prefers-reduced-motion: reduce) {
   .seg button, .st-svg .bar, .dd-icon { transition: none; }
 }
+
+/* ===== Telefon (app.js: html.is-phone — ekranın kısa kenarı < config.phoneMaxShortSide) ===== */
+/* Kiosk'a özel öğeler telefonda, telefona özel öğeler kiosk'ta gizlenir. */
+.is-phone .kiosk-only { display: none !important; }
+html:not(.is-phone) .phone-only { display: none !important; }
+.rz-steps em { font-style: normal; }
+.rz-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 340px;
+  text-decoration: none;
+}
+
+.is-phone .topbar { gap: 8px; padding-top: max(10px, env(safe-area-inset-top)); padding-bottom: 10px; }
+.is-phone .brand { gap: 10px; min-width: 0; }
+.is-phone .brand > div { min-width: 0; }
+.is-phone .brand-mark { width: 40px; height: 40px; border-radius: 10px; }
+.is-phone .brand-title { font-size: 16px; line-height: 1.15; }
+.is-phone .brand-sub, .is-phone .clock-date { display: none; }
+.is-phone .clock-time { font-size: 20px; }
+.is-phone .dot { width: 30px; }
+
+/* Anket: adımlar üst üste değil, sayfa içinde normal akar (form içeride ayrıca kaydırılmaz). */
+.is-phone .sv { height: auto; min-height: 0; }
+.is-phone .sv-step { position: static; display: none; opacity: 1; transform: none; padding-top: 8px; }
+.is-phone .sv-step.is-active { display: flex; }
+.is-phone .sv-step--detail { max-height: none; overflow: visible; }
+.is-phone .sv-question { font-size: 26px; }
+
+/* İstatistik: sayfa aşağı kayar, grafiğe sabit yükseklik verilir. */
+.is-phone .st { height: auto; min-height: 0; }
+.is-phone .st-chart { flex: none; }
+.is-phone .st-svg { flex: none; height: 400px; }
+.is-phone .st-kpis > div { flex: 1 1 140px; }

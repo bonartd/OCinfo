@@ -11,9 +11,12 @@ export const config = {
   // Ödünç Cihaz Sistemi (rezervasyon) adresi — QR kod bu adrese yönlendirir.
   // Değişirse assets/img/qr-odunccihaz.svg de yeniden üretilmelidir.
   reservationUrl: 'https://odunccihaz.yasar.edu.tr/',
-  // Memnuniyet anketi yanıtlarının gönderileceği Google Apps Script web uygulaması adresi
-  // (docs/ANKET_KURULUM.md). Boşken yanıtlar iPad'de kuyrukta bekler, adres girilince gönderilir.
+  // Ekranın kısa kenarı bundan küçükse (px) telefon kabul edilir: kiosk davranışları kapanır,
+  // Sayfa 1'de QR yerine rezervasyon düğmesi gösterilir.
+  phoneMaxShortSide: 600,
   // Bir anket yanıtından sonra yeni yanıt alınmadan önce beklenecek süre (saniye).
   surveyCooldownSec: 60,
+  // Memnuniyet anketi yanıtlarının gönderileceği Google Apps Script web uygulaması adresi
+  // (docs/ANKET_KURULUM.md). Boşken yanıtlar iPad'de kuyrukta bekler, adres girilince gönderilir.
   surveyEndpoint: 'https://script.google.com/macros/s/AKfycbymnv8CoAwFrMxn6SoeNmGLDYU8oWaXQXppWdbezJ1TAP7vWgOdaURk2rN8KogQQobbpg/exec',
 };

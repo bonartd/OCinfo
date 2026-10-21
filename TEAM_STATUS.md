@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/{app,config}.js`, `app/assets/js/pages/{rezervasyon,istatistik}.js`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `README.md` | 2026-10-21 18:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -178,3 +178,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Tüm menü seçenekleri, dışarı dokunma, hareketsizlik sıfırlaması; 1080×810 ve 810×1080'de taşma yok.
 - **Sıradaki adım:** Önceki yılların Excel'leri gelince betiğe ver; "Yıllara göre" ve yıl seçimi kendiliğinden dolar.
 - **Commit:** `4441dda`
+
+### 2026-10-21 18:20 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/app.js`, `app/assets/js/config.js`, `app/assets/js/pages/rezervasyon.js`, `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `README.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** **Telefon uyumu.** Kontrolde bulunanlar: üst çubukta başlık 3 satıra bölünüyor ve saat taşıyordu; ankette form kendi içinde kayıyor, "Gönder" yarım kalıyordu; Sayfa 3'te bölüm adları soldan kesiliyordu; telefonda otomatik sayfa geçişi ve "QR'ı telefonunla okut" uygunsuzdu. Düzeltmeler: **telefon modu** (`html.is-phone`, ekranın kısa kenarı < `config.phoneMaxShortSide` = 600): otomatik geçiş, hareketsizlik sıfırlaması, gece yenilemesi kapalı; Sayfa 1'de QR ve güvenlik notu yerine **"Ödünç Cihaz Sistemi'ne git"** düğmesi ve uyarlanmış adım metni (`kiosk-only` / `phone-only` sınıfları). Sıkı üst çubuk (40 px logo, 16 px başlık iki satıra inebilir, 30 px nokta). Anket adımları telefonda üst üste değil normal akışta. İstatistik: dar ekranda bölüm adı çubuğun üstünde; dar sütunlarda ay etiketi tek kelime; telefonda grafik 400 px. `config.js` yorum sırası düzeltildi. `ocinfo-v13`.
+- **Doğrulama:** 375×812, 360×740'te tüm sayfalarda yatay taşma 0; yatay telefon (812×375, `is-phone` elle) taşma 0; telefonda 31 sn sonra sayfa değişmiyor; iPad 1080×810'da `is-phone` yok, QR görünür, 31 sn'de otomatik geçiş çalışıyor. Gerçek telefonda denenmedi.
+- **Sıradaki adım:** Gerçek iPhone/Android'de canlı adresle dene.
+- **Commit:** (doldurulacak)

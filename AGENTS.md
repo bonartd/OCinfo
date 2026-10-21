@@ -200,14 +200,39 @@ OCinfo/
 │   ├── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
 │   └── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
-    ├── index.html             # (şu an yer tutucu)
-    ├── manifest.webmanifest   # (henüz yok)
-    ├── sw.js                  # Service Worker (henüz yok)
-    ├── assets/css/            # Stiller
-    ├── assets/js/             # Betikler (config.js, idle-timer vb.)
-    ├── assets/img/            # İkonlar ve görseller
-    └── data/                  # Ekipman, istatistik, bilgi JSON'ları
+    ├── index.html             # Kiosk kabuğu: üst çubuk (saat), sahne, sayfa noktaları
+    ├── manifest.webmanifest   # PWA manifest'i
+    ├── sw.js                  # Service Worker (önbellek sürümü: CACHE)
+    ├── assets/css/app.css     # Tüm stiller (sayfa bölümleri yorumla ayrılır)
+    ├── assets/js/
+    │   ├── config.js          # Kiosk ayarları (hareketsizlik, geçiş süresi, gece yenileme)
+    │   ├── app.js             # Giriş noktası; PAGE_MODULES listesi
+    │   ├── idle.js            # Hareketsizlik zamanlayıcısı
+    │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, kaydırma)
+    │   └── pages/             # Her kiosk sayfası ayrı modül
+    │       └── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
+    ├── assets/img/            # İkonlar (geçici "OC" ikonu) ve QR SVG
+    └── data/kurallar.json     # Ödünç alma kuralları (docs/OFIS_KURALLARI.md kaynaklı)
 ```
+
+### 4.2.1 Kiosk sayfa düzeni
+
+Ekran tam ekran çalışır ve sayfalar **belirli aralıklarla otomatik döner** (`config.rotationSec`,
+varsayılan 30 sn). Biri ekrana dokunduğunda dönüş durur; `config.idleTimeoutSec` (90 sn)
+boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
+
+| Sıra | Sayfa | Modül | Durum |
+|---|---|---|---|
+| 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
+| 2 | Memnuniyet anketi + görüş/öneri | — | Planlandı |
+| 3 | En çok kullanılan ekipmanlar | — | Planlandı |
+| 4 | Ekipman kullanım yoğunlukları (grafikler) | — | Planlandı |
+
+**Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config) }`
+nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni
+dosyaları `sw.js` içindeki `SHELL` listesine yazın ve `CACHE` sürümünü artırın. Stilleri
+`app.css` içinde sayfaya özel önekle (ör. `.rz-`) ayrı bir bölümde tutun.
+`render` içinde `setInterval` vb. kullanan sayfa, gün boyu çalışma için bunları temizlemelidir.
 
 ### 4.3 Yayın akışı
 

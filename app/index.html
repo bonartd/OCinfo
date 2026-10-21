@@ -2,23 +2,44 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>OCinfo — Ödünç Cihaz Ofisi</title>
+  <meta name="description" content="Ödünç Cihaz Ofisi dijital bilgilendirme ekranı">
+  <meta name="theme-color" content="#0b2545">
+
+  <!-- iOS 15 PWA: manifest kısmen okunur, bu etiketler zorunludur (AGENTS.md 3.1) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OCinfo">
-  <title>OCinfo</title>
-  <!-- YER TUTUCU: Uygulama henüz geliştirilmedi. Bu sayfa yalnızca yayının çalıştığını gösterir. -->
-  <style>
-    html, body { height: 100%; margin: 0; }
-    body { display: flex; align-items: center; justify-content: center; background: #f5f6f8; color: #1d2433;
-           font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; text-align: center; padding: 24px; }
-    h1 { font-size: 48px; margin: 0 0 12px; }
-    p { font-size: 20px; margin: 0; color: #5a6476; }
-  </style>
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script type="module" src="assets/js/app.js"></script>
 </head>
 <body>
-  <main>
-    <h1>OCinfo</h1>
-    <p>Ödünç Cihaz Ofisi bilgilendirme uygulaması hazırlanıyor.</p>
-  </main>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">OC</span>
+        <div>
+          <p class="brand-title">Ödünç Cihaz Ofisi</p>
+          <p class="brand-sub">Yaşar Üniversitesi · Bilgi İşlem Müdürlüğü</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span id="offline" class="offline" hidden>Çevrimdışı</span>
+        <div id="clock" class="clock" aria-live="off"></div>
+      </div>
+    </header>
+
+    <main id="stage" class="stage"></main>
+
+    <nav id="dots" class="dots" aria-label="Sayfalar" hidden></nav>
+  </div>
+
+  <noscript>Bu ekranın çalışması için JavaScript gereklidir.</noscript>
 </body>
 </html>

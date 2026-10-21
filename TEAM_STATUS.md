@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/**` (index.html, manifest, sw.js, assets, data/kurallar.json), `AGENTS.md` | 2026-10-21 11:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -59,3 +59,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Ofisin resmî sitesi (https://odunccihaz.yasar.edu.tr/, YAŞAR ID girişli rezervasyon sistemi) belgelere eklendi. Sitedeki 10 ödünç alma kuralı `docs/OFIS_KURALLARI.md`'ye kaynak ve tarihle alındı; öğrenci için kart özeti taslağı, belirsizlikler (3 gün sınırı ile günlük talep ilişkisi, iade saatinin hangi gün olduğu, proje sorumlusunun kim olduğu, 1 dönem engelin kapsamı), sitede olmayan bilgiler (yer, saatler, iletişim, iptal, hasar/kayıp, cihaz listesi) ve yazım düzeltmeleri yazıldı. AGENTS.md 3.6'ya kural eklendi: rezervasyon sitesi kiosk'a gömülmez, QR kodla yönlendirilir.
 - **Sıradaki adım:** `docs/OFIS_KURALLARI.md` Bölüm 3'teki soruları Ödünç Cihaz Ofisi / Bilgi İşlem ile netleştir; ofis yeri, saatleri, iletişim ve cihaz listesini topla.
 - **Commit:** `8efa8dc`
+
+### 2026-10-21 11:30 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/index.html`, `app/manifest.webmanifest`, `app/sw.js`, `app/assets/css/app.css`, `app/assets/js/{config,app,idle,rotator}.js`, `app/assets/js/pages/rezervasyon.js`, `app/data/kurallar.json`, `app/assets/img/{qr-odunccihaz.svg,icon-180.png,icon-192.png,icon-512.png}`, `AGENTS.md`, `README.md`, `TEAM_STATUS.md` (`.gitkeep` dosyaları silindi)
+- **Yapılan iş:** Kiosk kabuğu kuruldu: iOS meta etiketli PWA, Service Worker (`ocinfo-v1`; kabuk önce önbellekten, JSON önce ağdan), üst çubukta saat/tarih ve çevrimdışı rozeti, otomatik dönen sayfa altyapısı (dokunulunca durur, 90 sn hareketsizlikte ilk sayfaya döner; nokta ve kaydırma ile geçiş), arka plandan dönüşte başa dönme, gece 04:00'te sessiz yenileme. **Sayfa 1:** rezervasyon sitesine giden statik QR (SVG, segno ile bir kez üretildi; çalışma zamanı bağımlılığı yok) + 3 adımlı yönlendirme + 10 kural kartı (`data/kurallar.json`, Kural 7 kırmızı vurgulu). Doğrulama: 1024×768, 1080×810, 1180×820 yatay ve 810×1080 dikeyde taşma yok; QR'ın `https://odunccihaz.yasar.edu.tr/` okuduğu, döndürücü ve hareketsizlik zamanlayıcısı tarayıcıda test edildi.
+- **Doğrulanamayan:** Service Worker / çevrimdışı çalışma bu ortamın tarayıcısında test edilemedi (önizleme tarayıcısı SW kaydını engelliyor); gerçek iPad'de denenmeli. Gerçek iPad'de ana ekrana ekleme ve Güdümlü Erişim de henüz denenmedi.
+- **Yer tutucu:** İkonlar geçici "OC info" ikonu. Kural kartlarındaki kısa metinler sadeleştirmedir; asıl metin JSON'daki `orijinal` alanında.
+- **Sıradaki adım:** iPad'de canlı adresten test (ana ekrana ekle, uçak modunda aç). Sonra Sayfa 2 (memnuniyet anketi + görüş/öneri) — önce anket yanıtlarının nereye gönderileceğine karar verilmeli.
+- **Commit:** (doldurulacak)

@@ -1,0 +1,284 @@
+/* OCinfo — kiosk stilleri. Hedef: iPadOS 15.5 Safari (AGENTS.md 3). CSS nesting,
+   container queries, color-mix kullanılmaz. Animasyonlar yalnızca opacity/transform. */
+
+:root {
+  --navy: #0b2545;
+  --navy-2: #13315c;
+  --blue: #1d6fd8;
+  --blue-soft: #e8f1fd;
+  --bg: #f4f6fa;
+  --card: #ffffff;
+  --line: #dde3ec;
+  --text: #1d2433;
+  --muted: #5a6476;
+  --warn: #b42318;
+  --warn-soft: #fdecea;
+  --radius: 18px;
+  --gap: clamp(14px, 1.8vw, 24px);
+  --pad-x: max(clamp(16px, 2.6vw, 36px), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  /* Kiosk: metin seçimi, uzun basma menüsü ve çift dokunma yakınlaştırması kapalı */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+h1, h2, h3, p, ol, ul { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+img { -webkit-user-drag: none; }
+
+.app {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Üst çubuk ---- */
+.topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: max(12px, env(safe-area-inset-top)) var(--pad-x) 12px;
+  background: var(--navy);
+  color: #fff;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+.brand-title { font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; line-height: 1.15; }
+.brand-sub { font-size: 14px; opacity: 0.75; margin-top: 2px; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.clock { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.clock-time { font-size: clamp(24px, 2.6vw, 32px); font-weight: 700; font-variant-numeric: tabular-nums; }
+.clock-date { font-size: 14px; opacity: 0.75; margin-top: 2px; }
+.offline {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff3cd;
+  color: #6b4e00;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---- Sahne ve sayfalar ---- */
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.page {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--gap) var(--pad-x) max(var(--gap), env(safe-area-inset-bottom));
+  opacity: 0;
+  transform: translateX(24px);
+  pointer-events: none;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.page.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.page-error { font-size: 22px; color: var(--muted); text-align: center; padding-top: 20vh; }
+
+.dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.dots[hidden] { display: none; }
+.dot {
+  pointer-events: auto;
+  width: 44px;  /* dokunma hedefi ≥ 44 pt */
+  height: 44px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+.dot::before {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: auto;
+  border-radius: 50%;
+  background: #b9c3d3;
+  transition: transform 300ms ease, background-color 300ms ease;
+}
+.dot.is-active::before { background: var(--navy); transform: scale(1.3); }
+
+/* ---- Ortak bileşenler ---- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.eyebrow { color: var(--blue); font-weight: 700; font-size: 17px; }
+.section-title { font-size: clamp(22px, 2.3vw, 28px); font-weight: 800; color: var(--navy); }
+.source { color: var(--muted); font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page, .dot::before { transition: none; }
+  .page { transform: none; }
+}
+
+/* ===== Sayfa 1: Rezervasyon QR + kurallar ===== */
+.rz {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) 1.6fr;
+  gap: var(--gap);
+  height: 100%;
+  min-height: 600px;
+}
+
+.rz-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(16px, 2.2vh, 28px) clamp(16px, 2vw, 28px);
+  gap: clamp(6px, 1.2vh, 12px);
+}
+.rz-qr-title { font-size: clamp(22px, 3.4vh, 30px); font-weight: 800; color: var(--navy); line-height: 1.15; }
+.rz-qr-code {
+  width: min(100%, clamp(180px, 36vh, 320px));
+  padding: 8px;
+  border: 3px solid var(--navy);
+  border-radius: 20px;
+  background: #fff;
+}
+.rz-qr-code img { display: block; width: 100%; height: auto; }
+.rz-url { font-size: clamp(18px, 1.9vw, 22px); font-weight: 700; color: var(--blue); letter-spacing: 0.01em; }
+.rz-steps { display: grid; gap: 8px; text-align: left; width: 100%; max-width: 340px; margin-top: 4px; }
+.rz-steps li { display: flex; align-items: center; gap: 12px; font-size: 16.5px; line-height: 1.3; }
+.rz-steps span {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 16px;
+}
+.rz-note {
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.rz-rules { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 0; }
+.rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.rule-no {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--navy);
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+}
+.rule-title { font-size: 16.5px; font-weight: 700; color: var(--navy); line-height: 1.25; }
+.rule-text { font-size: 15px; line-height: 1.32; color: var(--text); margin-top: 2px; }
+.rule--warn { background: var(--warn-soft); border-color: #f4b8b0; }
+.rule--warn .rule-no { background: var(--warn); }
+.rule--warn .rule-title { color: var(--warn); }
+
+/* Dikey iPad: QR üstte yatay kart, kurallar altta */
+@media (orientation: portrait) {
+  .rz { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .rz-qr-code { width: clamp(200px, 24vh, 280px); }
+  .rz-qr {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "code eyebrow"
+      "code title"
+      "code url"
+      "code steps"
+      "code note";
+    justify-items: start;
+    align-content: center;
+    text-align: left;
+    column-gap: clamp(18px, 3vw, 32px);
+    row-gap: 8px;
+  }
+  .rz-qr .eyebrow { grid-area: eyebrow; }
+  .rz-qr-title { grid-area: title; }
+  .rz-qr-code { grid-area: code; align-self: center; }
+  .rz-url { grid-area: url; }
+  .rz-steps { grid-area: steps; }
+  .rz-note { grid-area: note; }
+}
+
+/* Dar ekran (telefon vb.) — kiosk dışı önizleme için */
+@media (max-width: 640px) {
+  .rz { height: auto; }
+  .rules { grid-auto-rows: auto; }
+  .rules { grid-template-columns: 1fr; }
+  .rz-qr { display: flex; text-align: center; align-items: center; }
+  .brand-sub, .clock-date { display: none; }
+}

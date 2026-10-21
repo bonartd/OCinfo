@@ -1,0 +1,68 @@
+{
+  "kaynak": "https://odunccihaz.yasar.edu.tr/",
+  "sonKontrol": "2026-10-21",
+  "not": "Kısa metinler resmî sitedeki kuralların sadeleştirilmiş hâlidir; asıl metin 'orijinal' alanındadır. Belirsizlikler için docs/OFIS_KURALLARI.md Bölüm 3'e bakın.",
+  "kurallar": [
+    {
+      "no": 1,
+      "baslik": "Talep",
+      "kisa": "Talepler odunccihaz.yasar.edu.tr adresinden form doldurularak yapılır.",
+      "orijinal": "Ödünç cihaz talebi “odunccihaz.yasar.edu.tr” adresinden form doldurularak yapılır."
+    },
+    {
+      "no": 2,
+      "baslik": "Her cihazdan 1 adet",
+      "kisa": "Her cihazdan yalnızca 1 adet rezerve edilebilir (ör. 1 kamera, 1 ses kayıt cihazı).",
+      "orijinal": "Her cihazdan sadece 1 adet rezerve edilebilir. (Örn: 1 adet kamera, 1 adet ses kayıt cihazı v.b.)"
+    },
+    {
+      "no": 3,
+      "baslik": "İade 10:00 · Teslim 11:00",
+      "kisa": "Rezervasyon sonunda cihazlar en geç 10:00'da ofise iade edilir; teslim alma en erken 11:00'dedir.",
+      "orijinal": "Cihazlar, rezervasyon sonunda en geç saat 10:00 da Ödünç Cihaz Ofisine teslim edilir. Rezervasyon oluşturan kullanıcılara cihazlar en erken 11:00 da teslim edilir.."
+    },
+    {
+      "no": 4,
+      "baslik": "Her gün ayrı talep",
+      "kisa": "Farklı günler için her gün ayrı talep oluşturulmalıdır.",
+      "orijinal": "Farklı günler için yapılması istenen rezervasyonlarda, her gün için ayrı taleplerin oluşturulması gerekmektedir."
+    },
+    {
+      "no": 5,
+      "baslik": "En fazla 3 gün",
+      "kisa": "Cihazlar en fazla 3 gün alınabilir. Açıklama bildirilmeyen daha uzun talepler iptal edilir.",
+      "orijinal": "Cihazlar en fazla 3 gün alınabilir. 3 günü aşan istemler, gerekli açıklama bildirilmediği takdirde proje sorumlu onayı olsa dahi sistem yöneticisi tarafından iptal edilir."
+    },
+    {
+      "no": 6,
+      "baslik": "Proje sorumlusu onayı",
+      "kisa": "Proje sorumlusunun onayı olmadan cihaz teslim edilmez.",
+      "orijinal": "Proje sorumlusunun onayı olmadan cihaz teslim edilmez."
+    },
+    {
+      "no": 7,
+      "baslik": "Geç iade = 1 dönem engel",
+      "kisa": "Cihaz zamanında iade edilmezse ödünç cihaz sistemine erişimin 1 dönem süreyle engellenir.",
+      "orijinal": "Cihazların zamanında teslim edilmemesi durumunda, randevu sahibinin ödünç cihaz sistemine 1 dönem süreyle erişimi engellenecektir.",
+      "vurgu": true
+    },
+    {
+      "no": 8,
+      "baslik": "Yalnızca sana, ofiste",
+      "kisa": "Cihazlar yalnızca rezervasyon sahibine Ödünç Cihaz Ofisinde verilir; başkasına devredilemez.",
+      "orijinal": "Rezervasyon oluşturan kullanıcıya teslim edilen cihazlar, sadece Ödünç Cihaz Ofisinde teslim alınır. Cihazlar başkasına devredilemez."
+    },
+    {
+      "no": 9,
+      "baslik": "Kontrol ederek al",
+      "kisa": "Cihazları kontrol ederek teslim al; bütün sorumluluk rezervasyon yapan kişiye aittir.",
+      "orijinal": "Projelerde aksaklık yaşanmaması için, cihazları kontrol ederek teslim alınız. Cihazların bütün sorumluluğu rezervasyon yapan kişiye aittir."
+    },
+    {
+      "no": 10,
+      "baslik": "Eksiksiz iade",
+      "kisa": "İadede alınan cihazların tamamı getirilmeli, kontroller bitene kadar beklenmelidir.",
+      "orijinal": "Cihazların teslimi esnasında, alınan cihazların tamamının getirilmesi gerekmektedir ve kontroller tamamlanana kadar beklenmelidir."
+    }
+  ]
+}

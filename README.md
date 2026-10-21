@@ -9,8 +9,9 @@ ve pratik bilgileri interaktif olarak sunan, kullanıcı memnuniyetini de ölçe
 bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunulan bir iPad'de
 (iPadOS 15.5) tam ekran PWA olarak çalışır.
 
-> 🚧 **Durum:** Ekip çalışma altyapısı kuruldu; **uygulama henüz geliştirilmedi.**
-> `app/index.html` yalnızca yer tutucu bir sayfadır.
+> 🚧 **Durum:** Kiosk kabuğu (PWA, çevrimdışı önbellek, otomatik sayfa dönüşü, hareketsizlikte
+> başa dönüş) ve **Sayfa 1 — rezervasyon QR + kurallar** hazır. Anket, en çok kullanılan
+> ekipmanlar ve kullanım yoğunluğu sayfaları planlandı (bkz. AGENTS.md 4.2.1).
 
 - **Depo:** https://github.com/bonartd/OCinfo (herkese açık / public)
 - **Canlı adres:** https://bonartd.github.io/OCinfo/
@@ -83,9 +84,11 @@ OCinfo/
 │   ├── EKIP_KURULUM.md  # Ekibe gönderilecek metin + hazır prompt
 │   └── OFIS_KURALLARI.md # Ofis kuralları + inceleme
 └── app/                 # Yayınlanan uygulama (yalnızca bu klasör yayınlanır)
-    ├── index.html       # (yer tutucu)
-    ├── assets/{css,js,img}/
-    └── data/            # Ekipman / istatistik / bilgi JSON'ları
+    ├── index.html, manifest.webmanifest, sw.js
+    ├── assets/css/app.css
+    ├── assets/js/       # config, app, idle, rotator, pages/
+    ├── assets/img/      # ikonlar + QR
+    └── data/            # kurallar.json (ileride ekipman / istatistik JSON'ları)
 ```
 
 ## Günlük git akışı

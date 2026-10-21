@@ -128,4 +128,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Dokunulan dosyalar:** `app/assets/img/logo-yasar.png` (yeni), `app/index.html`, `app/assets/css/app.css`, `app/sw.js`, `TEAM_STATUS.md`
 - **Yapılan iş:** Üst çubuktaki beyaz kutudaki "OC" yazısı yerine kullanıcının verdiği **Yaşar Üniversitesi 25. yıl logosu** konuldu. Logo beyaz kenar boşluklarından kırpılıp (%2 pay) 192×192 kare PNG yapıldı; kutu boyutu (48 px) aynı, logo 3 px iç boşlukla ortalı, `object-fit: contain` ile kesilmeden sığıyor. `sw.js` → `ocinfo-v6`, logo önbellek listesine eklendi. Ana ekran ikonları (icon-180/192/512) değişmedi — hâlâ geçici "OC info".
 - **Sıradaki adım:** İstenirse ana ekran ikonları da logoyla yapılabilir. Sonra Sayfa 3.
-- **Commit:** (doldurulacak)
+- **Commit:** `a02561b`

@@ -74,4 +74,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/sw.js`, `TEAM_STATUS.md`
 - **Yapılan iş:** Kullanıcı isteğiyle Sayfa 1'deki kurallar iki sütunlu kartlardan **tek sütunlu, ince çizgilerle ayrılmış sade listeye** çevrildi ("Başlık — açıklama" aynı satırda, küçük yuvarlak numara). Kural 7 kutu yerine kırmızı numara ve kırmızı metinle vurgulanıyor. Yalnızca CSS değişti (HTML/JSON aynı). `sw.js` önbellek sürümü `ocinfo-v2` yapıldı. 1024×768, 1080×810 ve 810×1080'de taşma olmadığı doğrulandı.
 - **Sıradaki adım:** iPad'de canlı test; Sayfa 2 (memnuniyet anketi) için yanıtların gideceği yer kararı.
-- **Commit:** (doldurulacak)
+- **Commit:** `0b23e92`

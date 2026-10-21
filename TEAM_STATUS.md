@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `app/**` (index.html, manifest, sw.js, assets, data/kurallar.json), `AGENTS.md` | 2026-10-21 11:00 |
 
 ---
 

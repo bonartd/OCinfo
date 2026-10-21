@@ -83,4 +83,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Tarayıcıda yüz → form → gönder → teşekkür → 6 sn sonra sıfırlama; kuyruğa doğru kayıt; sahte uç noktayla hata durumunda bekleme, `online` ile gönderip kuyruğu boşaltma; hareketsizlikte formun temizlenip Sayfa 1'e dönmesi; 1080×810, 1024×768, 810×1080 düzenleri. Gerçek Apps Script ile ve iPad klavyesiyle **test edilmedi**.
 - **Yer tutucu:** `config.surveyEndpoint` boş (yanıtlar iPad'de birikir). Ekrandaki gizlilik/KVKK metni yer tutucu.
 - **Sıradaki adım:** `docs/ANKET_KURULUM.md`'ye göre Drive'da e-tabloyu ve Apps Script dağıtımını kur, URL'yi `config.surveyEndpoint`'e yaz; iPad'de gerçek gönderimi dene. KVKK metnini kurumla teyit et.
-- **Commit:** (doldurulacak)
+- **Commit:** `987719b`

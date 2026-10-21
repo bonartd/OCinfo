@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `README.md`, `AGENTS.md`, `docs/OFIS_KURALLARI.md` | 2026-10-21 10:40 |
 
 ---
 

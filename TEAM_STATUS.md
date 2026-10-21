@@ -193,4 +193,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı bildirimi: "mobilde ilk sayfa tam çıkmıyor". Olası neden: sayfalar üst üste duruyor; aktif olmayanlar yalnızca `opacity: 0; pointer-events: none` idi. iOS Safari'de saydam ama kaydırılabilir bir katman (telefonda Sayfa 3) pointer-events: none olsa bile alttaki sayfanın kaydırmasını yakalayabiliyor → Sayfa 1 aşağı kaydırılamıyor (iPad'de Sayfa 1 kaydırma gerektirmediği için görülmüyordu; Chrome tabanlı önizlemede de oluşmuyor). Düzeltme: aktif olmayan sayfalar geçiş bitince `visibility: hidden` (geçiş animasyonu korunur). `ocinfo-v14`.
 - **Doğrulama:** 375×812'de yalnızca aktif sayfa görünür, Sayfa 1 sona kadar kayıyor ve 10. kural görünüyor; geçişler ve Sayfa 3 grafiği doğru. iOS'taki asıl davranış önizlemede yeniden üretilemedi → kullanıcı iPhone'da deneyecek.
 - **Sıradaki adım:** Kullanıcıdan gerçek telefonda sonucu al; sorun sürerse ekran görüntüsü iste.
-- **Commit:** (doldurulacak)
+- **Commit:** `7e7291c`

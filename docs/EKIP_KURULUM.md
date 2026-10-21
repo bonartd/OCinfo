@@ -20,7 +20,7 @@ En sonda sık sorulan sorular bulunur.
 > iPad'de (iPadOS 15.5) tam ekran PWA olarak çalışacak.
 >
 > **Depo (özel):** https://github.com/bonartd/OCinfo
-> **Canlı adres:** https://bonartd.github.io/OCinfo/
+> **Canlı adres:** https://bonartd.github.io/OCinfo/ (yayın açılınca aktif olacak)
 >
 > **Başlamak için:**
 > 1. GitHub'dan gelen collaborator davetini kabul et (e-postana veya

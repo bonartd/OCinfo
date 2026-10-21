@@ -13,7 +13,7 @@ bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunula
 > `app/index.html` yalnızca yer tutucu bir sayfadır.
 
 - **Depo:** https://github.com/bonartd/OCinfo (özel)
-- **Canlı adres:** https://bonartd.github.io/OCinfo/
+- **Canlı adres:** https://bonartd.github.io/OCinfo/ — ⚠️ **henüz aktif değil** (özel depoda Pages için GitHub Pro / Education gerekiyor; bkz. TEAM_STATUS.md)
 
 ---
 

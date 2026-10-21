@@ -36,3 +36,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 ## Kayıt Defteri
 
 <!-- Yeni kayıtları BU SATIRIN ALTINA, dosyanın en sonuna ekleyin. Eski kayıtları silmeyin. -->
+
+### 2026-10-21 10:15 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (yayın adımı **Bloke**)
+- **Dokunulan dosyalar:** `AGENTS.md`, `TEAM_STATUS.md`, `README.md`, `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `.github/workflows/pages.yml`, `.gitignore`, `docs/EKIP_KURULUM.md`, `app/index.html`, `app/assets/{css,js,img}/.gitkeep`, `app/data/.gitkeep`
+- **Yapılan iş:** Ekip çalışma altyapısı kuruldu: bağlayıcı kurallar (AGENTS.md, iPadOS 15.5 PWA/kiosk teknik kuralları dahil), ortak defter, araç köprüleri (Claude Code, Cursor, Copilot), README, ekip kurulum rehberi ve hazır prompt. Teknoloji kararı: saf HTML/CSS/JS, derleme adımı yok; `app/` klasörü GitHub Actions ile Pages'e yayınlanacak. Özel depo `bonartd/OCinfo` oluşturuldu ve push edildi. Uygulamanın kendisi **geliştirilmedi**.
+- **Yer tutucu içerik:** `app/index.html` yalnızca "hazırlanıyor" sayfasıdır (manifest, Service Worker, ikon yok). `app/assets/*` ve `app/data/` boş klasörlerdir (`.gitkeep`). AGENTS.md'de adı geçen `config.js`, `sw.js`, `manifest.webmanifest` henüz yok. Hareketsizlik süresi (90 sn) varsayılan öneridir. Anket yanıtlarının gönderileceği servis kararlaştırılmadı.
+- **Bloke:** GitHub Pages açılamadı — hesabın ücretsiz planı özel depolarda Pages'i desteklemiyor (HTTP 422). Çözüm seçenekleri: (1) GitHub Education (yasar.edu.tr adresiyle Teacher/Student → ücretsiz Pro) veya GitHub Pro; (2) depoyu public yapmak. Seçimden sonra: Ayarlar → Pages → Source: **GitHub Actions**, ardından Actions'tan iş akışını yeniden çalıştır. İlk iş akışı çalışması bu yüzden başarısız olabilir.
+- **Sıradaki adım:** Pages engelini çöz; collaborator'ı ekle (Settings → Collaborators); PWA kabuğu (manifest, iOS meta, sw.js, hareketsizlik zamanlayıcısı, ana sayfa iskeleti) ve `app/data/` JSON şemalarını tasarla; anket verisinin nereye gideceğine karar ver; ikon/görsel varlıkları topla.
+- **Commit:** `76ad5df`

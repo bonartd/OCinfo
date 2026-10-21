@@ -103,12 +103,17 @@ img { -webkit-user-drag: none; }
   opacity: 0;
   transform: translateX(24px);
   pointer-events: none;
-  transition: opacity 300ms ease, transform 300ms ease;
+  /* Aktif olmayan sayfa geçiş bitince tamamen gizlenir: iOS Safari'de saydam ama kaydırılabilir
+     bir katman, pointer-events: none olsa bile alttaki sayfanın kaydırmasını yakalayabilir. */
+  visibility: hidden;
+  transition: opacity 300ms ease, transform 300ms ease, visibility 0s linear 300ms;
 }
 .page.is-active {
   opacity: 1;
   transform: none;
   pointer-events: auto;
+  visibility: visible;
+  transition: opacity 300ms ease, transform 300ms ease, visibility 0s;
 }
 .page-error { font-size: 22px; color: var(--muted); text-align: center; padding-top: 20vh; }
 

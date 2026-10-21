@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/css/app.css`, `app/sw.js` | 2026-10-21 18:30 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -186,3 +186,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 375×812, 360×740'te tüm sayfalarda yatay taşma 0; yatay telefon (812×375, `is-phone` elle) taşma 0; telefonda 31 sn sonra sayfa değişmiyor; iPad 1080×810'da `is-phone` yok, QR görünür, 31 sn'de otomatik geçiş çalışıyor. Gerçek telefonda denenmedi.
 - **Sıradaki adım:** Gerçek iPhone/Android'de canlı adresle dene.
 - **Commit:** `6ecddbb`
+
+### 2026-10-21 18:35 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (gerçek telefonda doğrulanacak)
+- **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/sw.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı bildirimi: "mobilde ilk sayfa tam çıkmıyor". Olası neden: sayfalar üst üste duruyor; aktif olmayanlar yalnızca `opacity: 0; pointer-events: none` idi. iOS Safari'de saydam ama kaydırılabilir bir katman (telefonda Sayfa 3) pointer-events: none olsa bile alttaki sayfanın kaydırmasını yakalayabiliyor → Sayfa 1 aşağı kaydırılamıyor (iPad'de Sayfa 1 kaydırma gerektirmediği için görülmüyordu; Chrome tabanlı önizlemede de oluşmuyor). Düzeltme: aktif olmayan sayfalar geçiş bitince `visibility: hidden` (geçiş animasyonu korunur). `ocinfo-v14`.
+- **Doğrulama:** 375×812'de yalnızca aktif sayfa görünür, Sayfa 1 sona kadar kayıyor ve 10. kural görünüyor; geçişler ve Sayfa 3 grafiği doğru. iOS'taki asıl davranış önizlemede yeniden üretilemedi → kullanıcı iPhone'da deneyecek.
+- **Sıradaki adım:** Kullanıcıdan gerçek telefonda sonucu al; sorun sürerse ekran görüntüsü iste.
+- **Commit:** (doldurulacak)

@@ -97,4 +97,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Dokunulan dosyalar:** `tools/google-apps-script/anket.gs`, `tools/google-apps-script/appsscript.json` (yeni), `docs/ANKET_KURULUM.md`, `AGENTS.md`, `TEAM_STATUS.md`
 - **Yapılan iş:** Güvenlik değerlendirmesi sonrası kullanıcı kararıyla anket yanıtları ortak "Mega Tablo - 2026" yerine **yalnızca anket için açılmış ayrı bir e-tabloya** yazılacak (adresi depoya yazılmadı; kullanıcıda). Betik tabloya **bağlı** hâle getirildi ve `appsscript.json` ile izni `spreadsheets.currentonly`'ye daraltıldı (hesaptaki diğer tablolara erişemez). "Yanıtlar" sayfası yoksa boş ilk sayfa yeniden adlandırılır. `doGet` artık tablo bilgisi döndürmüyor; `doPost` hata ayrıntısı sızdırmıyor. Önceki kayıttaki `SPREADSHEET_ID` / `openById` yaklaşımı kaldırıldı. Rehber ve AGENTS.md 3.6 güncellendi.
 - **Sıradaki adım:** Kullanıcı rehberdeki 7 adımla betiği anket tablosuna kurup Web uygulaması URL'sini verecek → `config.surveyEndpoint` + `sw.js` sürümü → gerçek gönderim testi.
-- **Commit:** (doldurulacak)
+- **Commit:** `d319e92`

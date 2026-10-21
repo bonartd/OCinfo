@@ -19,8 +19,8 @@ En sonda sık sorulan sorular bulunur.
 > kullanıcı memnuniyetini de ölçen bir dijital bilgilendirme uygulaması. Ofis önündeki
 > iPad'de (iPadOS 15.5) tam ekran PWA olarak çalışacak.
 >
-> **Depo (özel):** https://github.com/bonartd/OCinfo
-> **Canlı adres:** https://bonartd.github.io/OCinfo/ (yayın açılınca aktif olacak)
+> **Depo (herkese açık):** https://github.com/bonartd/OCinfo
+> **Canlı adres:** https://bonartd.github.io/OCinfo/
 >
 > **Başlamak için:**
 > 1. GitHub'dan gelen collaborator davetini kabul et (e-postana veya

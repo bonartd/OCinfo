@@ -39,7 +39,7 @@ olarak çalışan bir PWA'dır.
   Kapsamlı bir yeniden düzenleme gerekiyorsa önce kullanıcıya sor.
 - **Yeni bağımlılık (kütüphane, CDN, araç) eklemeden önce kullanıcıya sor.**
 - **Gizli bilgi depoya girmez:** parola, API anahtarı, token, kişisel veri, öğrenci
-  bilgisi, `.env` dosyası commit'lenmez. Depo özel olsa bile yayınlanan site herkese açıktır.
+  bilgisi, `.env` dosyası commit'lenmez. **Depo herkese açıktır (public)**; commit'lenen her şey ve yayınlanan site herkes tarafından görülebilir.
 - Arayüz metinleri ve belgeler **Türkçe** yazılır. Kod içi isimler İngilizce olabilir.
 - Bölüm 3'teki **teknik kurallara** uy.
 

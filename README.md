@@ -12,8 +12,8 @@ bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunula
 > 🚧 **Durum:** Ekip çalışma altyapısı kuruldu; **uygulama henüz geliştirilmedi.**
 > `app/index.html` yalnızca yer tutucu bir sayfadır.
 
-- **Depo:** https://github.com/bonartd/OCinfo (özel)
-- **Canlı adres:** https://bonartd.github.io/OCinfo/ — ⚠️ **henüz aktif değil** (özel depoda Pages için GitHub Pro / Education gerekiyor; bkz. TEAM_STATUS.md)
+- **Depo:** https://github.com/bonartd/OCinfo (herkese açık / public)
+- **Canlı adres:** https://bonartd.github.io/OCinfo/
 
 ---
 
@@ -62,7 +62,7 @@ cd OCinfo
 cd app && python3 -m http.server 8080
 ```
 
-Tarayıcıda `http://localhost:8080` açılır. Depo özel olduğundan erişim için depo sahibinin
+Tarayıcıda `http://localhost:8080` açılır. Depo herkese açıktır; ancak **push yetkisi** için depo sahibinin
 sizi **collaborator** olarak eklemesi gerekir.
 
 ## Dizin düzeni

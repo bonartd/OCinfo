@@ -45,3 +45,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Bloke:** GitHub Pages açılamadı — hesabın ücretsiz planı özel depolarda Pages'i desteklemiyor (HTTP 422). Çözüm seçenekleri: (1) GitHub Education (yasar.edu.tr adresiyle Teacher/Student → ücretsiz Pro) veya GitHub Pro; (2) depoyu public yapmak. Seçimden sonra: Ayarlar → Pages → Source: **GitHub Actions**, ardından Actions'tan iş akışını yeniden çalıştır. İlk iş akışı çalışması bu yüzden başarısız olabilir.
 - **Sıradaki adım:** Pages engelini çöz; collaborator'ı ekle (Settings → Collaborators); PWA kabuğu (manifest, iOS meta, sw.js, hareketsizlik zamanlayıcısı, ana sayfa iskeleti) ve `app/data/` JSON şemalarını tasarla; anket verisinin nereye gideceğine karar ver; ikon/görsel varlıkları topla.
 - **Commit:** `76ad5df`
+
+### 2026-10-21 10:25 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `README.md`, `AGENTS.md`, `docs/EKIP_KURULUM.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Önceki kayıttaki Pages engeli çözüldü: depo sahibinin kararıyla depo **public** yapıldı, GitHub Pages (Source: GitHub Actions) açıldı, yayın iş akışı başarıyla çalıştı. Canlı adres https://bonartd.github.io/OCinfo/ doğrulandı (HTTP 200, yer tutucu sayfa). Belgelerdeki "özel depo" ve "henüz aktif değil" ifadeleri güncellendi; AGENTS.md'ye deponun herkese açık olduğu uyarısı eklendi.
+- **Sıradaki adım:** Collaborator'ı ekle (push yetkisi için gerekli); PWA kabuğu (manifest, iOS meta, sw.js, hareketsizlik zamanlayıcısı, ana sayfa iskeleti) ve `app/data/` JSON şemalarını tasarla; anket verisinin nereye gideceğine karar ver.
+- **Commit:** (bu kaydın commit'i — `git log` ile bakın)

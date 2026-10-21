@@ -136,4 +136,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Geçici "OC info" ana ekran ikonları, Yaşar Üniversitesi 25. yıl logosuyla değiştirildi: beyaz opak zemin, logo ortalı, iOS köşe yuvarlaması için logo çevresinde ~%13 boşluk (orijinal görselden 180/192/512 px). `sw.js` → `ocinfo-v7`.
 - **Not:** iOS ana ekran ikonu eklenirken kaydedilir; iPad'de yeni ikon için ana ekrandaki OCinfo kaldırılıp Safari'den yeniden "Ana Ekrana Ekle" yapılmalı.
 - **Sıradaki adım:** Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
-- **Commit:** (doldurulacak)
+- **Commit:** `e726277`

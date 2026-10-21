@@ -114,3 +114,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama (tarayıcı, sahte uç noktayla):** "Diğer: Müzik" gönderimi, `ad` alanının gitmemesi, geri sayım, bekleme sırasında yüz tıklaması/hareketsizlik/yeniden yüklemenin teşekkür ekranında kalması, süre bitince soru ekranına dönüş, `limit` yanıtında kuyruğun korunup sonra boşalması. Yeni betik gerçek Apps Script'te **henüz çalışmıyor**.
 - **Sıradaki adım:** Kullanıcı yeni `anket.gs`'yi yapıştırıp `kurulumTesti`'ni çalıştıracak ve **Dağıtımları yönet → Yeni sürüm** ile dağıtacak (URL aynı kalır). Sonra canlı gönderim kontrolü. Tablodaki eski TEST satırları silinebilir.
 - **Commit:** `797f200`
+
+### 2026-10-21 15:00 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı yeni `anket.gs`'yi Apps Script'e yapıştırıp **sürüm 2** olarak dağıttı (web uygulaması adresi değişmedi). Canlı uç noktaya iki deneme satırı gönderildi; kullanıcı tabloda doğruladı: başlıkta **Bölüm** ve **Not** sütunları var, bölüm değerleri yazılıyor, 5 sn arayla gelen ikinci satırda "şüpheli" notu var. Anket sayfası (Sayfa 2) uçtan uca çalışır durumda.
+- **Not:** Tabloda "TEST … (silinebilir)" deneme satırları var; kullanıcı silecek.
+- **Sıradaki adım:** iPad'de canlı deneme. Betik ileride değişirse güncellemeyi kolaylaştırmak için `clasp` kurulumu düşünülebilir (Node.js gerekir; kullanıcı onayı alınmadı). Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
+- **Commit:** (doldurulacak)

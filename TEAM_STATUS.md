@@ -161,4 +161,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Değerlendirme:** Excel'de **saat bilgisi yok** (2.398 tarih değerinin tümü yalnızca gün) → yoğun saat analizi bu veriyle yapılamaz. Gün bazında anlamlı: iadelerin %45'i pazartesi (380/850), hafta sonu iade yok; teslim alma (rezervasyon başlangıcı) da en çok pazartesi (212), ancak 111 rezervasyon hafta sonu başlıyor.
 - **Doğrulama:** Anket zorunluluk mantığı ve "Endüstriyel Tasarım" gönderimi (sahte uç nokta). Sayfa 3 tüm görünümleri gerçek veriyle; çok yıllı/saatli yapı **sahte (kişisel veri içermeyen) 2024-2025 dosyasıyla** denendi (farklı başlık sırası/adları, saatli tarihler, yazım farklılıkları) ve ardından gerçek JSON geri yüklendi. 1080×810, 1024×768, 810×1080'de taşma yok. Geçici Excel kopyaları silindi.
 - **Sıradaki adım:** Kullanıcı önceki yılların Excel'lerini iletince betiğe verip JSON'u yenile. Saatli veri mümkünse ofisten iste.
-- **Commit:** (doldurulacak)
+- **Commit:** `19b8db0`

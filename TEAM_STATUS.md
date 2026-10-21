@@ -67,4 +67,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulanamayan:** Service Worker / çevrimdışı çalışma bu ortamın tarayıcısında test edilemedi (önizleme tarayıcısı SW kaydını engelliyor); gerçek iPad'de denenmeli. Gerçek iPad'de ana ekrana ekleme ve Güdümlü Erişim de henüz denenmedi.
 - **Yer tutucu:** İkonlar geçici "OC info" ikonu. Kural kartlarındaki kısa metinler sadeleştirmedir; asıl metin JSON'daki `orijinal` alanında.
 - **Sıradaki adım:** iPad'de canlı adresten test (ana ekrana ekle, uçak modunda aç). Sonra Sayfa 2 (memnuniyet anketi + görüş/öneri) — önce anket yanıtlarının nereye gönderileceğine karar verilmeli.
-- **Commit:** (doldurulacak)
+- **Commit:** `58291e9`

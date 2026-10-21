@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `tools/google-apps-script/`, `docs/ANKET_KURULUM.md`, `AGENTS.md` | 2026-10-21 13:25 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -91,3 +91,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı anket yanıtları için ortak "Mega Tablo - 2026" e-tablosundaki boş **"OCinfo"** sayfasını belirledi. Tablo birçok başka projenin sayfasını içerdiği için betik **bağımsız Apps Script projesi** olarak yeniden düzenlendi: `openById` + yalnızca `OCinfo` sayfası (sayfa yoksa yeni sayfa açmaz, hata verir); tablo kimliği depo herkese açık olduğu için betiğin `SPREADSHEET_ID` komut dosyası özelliğinde tutulur. `kurulumTesti()` (izin + başlık satırı) ve tabloya erişimi doğrulayan `doGet` eklendi. Kurulum rehberi buna göre yeniden yazıldı. Uygulama koduna dokunulmadı.
 - **Sıradaki adım:** Kullanıcı `docs/ANKET_KURULUM.md` adımlarıyla betiği dağıtıp Web uygulaması URL'sini verecek → `app/assets/js/config.js` `surveyEndpoint`'e yazılacak, `sw.js` sürümü artırılacak ve gerçek gönderim denenecek.
 - **Commit:** `0caaa86`
+
+### 2026-10-21 13:35 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (Apps Script dağıtımı kullanıcıda bekliyor)
+- **Dokunulan dosyalar:** `tools/google-apps-script/anket.gs`, `tools/google-apps-script/appsscript.json` (yeni), `docs/ANKET_KURULUM.md`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Güvenlik değerlendirmesi sonrası kullanıcı kararıyla anket yanıtları ortak "Mega Tablo - 2026" yerine **yalnızca anket için açılmış ayrı bir e-tabloya** yazılacak (adresi depoya yazılmadı; kullanıcıda). Betik tabloya **bağlı** hâle getirildi ve `appsscript.json` ile izni `spreadsheets.currentonly`'ye daraltıldı (hesaptaki diğer tablolara erişemez). "Yanıtlar" sayfası yoksa boş ilk sayfa yeniden adlandırılır. `doGet` artık tablo bilgisi döndürmüyor; `doPost` hata ayrıntısı sızdırmıyor. Önceki kayıttaki `SPREADSHEET_ID` / `openById` yaklaşımı kaldırıldı. Rehber ve AGENTS.md 3.6 güncellendi.
+- **Sıradaki adım:** Kullanıcı rehberdeki 7 adımla betiği anket tablosuna kurup Web uygulaması URL'sini verecek → `config.surveyEndpoint` + `sw.js` sürümü → gerçek gönderim testi.
+- **Commit:** (doldurulacak)

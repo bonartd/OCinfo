@@ -1,16 +1,14 @@
 /**
  * OCinfo — Memnuniyet anketi alıcısı (Google Apps Script).
  *
- * Kurulum: docs/ANKET_KURULUM.md. BAĞIMSIZ bir Apps Script projesi olarak çalışır
- * (e-tabloya bağlı değildir; ortak tablodaki başka betiklerle çakışmaz) ve web uygulaması
- * olarak dağıtılır. iPad'deki OCinfo her yanıtı JSON olarak POST eder; betik yalnızca
- * SHEET_NAME sayfasına satır ekler, tablodaki diğer sayfalara dokunmaz.
- *
- * Tablo kimliği depoya yazılmaz: Proje Ayarları → Komut dosyası özellikleri →
- * SPREADSHEET_ID = (tablo adresindeki /d/ ile /edit arasındaki kısım).
+ * Kurulum: docs/ANKET_KURULUM.md. Yalnızca anket için açılmış ayrı bir Google E-Tablosu'na
+ * BAĞLI olarak çalışır (Uzantılar → Apps Script) ve web uygulaması olarak dağıtılır.
+ * appsscript.json'daki "spreadsheets.currentonly" izni sayesinde betik yalnızca bağlı
+ * olduğu bu tek dosyaya erişebilir; hesaptaki diğer tablolara erişemez.
+ * iPad'deki OCinfo her yanıtı JSON olarak POST eder; betik SHEET_NAME sayfasına satır ekler.
  */
 
-var SHEET_NAME = 'OCinfo';
+var SHEET_NAME = 'Yanıtlar';
 var HEADERS = ['Tarih', 'Saat', 'Kullanıcı adı', 'Puan (1-5)', 'Memnuniyet', 'Görüş ve öneri', 'Kayıt ID', 'Alınma zamanı'];
 // Tekrar gönderimleri ayıklamak için son kaç satırın ID'si kontrol edilir.
 var DEDUPE_ROWS = 500;
@@ -42,40 +40,41 @@ function doPost(e) {
     ]);
     return json({ ok: true });
   } catch (err) {
-    return json({ ok: false, error: String(err) });
+    return json({ ok: false, error: 'kaydedilemedi' });
   } finally {
     lock.releaseLock();
   }
 }
 
-// Tarayıcıda adres açılınca çalıştığını ve tabloya erişebildiğini gösterir.
+// Tarayıcıda adres açılınca çalıştığını gösterir (tablo içeriği hakkında bilgi vermez).
 function doGet() {
-  try {
-    var sheet = getSheet();
-    return json({ ok: true, mesaj: 'OCinfo anket uç noktası çalışıyor', sayfa: sheet.getName(), satir: sheet.getLastRow() });
-  } catch (err) {
-    return json({ ok: false, error: String(err) });
-  }
+  return json({ ok: true, mesaj: 'OCinfo anket uç noktası çalışıyor' });
 }
 
 // Kurulumda Apps Script düzenleyicisinden bir kez çalıştırın: izinleri ister ve
-// "OCinfo" sayfasına başlık satırını yazar (sayfa boşsa).
+// "Yanıtlar" sayfasını başlık satırıyla hazırlar.
 function kurulumTesti() {
   var sheet = getSheet();
-  Logger.log('Tamam: "' + sheet.getName() + '" sayfası, ' + sheet.getLastRow() + ' satır');
+  Logger.log('Tamam: "' + sheet.getName() + '" sayfası hazır, ' + sheet.getLastRow() + ' satır');
 }
 
 function getSheet() {
-  var id = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
-  if (!id) throw new Error('SPREADSHEET_ID komut dosyası özelliği tanımlı değil');
-  var sheet = SpreadsheetApp.openById(id).getSheetByName(SHEET_NAME);
-  // Ortak tabloda yeni sayfa açılmaz; sayfa yoksa hata verilir.
-  if (!sheet) throw new Error('"' + SHEET_NAME + '" sayfası bulunamadı');
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    // Yeni açılmış tablodaki boş ilk sayfa yeniden adlandırılır; değilse yeni sayfa eklenir.
+    var first = ss.getSheets()[0];
+    if (ss.getSheets().length === 1 && first.getLastRow() === 0) {
+      sheet = first.setName(SHEET_NAME);
+    } else {
+      sheet = ss.insertSheet(SHEET_NAME);
+    }
+  }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
-    // Tarih/saat/ad/görüş metin olarak kalsın (otomatik biçim dönüştürmesin).
+    // Tarih/saat/ad/görüş/ID metin olarak kalsın (otomatik biçim dönüştürmesin).
     sheet.getRange('A:C').setNumberFormat('@');
     sheet.getRange('F:G').setNumberFormat('@');
   }

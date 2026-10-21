@@ -166,12 +166,13 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar).
 - Ofis kuralları için asıl kaynak resmî sitedir; kiosk metinleri `docs/OFIS_KURALLARI.md`
   Bölüm 3'teki sorular netleşene kadar sitedeki ifadeye sadık kalır.
-- Anket yanıtları ekibin ortak Google E-Tablosu **"Mega Tablo - 2026"** içindeki **"OCinfo"**
-  sayfasına, **bağımsız** bir **Google Apps Script web uygulaması** üzerinden yazılır. Betik
-  tablodaki diğer sayfalara dokunmaz; tablo kimliği depoya değil betiğin `SPREADSHEET_ID`
-  özelliğine yazılır (`tools/google-apps-script/anket.gs`,
-  kurulum: `docs/ANKET_KURULUM.md`). Adres `config.surveyEndpoint` alanındadır; bu adres gizli
-  değildir ama betik girdiyi doğrular. Başka bir uç nokta/servis eklemeden önce kullanıcıya sorulur.
+- Anket yanıtları **yalnızca anket için açılmış ayrı bir Google E-Tablosu**na ("Yanıtlar"
+  sayfası), o tabloya **bağlı** bir **Google Apps Script web uygulaması** üzerinden yazılır
+  (`tools/google-apps-script/anket.gs` + `appsscript.json`, kurulum: `docs/ANKET_KURULUM.md`).
+  Betik `spreadsheets.currentonly` izniyle yalnızca o dosyaya erişir; izin kapsamı
+  genişletilmez. Tablo adresi depoya yazılmaz. Web uygulaması adresi `config.surveyEndpoint`
+  alanındadır; gizli değildir ama betik girdiyi doğrular. Başka bir uç nokta/servis eklemeden
+  önce kullanıcıya sorulur.
 
 ---
 
@@ -207,7 +208,8 @@ OCinfo/
 │   ├── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
 │   └── ANKET_KURULUM.md       # Anket → Google E-Tablosu kurulumu
 ├── tools/google-apps-script/
-│   └── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
+│   ├── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
+│   └── appsscript.json        # Betik manifesti (dar izin: spreadsheets.currentonly)
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
     ├── index.html             # Kiosk kabuğu: üst çubuk (saat), sahne, sayfa noktaları
     ├── manifest.webmanifest   # PWA manifest'i

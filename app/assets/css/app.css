@@ -390,8 +390,27 @@ input, textarea {
   -webkit-appearance: none;
   appearance: none;
 }
-.sv-field textarea { resize: none; min-height: 120px; }
+.sv-field textarea { resize: none; min-height: 96px; }
 .sv-field textarea:focus, .sv-field input:focus { outline: none; border-color: var(--blue); }
+.sv-dept { border: 0; margin: 0; padding: 0; min-width: 0; }
+.sv-dept legend { padding: 0; margin-bottom: 8px; }
+.sv-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sv-chip {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.sv-chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.sv-dept input { margin-top: 10px; }
+.sv-dept input[hidden] { display: none; }
+.sv-wait { font-size: 16px; color: var(--muted); }
 .sv-privacy { font-size: 14px; color: var(--muted); }
 .sv-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 4px; }
 .sv-actions .btn--primary { flex: 1; max-width: 360px; }

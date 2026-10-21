@@ -1,9 +1,11 @@
-// Sayfa 2 — Memnuniyet anketi: gülen yüzlerle puan + isteğe bağlı ad ve görüş.
-// Yanıtlar önce iPad'de kuyruğa yazılır, sonra config.surveyEndpoint'e (Google Apps Script)
-// gönderilir. Bağlantı yoksa kuyrukta bekler (AGENTS.md 3.4).
+// Sayfa 2 — Memnuniyet anketi: gülen yüzlerle puan + isteğe bağlı görüş ve bölüm.
+// Yanıtlar anonimdir. Önce iPad'de kuyruğa yazılır, sonra config.surveyEndpoint'e
+// (Google Apps Script) gönderilir. Bağlantı yoksa kuyrukta bekler (AGENTS.md 3.4).
+// Arka arkaya yanıtı zorlaştırmak için gönderimden sonra config.surveyCooldownSec
+// boyunca yeni yanıt alınmaz.
 
 const QUEUE_KEY = 'ocinfo-anket-kuyruk';
-const THANKS_SEC = 6;
+const COOLDOWN_KEY = 'ocinfo-anket-son-gonderim';
 const FLUSH_EVERY_SEC = 60;
 
 const LEVELS = [
@@ -14,6 +16,20 @@ const LEVELS = [
   { puan: 5, metin: 'Çok memnunum', renk: '#2f9e5b', agiz: 'M28 58 Q50 84 72 58' },
 ];
 
+const BOLUMLER = [
+  'Radyo, Televizyon ve Sinema',
+  'Görsel İletişim Tasarımı',
+  'Yeni Medya ve İletişim',
+  'Halkla İlişkiler ve Reklamcılık',
+  'Çizgi Film ve Animasyon',
+];
+const DIGER = 'Diğer';
+
+const CHECK = `<svg viewBox="0 0 100 100" aria-hidden="true">
+  <circle cx="50" cy="50" r="46" fill="#2f9e5b"/>
+  <path d="M30 52 L44 66 L72 36" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
 function face(level) {
   return `<svg viewBox="0 0 100 100" aria-hidden="true">
     <circle cx="50" cy="50" r="46" fill="${level.renk}"/>
@@ -23,23 +39,27 @@ function face(level) {
   </svg>`;
 }
 
-// ---- Kuyruk (localStorage; erişilemezse bellekte) ----
-let memoryQueue = [];
+// ---- Kalıcı küçük durum (localStorage; erişilemezse bellekte) ----
+const memory = {};
 
-function readQueue() {
+function load(key, fallback) {
   try {
-    return JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+    const v = localStorage.getItem(key);
+    return v === null ? fallback : JSON.parse(v);
   } catch (e) {
-    return memoryQueue;
+    return key in memory ? memory[key] : fallback;
   }
 }
 
-function writeQueue(q) {
-  memoryQueue = q;
+function save(key, value) {
+  memory[key] = value;
   try {
-    localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+    localStorage.setItem(key, JSON.stringify(value));
   } catch (e) { /* bellekte kalır */ }
 }
+
+const readQueue = () => load(QUEUE_KEY, []);
+const writeQueue = (q) => save(QUEUE_KEY, q);
 
 let flushing = false;
 
@@ -58,7 +78,10 @@ async function flush(endpoint) {
         body: JSON.stringify(entry),
       });
       if (!res.ok) break;
-      // Aynı kaydın tekrar gönderilmesi sorun değil: betik "id" ile tekrarı ayıklar.
+      const body = await res.json().catch(() => ({ ok: true }));
+      // Sunucu sınırı doldu: kayıt kuyrukta kalır, sonraki denemede gönderilir.
+      if (body.ok === false && body.error === 'limit') break;
+      // Başarılı, tekrar (duplicate) veya geçersiz: kuyruktan çıkar.
       writeQueue(readQueue().filter((e) => e.id !== entry.id));
     }
   } catch (err) {
@@ -70,13 +93,13 @@ async function flush(endpoint) {
 
 function pad(n) { return String(n).padStart(2, '0'); }
 
-function makeEntry(level, ad, gorus) {
+function makeEntry(level, bolum, gorus) {
   const now = new Date();
   return {
     id: now.getTime().toString(36) + '-' + Math.random().toString(36).slice(2, 8),
     tarih: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
     saat: `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`,
-    ad: ad.trim().slice(0, 60),
+    bolum: bolum.trim().slice(0, 80),
     puan: level.puan,
     memnuniyet: level.metin,
     gorus: gorus.trim().slice(0, 500),
@@ -90,6 +113,8 @@ export default {
   title: 'Memnuniyet anketi',
 
   async render(el, config) {
+    const cooldownMs = (config.surveyCooldownSec || 0) * 1000;
+
     el.innerHTML = `
       <div class="sv">
         <div class="sv-step sv-step--rate is-active">
@@ -111,16 +136,19 @@ export default {
           <div class="sv-picked"></div>
           <label class="sv-field">
             <span>Görüş ve önerilerin <em>(isteğe bağlı)</em></span>
-            <textarea name="gorus" rows="4" maxlength="500"
+            <textarea name="gorus" rows="3" maxlength="500"
               placeholder="Hizmetimizi nasıl daha iyi hâle getirebiliriz?"></textarea>
           </label>
-          <label class="sv-field">
-            <span>Adın <em>(isteğe bağlı)</em></span>
-            <input name="ad" type="text" maxlength="60" autocapitalize="words" autocorrect="off"
-              spellcheck="false" placeholder="Ad Soyad">
-          </label>
-          <p class="sv-privacy">Adını yazmak zorunlu değildir. Yanıtlar yalnızca hizmet kalitesini
-            değerlendirmek için kullanılır.</p>
+          <fieldset class="sv-field sv-dept">
+            <legend>Bölümün <em>(isteğe bağlı)</em></legend>
+            <div class="sv-chips">
+              ${BOLUMLER.concat(DIGER).map((b) => `
+                <button type="button" class="sv-chip" data-bolum="${b}" aria-pressed="false">${b}</button>`).join('')}
+            </div>
+            <input name="diger" type="text" maxlength="80" autocorrect="off" spellcheck="false"
+              placeholder="Bölümünü yaz" hidden>
+          </fieldset>
+          <p class="sv-privacy">Yanıtlar anonimdir; adın veya öğrenci numaran istenmez.</p>
           <div class="sv-actions">
             <button type="button" class="btn btn--ghost" data-action="back">Geri</button>
             <button type="submit" class="btn btn--primary">Gönder</button>
@@ -131,6 +159,7 @@ export default {
           <div class="sv-thanks-face"></div>
           <h2 class="sv-question">Teşekkürler!</h2>
           <p class="sv-hint">Yanıtın kaydedildi.</p>
+          <p class="sv-wait"></p>
         </div>
       </div>`;
 
@@ -141,45 +170,93 @@ export default {
     };
     const form = steps.detail;
     const picked = el.querySelector('.sv-picked');
+    const chips = Array.from(el.querySelectorAll('.sv-chip'));
+    const digerInput = form.elements.diger;
     const thanksFace = el.querySelector('.sv-thanks-face');
+    const waitText = el.querySelector('.sv-wait');
     let level = null;
-    let thanksTimer = null;
+    let bolum = '';
+    let waitTimer = null;
 
     function go(name) {
       Object.keys(steps).forEach((k) => steps[k].classList.toggle('is-active', k === name));
       el.scrollTop = 0;
     }
 
+    function remainingMs() {
+      return Math.max(0, load(COOLDOWN_KEY, 0) + cooldownMs - Date.now());
+    }
+
+    function selectBolum(value) {
+      bolum = bolum === value ? '' : value;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.bolum === bolum)));
+      digerInput.hidden = bolum !== DIGER;
+      if (bolum !== DIGER) digerInput.value = '';
+    }
+
+    // Bekleme süresi boyunca teşekkür ekranı kalır; kalan süre her saniye güncellenir.
+    function showCooldown() {
+      clearTimeout(waitTimer);
+      const ms = remainingMs();
+      if (ms <= 0) {
+        go('rate');
+        return;
+      }
+      waitText.textContent = `Yeni yanıt ${Math.ceil(ms / 1000)} sn sonra alınabilir.`;
+      // Yeniden yüklemeden sonra seçilen yüz bilinmez; onay işareti gösterilir.
+      if (!thanksFace.innerHTML) thanksFace.innerHTML = CHECK;
+      go('thanks');
+      waitTimer = setTimeout(showCooldown, Math.min(1000, ms));
+    }
+
     resetView = () => {
-      clearTimeout(thanksTimer);
+      clearTimeout(waitTimer);
       if (document.activeElement && el.contains(document.activeElement)) document.activeElement.blur();
       form.reset();
+      selectBolum('');
       level = null;
-      go('rate');
+      showCooldown();
     };
 
     el.querySelector('.sv-faces').addEventListener('click', (e) => {
       const btn = e.target.closest('.sv-face');
       if (!btn) return;
+      if (remainingMs() > 0) {
+        showCooldown();
+        return;
+      }
       level = LEVELS[Number(btn.dataset.puan) - 1];
       picked.innerHTML = face(level) + `<span>${level.metin}</span>`;
       picked.style.color = level.renk;
       go('detail');
     });
 
+    el.querySelector('.sv-chips').addEventListener('click', (e) => {
+      const chip = e.target.closest('.sv-chip');
+      if (chip) selectBolum(chip.dataset.bolum);
+    });
+
     form.querySelector('[data-action="back"]').addEventListener('click', resetView);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!level) return;
-      const entry = makeEntry(level, form.elements.ad.value, form.elements.gorus.value);
+      if (!level || remainingMs() > 0) return;
+      const digerText = digerInput.value.trim();
+      const bolumValue = bolum === DIGER ? (digerText ? `${DIGER}: ${digerText}` : DIGER) : bolum;
+      const entry = makeEntry(level, bolumValue, form.elements.gorus.value);
       writeQueue(readQueue().concat(entry));
+      save(COOLDOWN_KEY, Date.now());
       flush(config.surveyEndpoint);
       if (document.activeElement) document.activeElement.blur();
       thanksFace.innerHTML = face(level);
-      go('thanks');
-      thanksTimer = setTimeout(resetView, THANKS_SEC * 1000);
+      form.reset();
+      selectBolum('');
+      level = null;
+      showCooldown();
     });
+
+    // Bekleme sürerken açılırsa (ör. yeniden yükleme) doğrudan teşekkür ekranı.
+    showCooldown();
 
     // Bekleyen yanıtları düzenli aralıkla ve bağlantı gelince gönder (tek zamanlayıcı).
     window.addEventListener('online', () => flush(config.surveyEndpoint));

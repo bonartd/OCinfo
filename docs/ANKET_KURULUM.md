@@ -17,13 +17,17 @@ olarak indirilebilir.
 
 ## Toplanan sütunlar
 
-| Tarih | Saat | Kullanıcı adı | Puan (1-5) | Memnuniyet | Görüş ve öneri | Kayıt ID | Alınma zamanı |
-|---|---|---|---|---|---|---|---|
-| 2026-10-21 | 12:34:05 | (boş olabilir) | 5 | Çok memnunum | … | lz3k…-a1b2c3 | (sunucu saati) |
+| Tarih | Saat | Bölüm | Puan (1-5) | Memnuniyet | Görüş ve öneri | Kayıt ID | Alınma zamanı | Not |
+|---|---|---|---|---|---|---|---|---|
+| 2026-10-21 | 12:34:05 | Görsel İletişim Tasarımı | 5 | Çok memnunum | … | lz3k…-a1b2c3 | (sunucu saati) | (boş / şüpheli) |
 
 - Başlık satırını betik yazar; sütunların sırasını değiştirmeyin.
 - **Tarih/Saat:** Yanıtın iPad'de verildiği an (internet yokken verilen yanıtlar da doğru saatle gelir).
-- **Kullanıcı adı ve görüş isteğe bağlıdır.** Öğrenci numarası, e-posta vb. istenmez.
+- **Yanıtlar anonimdir.** Ad, öğrenci numarası, e-posta istenmez. **Görüş ve bölüm isteğe bağlıdır.**
+  Bölüm seçenekleri: Radyo, Televizyon ve Sinema · Görsel İletişim Tasarımı · Yeni Medya ve İletişim ·
+  Halkla İlişkiler ve Reklamcılık · Çizgi Film ve Animasyon · Diğer (yazılırsa `Diğer: …`).
+- **Not:** iPad saatine göre önceki yanıttan 55 sn'den kısa sürede gelen yanıtlar
+  `şüpheli: önceki yanıta çok yakın` olarak işaretlenir (silinmez; değerlendirmede ayıklanabilir).
 - **Kayıt ID:** Aynı yanıtın iki kez yazılmasını önler; dokunmayın.
 
 ## Kurulum (bir kez, ~5 dakika)
@@ -52,6 +56,14 @@ olarak indirilebilir.
 7. URL'yi `app/assets/js/config.js` içindeki `surveyEndpoint` alanına yazın, commit + push edin
    (ya da URL'yi YZ aracınıza verip bu adımı ona yaptırın).
 
+## Betiği güncelleme (depoda `anket.gs` değiştiğinde)
+
+1. Anket tablosu → **Uzantılar → Apps Script** → `Kod.gs` içeriğini silip depodaki güncel
+   `anket.gs`'yi yapıştırın → **Kaydet**.
+2. İşlev listesinden **`kurulumTesti`** → **Çalıştır** (başlık satırı yeni sütunlara göre güncellenir).
+3. **Dağıt → Dağıtımları yönet** → mevcut dağıtımda ✏️ (kalem) → **Sürüm: Yeni sürüm** → **Dağıt**.
+   *"Yeni dağıtım" yapmayın*; o yeni bir URL üretir ve `config.js` güncellenmesi gerekir.
+
 ## Excel olarak indirme
 
 Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
@@ -59,13 +71,17 @@ Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
 ## Güvenlik ve bilmeniz gerekenler
 
 - **İzin sınırlı:** Betik yalnızca bağlı olduğu anket tablosuna erişir.
+- **Tekrar yanıtı zorlaştırma:** Kiosk, bir yanıttan sonra 60 sn yeni yanıt almaz
+  (`config.surveyCooldownSec`). Betik 10 dakikada en fazla 60 kayıt kabul eder; sınır dolarsa
+  iPad yanıtı kuyrukta tutup sonra yeniden gönderir. Ortak kioskta kişi başı tek yanıt
+  **garanti edilemez**; sonuçlar eğilim olarak okunmalıdır.
 - **URL gizli değildir** (yayınlanan sitede görünür). Bu adresle tablodaki veriler **okunamaz,
   silinemez, değiştirilemez**; yalnızca yeni satır eklenebilir. Betik yalnızca 1–5 arası puanı
   kabul eder, metinleri kısaltır ve formül enjeksiyonunu engeller. Sahte kayıt görülürse
   Kayıt ID / Alınma zamanı ile ayıklanır; gerekirse yeni dağıtımla URL değiştirilir.
 - **Erişim:** Tabloyu yalnızca anket sonuçlarını görmesi gereken kişilerle paylaşın.
-- **KVKK:** Ad toplandığı için kurumun KVKK birimiyle aydınlatma metni teyit edilmelidir.
-  Ekrandaki kısa bilgilendirme metni **yer tutucudur**.
+- **KVKK:** Yanıtlar anonimdir (ad toplanmaz). Serbest metin alanına kişisel bilgi yazılabileceği
+  için kısa bilgilendirme metni kurumla teyit edilebilir.
 - **Bağlantı yoksa:** Yanıtlar iPad'de saklanır; internet gelince (ve en geç 60 sn'de bir)
   otomatik gönderilir. `surveyEndpoint` boşken de yanıtlar iPad'de birikir, adres girilince gider.
 - **Betiği değiştirirseniz:** Dağıt → Dağıtımları yönet → kalem simgesi → Sürüm: **Yeni sürüm** →

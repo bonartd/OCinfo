@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/anket.js`, `app/assets/js/config.js`, `app/assets/css/app.css`, `app/sw.js`, `tools/google-apps-script/anket.gs`, `docs/ANKET_KURULUM.md`, `AGENTS.md` | 2026-10-21 14:40 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -106,3 +106,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Testler sırasında tabloya "TEST … (silinebilir)" adlı deneme satırları yazıldı; kullanıcı silebilir.
 - **Sıradaki adım:** iPad'de canlı adresle uçtan uca dene (çevrimdışı yanıtın bağlantı gelince gitmesi dahil). KVKK aydınlatma metnini kurumla teyit et. Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
 - **Commit:** `f155bce`
+
+### 2026-10-21 14:45 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (Apps Script'in yeni sürümü kullanıcı tarafından dağıtılacak)
+- **Dokunulan dosyalar:** `app/assets/js/pages/anket.js`, `app/assets/js/config.js`, `app/assets/css/app.css`, `app/sw.js`, `tools/google-apps-script/anket.gs`, `docs/ANKET_KURULUM.md`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Aynı kişinin tekrar yanıtını zorlaştırmak için (kullanıcı kararı: kiosk içi çözüm): **"Ad" alanı kaldırıldı**, anket anonim. Görüş kutusunun altına isteğe bağlı **bölüm seçimi** (Radyo, Televizyon ve Sinema · Görsel İletişim Tasarımı · Yeni Medya ve İletişim · Halkla İlişkiler ve Reklamcılık · Çizgi Film ve Animasyon · Diğer → yazma alanı; `Diğer: …` olarak kaydedilir). **60 sn kuralı** (`config.surveyCooldownSec`): gönderimden sonra teşekkür ekranı geri sayımla kalır; yüz tıklaması, hareketsizlik sıfırlaması ve sayfa yeniden yüklemesi beklemeyi atlatmaz (son gönderim zamanı `localStorage`'da). Betik: sütunlar `Tarih, Saat, Bölüm, Puan, Memnuniyet, Görüş, Kayıt ID, Alınma zamanı, Not`; başlık satırı farklıysa otomatik güncellenir; 10 dk'da en fazla 60 kayıt (CacheService) — sınırda `limit` döner, iPad kaydı kuyrukta tutar; iPad saatine göre önceki yanıta 55 sn'den yakın kayıt `Not` sütununda "şüpheli". `sw.js` → `ocinfo-v5`. AGENTS.md 3.6 ve kurulum rehberi (betik güncelleme adımları dahil) güncellendi.
+- **Doğrulama (tarayıcı, sahte uç noktayla):** "Diğer: Müzik" gönderimi, `ad` alanının gitmemesi, geri sayım, bekleme sırasında yüz tıklaması/hareketsizlik/yeniden yüklemenin teşekkür ekranında kalması, süre bitince soru ekranına dönüş, `limit` yanıtında kuyruğun korunup sonra boşalması. Yeni betik gerçek Apps Script'te **henüz çalışmıyor**.
+- **Sıradaki adım:** Kullanıcı yeni `anket.gs`'yi yapıştırıp `kurulumTesti`'ni çalıştıracak ve **Dağıtımları yönet → Yeni sürüm** ile dağıtacak (URL aynı kalır). Sonra canlı gönderim kontrolü. Tablodaki eski TEST satırları silinebilir.
+- **Commit:** (doldurulacak)

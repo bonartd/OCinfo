@@ -158,9 +158,10 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 
 - Ekipman listesi, istatistikler ve pratik bilgiler `app/data/*.json` dosyalarında tutulur;
   içerik güncellemesi kod değiştirmeden bu dosyalarla yapılır.
-- Memnuniyet anketinde **ad ve görüş isteğe bağlıdır**; öğrenci numarası, e-posta, telefon
-  toplanmaz. Ad toplandığı için KVKK aydınlatma metni kurumla teyit edilmelidir (ekrandaki
-  kısa metin yer tutucudur).
+- Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. Görüş ve
+  bölüm isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
+  yanıt alınmaz; betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
+  "şüpheli" işaretler. Ortak kioskta kişi başı tek yanıt garanti edilemez.
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
   **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
   Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar).

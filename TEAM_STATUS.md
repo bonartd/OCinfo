@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/istatistik.js`, `app/data/istatistik.json`, `app/assets/js/app.js`, `app/assets/css/app.css`, `app/sw.js`, `tools/veri/`, `.gitignore`, `AGENTS.md`, `README.md` | 2026-10-21 15:40 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -137,3 +137,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** iOS ana ekran ikonu eklenirken kaydedilir; iPad'de yeni ikon için ana ekrandaki OCinfo kaldırılıp Safari'den yeniden "Ana Ekrana Ekle" yapılmalı.
 - **Sıradaki adım:** Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
 - **Commit:** `e726277`
+
+### 2026-10-21 16:00 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/istatistik.js` (yeni), `app/data/istatistik.json` (yeni), `tools/veri/istatistik_olustur.py` (yeni), `app/assets/js/app.js`, `app/assets/css/app.css`, `app/sw.js`, `.gitignore`, `AGENTS.md`, `README.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** **Sayfa 3 — Kullanım istatistikleri.** Kaynak: kullanıcının verdiği "2025-2026 Eğitim Yılına Ait Ödünç Cihaz Ofisi Verileri.xlsx" (1.199 rezervasyon, 238 kullanıcı, 1 Eylül 2025–30 Eylül 2026). Excel **depoya eklenmedi** (ad soyad içerir); `tools/veri/istatistik_olustur.py` yalnızca anonim sayım küpü üretir (bölüm, sınıf, ay, gün bazında rezervasyon; bölüm-sınıf ve bölüm-sınıf-ay bazında farklı kullanıcı). 5 kişiden az kullanıcılı birimler (Film Tasarımı, Endüstriyel Tasarım, Radyo Program Yapımcısı, Belirtilmemiş) "Diğer"de; Medya Merkezi Müdürlüğü "Medya Merkezi (personel)" olarak ayrı. Sınıf "0" = "Sınıf bilgisi yok / personel". Sayfa: 4 özet kutusu (rezervasyon, farklı kullanıcı, en yoğun ay, en çok kullanan bölüm — personel ve Diğer hariç), kullanıcının seçtiği grafik (Bölüm / Sınıf / Aylar / Haftanın günü), kitle filtresi (Tüm kullanıcılar / Yalnızca öğrenciler = 1–4. sınıf, personel hariç), ölçü (Rezervasyon / Kişi; gün grafiğinde gizli). Kütüphanesiz SVG çubuklar, tek seri tek renk, en yüksek çubuk koyu; çubuğa dokununca ayrıntı ve pay. Hareketsizlikte varsayılan grafiğe döner; yön değişince yeniden çizilir. Sayfa rotasyonda 40 sn. `sw.js` → `ocinfo-v8`.
+- **Doğrulama:** Sayımlar Excel'deki "Bölüm Özeti" ile birebir (ör. RTS 276, YMİ 263, toplam 1.199/238). Tarayıcıda tüm görünüm/filtre kombinasyonları, dokunma ayrıntısı, hareketsizlik sıfırlaması; 1080×810, 1024×768, 810×1080'de taşma yok.
+- **Not:** Excel'de cihaz/ekipman sütunu yok; "en çok kullanılan ekipman" bu veriyle yapılamaz. Ödünç süresi (iade − rezervasyon) verisi var ama gösterilmedi (çoğu kayıt 3 gün kuralını aşıyor görünüyor; ofisle yorumlanmalı).
+- **Sıradaki adım:** Sayfa 4 için ekipman bazlı veri iste. Veri güncellenince AGENTS.md 3.6'daki komutla JSON'u yeniden üret.
+- **Commit:** `ef27b1d`

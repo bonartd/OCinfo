@@ -158,6 +158,12 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 
 - Ekipman listesi, istatistikler ve pratik bilgiler `app/data/*.json` dosyalarında tutulur;
   içerik güncellemesi kod değiştirmeden bu dosyalarla yapılır.
+- **Ham veri (Excel/CSV) depoya ASLA girmez** (`.gitignore`: `*.xlsx`, `*.xls`, `*.csv`); kişisel
+  bilgi (ad soyad vb.) içerir ve depo herkese açıktır. İstatistikler yalnızca
+  `tools/veri/istatistik_olustur.py` ile üretilen **anonim sayımlar** olarak yayınlanır; 5 kişiden
+  az kullanıcılı birimler "Diğer"de birleştirilir. Güncelleme:
+  `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya>.xlsx"`
+  → `app/data/istatistik.json` değişir → `sw.js` sürümünü artır → commit/push.
 - Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. Görüş ve
   bölüm isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
   yanıt alınmaz; betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
@@ -211,6 +217,8 @@ OCinfo/
 ├── tools/google-apps-script/
 │   ├── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
 │   └── appsscript.json        # Betik manifesti (dar izin: spreadsheets.currentonly)
+├── tools/veri/
+│   └── istatistik_olustur.py  # Excel → app/data/istatistik.json (yalnızca sayımlar)
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
     ├── index.html             # Kiosk kabuğu: üst çubuk (saat), sahne, sayfa noktaları
     ├── manifest.webmanifest   # PWA manifest'i
@@ -223,9 +231,12 @@ OCinfo/
     │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, kaydırma)
     │   └── pages/             # Her kiosk sayfası ayrı modül
     │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
-    │       └── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)
+    │       ├── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)
+    │       └── istatistik.js  # Sayfa 3: kullanım istatistikleri (SVG çubuk grafikler)
     ├── assets/img/            # İkonlar (geçici "OC" ikonu) ve QR SVG
-    └── data/kurallar.json     # Ödünç alma kuralları (docs/OFIS_KURALLARI.md kaynaklı)
+    └── data/
+        ├── kurallar.json      # Ödünç alma kuralları (docs/OFIS_KURALLARI.md kaynaklı)
+        └── istatistik.json    # Anonim kullanım sayımları (tools/veri ile üretilir)
 ```
 
 ### 4.2.1 Kiosk sayfa düzeni
@@ -238,8 +249,8 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | En çok kullanılan ekipmanlar | — | Planlandı |
-| 4 | Ekipman kullanım yoğunlukları (grafikler) | — | Planlandı |
+| 3 | Kullanım istatistikleri (seçilebilir grafikler: bölüm, sınıf, ay, gün) | `pages/istatistik.js` | ✅ Hazır |
+| 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`
 nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni

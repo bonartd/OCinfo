@@ -10,9 +10,10 @@ bilgilendirme uygulamasıdır. Ofis önünde öğrencilerin kullanımına sunula
 (iPadOS 15.5) tam ekran PWA olarak çalışır.
 
 > 🚧 **Durum:** Kiosk kabuğu (PWA, çevrimdışı önbellek, otomatik sayfa dönüşü, hareketsizlikte
-> başa dönüş), **Sayfa 1 — rezervasyon QR + kurallar** ve **Sayfa 2 — memnuniyet anketi
-> (deneme)** hazır. Anketin Google Drive bağlantısı için: [`docs/ANKET_KURULUM.md`](docs/ANKET_KURULUM.md).
-> En çok kullanılan ekipmanlar ve kullanım yoğunluğu sayfaları planlandı (bkz. AGENTS.md 4.2.1).
+> başa dönüş), **Sayfa 1 — rezervasyon QR + kurallar**, **Sayfa 2 — memnuniyet anketi**
+> (Google E-Tablosu'na bağlı; [`docs/ANKET_KURULUM.md`](docs/ANKET_KURULUM.md)) ve
+> **Sayfa 3 — kullanım istatistikleri** (seçilebilir grafikler) hazır. En çok kullanılan
+> ekipmanlar sayfası planlandı (bkz. AGENTS.md 4.2.1).
 
 - **Depo:** https://github.com/bonartd/OCinfo (herkese açık / public)
 - **Canlı adres:** https://bonartd.github.io/OCinfo/

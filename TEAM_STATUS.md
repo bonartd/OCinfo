@@ -194,3 +194,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 375×812'de yalnızca aktif sayfa görünür, Sayfa 1 sona kadar kayıyor ve 10. kural görünüyor; geçişler ve Sayfa 3 grafiği doğru. iOS'taki asıl davranış önizlemede yeniden üretilemedi → kullanıcı iPhone'da deneyecek.
 - **Sıradaki adım:** Kullanıcıdan gerçek telefonda sonucu al; sorun sürerse ekran görüntüsü iste.
 - **Commit:** `7e7291c`
+
+### 2026-10-21 18:45 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı gerçek telefonda doğruladı: `ocinfo-v14` ile (aktif olmayan sayfalar `visibility: hidden`) ilk sayfa artık tam görünüyor ve kaydırılabiliyor. Önceki kayıttaki iOS kaydırma teşhisi doğrulandı.
+- **Sıradaki adım:** Önceki yılların Excel verileri gelince Sayfa 3'e ekle; Sayfa 4 (en çok kullanılan ekipmanlar) için cihaz bazlı veri bekleniyor.
+- **Commit:** (bu kayıt)

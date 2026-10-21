@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/index.html`, `app/assets/css/app.css`, `app/assets/img/logo-yasar.png`, `app/sw.js` | 2026-10-21 15:10 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -122,3 +122,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Tabloda "TEST … (silinebilir)" deneme satırları var; kullanıcı silecek.
 - **Sıradaki adım:** iPad'de canlı deneme. Betik ileride değişirse güncellemeyi kolaylaştırmak için `clasp` kurulumu düşünülebilir (Node.js gerekir; kullanıcı onayı alınmadı). Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
 - **Commit:** `da6f74a`
+
+### 2026-10-21 15:15 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/img/logo-yasar.png` (yeni), `app/index.html`, `app/assets/css/app.css`, `app/sw.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Üst çubuktaki beyaz kutudaki "OC" yazısı yerine kullanıcının verdiği **Yaşar Üniversitesi 25. yıl logosu** konuldu. Logo beyaz kenar boşluklarından kırpılıp (%2 pay) 192×192 kare PNG yapıldı; kutu boyutu (48 px) aynı, logo 3 px iç boşlukla ortalı, `object-fit: contain` ile kesilmeden sığıyor. `sw.js` → `ocinfo-v6`, logo önbellek listesine eklendi. Ana ekran ikonları (icon-180/192/512) değişmedi — hâlâ geçici "OC info".
+- **Sıradaki adım:** İstenirse ana ekran ikonları da logoyla yapılabilir. Sonra Sayfa 3.
+- **Commit:** (doldurulacak)

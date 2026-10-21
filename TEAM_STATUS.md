@@ -105,4 +105,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı, anket tablosuna bağlı Apps Script'i (odunccihaz@gmail.com hesabı, `spreadsheets.currentonly` izni) kurup Web uygulaması olarak dağıttı; adres `config.surveyEndpoint`'e yazıldı. `sw.js` → `ocinfo-v4`. Doğrulama: `doGet` yanıt veriyor; POST ile satır yazılıyor; aynı id ikinci kez yazılmıyor (`duplicate`); geçersiz puan reddediliyor; tarayıcıdan `text/plain` POST'ta CORS sorunu yok, yanıt okunabiliyor. AGENTS.md sayfa tablosunda Sayfa 2 "Hazır".
 - **Not:** Testler sırasında tabloya "TEST … (silinebilir)" adlı deneme satırları yazıldı; kullanıcı silebilir.
 - **Sıradaki adım:** iPad'de canlı adresle uçtan uca dene (çevrimdışı yanıtın bağlantı gelince gitmesi dahil). KVKK aydınlatma metnini kurumla teyit et. Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
-- **Commit:** (doldurulacak)
+- **Commit:** `f155bce`

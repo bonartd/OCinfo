@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/img/icon-*.png`, `app/sw.js` | 2026-10-21 15:20 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -129,3 +129,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Üst çubuktaki beyaz kutudaki "OC" yazısı yerine kullanıcının verdiği **Yaşar Üniversitesi 25. yıl logosu** konuldu. Logo beyaz kenar boşluklarından kırpılıp (%2 pay) 192×192 kare PNG yapıldı; kutu boyutu (48 px) aynı, logo 3 px iç boşlukla ortalı, `object-fit: contain` ile kesilmeden sığıyor. `sw.js` → `ocinfo-v6`, logo önbellek listesine eklendi. Ana ekran ikonları (icon-180/192/512) değişmedi — hâlâ geçici "OC info".
 - **Sıradaki adım:** İstenirse ana ekran ikonları da logoyla yapılabilir. Sonra Sayfa 3.
 - **Commit:** `a02561b`
+
+### 2026-10-21 15:25 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/img/icon-180.png`, `app/assets/img/icon-192.png`, `app/assets/img/icon-512.png`, `app/sw.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Geçici "OC info" ana ekran ikonları, Yaşar Üniversitesi 25. yıl logosuyla değiştirildi: beyaz opak zemin, logo ortalı, iOS köşe yuvarlaması için logo çevresinde ~%13 boşluk (orijinal görselden 180/192/512 px). `sw.js` → `ocinfo-v7`.
+- **Not:** iOS ana ekran ikonu eklenirken kaydedilir; iPad'de yeni ikon için ana ekrandaki OCinfo kaldırılıp Safari'den yeniden "Ana Ekrana Ekle" yapılmalı.
+- **Sıradaki adım:** Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
+- **Commit:** (doldurulacak)

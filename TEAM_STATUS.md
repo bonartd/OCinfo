@@ -177,4 +177,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı isteğiyle Sayfa 3 sadeleştirildi: **teslim alma / iade günü** görünümleri (ısı haritası) ve saat görünümleri kaldırıldı; aynı veriden gelen "En yoğun iade günü" özet kutusu da kaldırıldı (3 kutu: rezervasyon sayısı, en yoğun ay, en çok kullanan bölüm). Sekmeler yerine **açılır menü**: grafiğin sol üstünde "Bölümlere göre ▼" (dolu üçgen ikon, açıkken döner); seçenekler Bölümlere / Sınıflara / Aylara / **Yıllara göre** (önceki yıllar eklenince dolacak; şimdilik tek çubuk). Varsayılan bölümler; menü seçimden sonra, dışarı dokununca ve hareketsizlikte kapanır. Birden çok yıl varsa menünün yanında yıl seçimi görünür. Kullanılmayan ısı haritası/sekme stilleri silindi. `ocinfo-v12`. Veri betiği değişmedi (gün/saat bilgisi JSON'da duruyor, gösterilmiyor).
 - **Doğrulama:** Tüm menü seçenekleri, dışarı dokunma, hareketsizlik sıfırlaması; 1080×810 ve 810×1080'de taşma yok.
 - **Sıradaki adım:** Önceki yılların Excel'leri gelince betiğe ver; "Yıllara göre" ve yıl seçimi kendiliğinden dolar.
-- **Commit:** (doldurulacak)
+- **Commit:** `4441dda`

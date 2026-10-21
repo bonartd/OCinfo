@@ -51,4 +51,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Dokunulan dosyalar:** `README.md`, `AGENTS.md`, `docs/EKIP_KURULUM.md`, `TEAM_STATUS.md`
 - **Yapılan iş:** Önceki kayıttaki Pages engeli çözüldü: depo sahibinin kararıyla depo **public** yapıldı, GitHub Pages (Source: GitHub Actions) açıldı, yayın iş akışı başarıyla çalıştı. Canlı adres https://bonartd.github.io/OCinfo/ doğrulandı (HTTP 200, yer tutucu sayfa). Belgelerdeki "özel depo" ve "henüz aktif değil" ifadeleri güncellendi; AGENTS.md'ye deponun herkese açık olduğu uyarısı eklendi.
 - **Sıradaki adım:** Collaborator'ı ekle (push yetkisi için gerekli); PWA kabuğu (manifest, iOS meta, sw.js, hareketsizlik zamanlayıcısı, ana sayfa iskeleti) ve `app/data/` JSON şemalarını tasarla; anket verisinin nereye gideceğine karar ver.
-- **Commit:** (bu kaydın commit'i — `git log` ile bakın)
+- **Commit:** `bd5e526`

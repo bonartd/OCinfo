@@ -146,3 +146,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Excel'de cihaz/ekipman sütunu yok; "en çok kullanılan ekipman" bu veriyle yapılamaz. Ödünç süresi (iade − rezervasyon) verisi var ama gösterilmedi (çoğu kayıt 3 gün kuralını aşıyor görünüyor; ofisle yorumlanmalı).
 - **Sıradaki adım:** Sayfa 4 için ekipman bazlı veri iste. Veri güncellenince AGENTS.md 3.6'daki komutla JSON'u yeniden üret.
 - **Commit:** `ef27b1d`
+
+### 2026-10-21 16:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/sw.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Service Worker kurulumunda kabuk dosyaları artık `cache: 'reload'` ile sunucudan taze alınıyor; önceden `cache.addAll` tarayıcının HTTP önbelleğinden (GitHub Pages 10 dk) eski kopya alıp yeni sürüm önbelleğine kalıcı yazabilirdi. `ocinfo-v9`. Canlıda Sayfa 3 dosyalarının önbellekte doğru olduğu doğrulandı.
+- **Sıradaki adım:** Sayfa 4 için ekipman bazlı veri.
+- **Commit:** `1140d80`

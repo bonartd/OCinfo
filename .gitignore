@@ -5,3 +5,8 @@
 node_modules/
 .vscode/
 .idea/
+
+# Ham veri (kişisel bilgi içerir) depoya girmez
+*.xlsx
+*.xls
+*.csv

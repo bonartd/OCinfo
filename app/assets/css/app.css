@@ -429,3 +429,74 @@ input, textarea {
 @media (prefers-reduced-motion: reduce) {
   .sv-step, .sv-face, .btn { transition: none; }
 }
+
+/* ===== Ortak: bölümlü seçim düğmeleri ===== */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 14px;
+  background: #e6eaf1;
+}
+.seg[hidden] { display: none; }
+.seg button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.seg button[aria-pressed="true"] { background: #fff; color: var(--navy); box-shadow: 0 1px 2px rgba(11, 37, 69, 0.15); }
+
+/* ===== Sayfa 3: Kullanım istatistikleri ===== */
+.st {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vh, 16px);
+  height: 100%;
+  min-height: 560px;
+}
+.st-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.st-sub { color: var(--muted); font-size: 16px; margin-top: 2px; }
+.st-kpis { display: flex; gap: 10px; margin: 0; flex-wrap: wrap; }
+.st-kpis > div {
+  min-width: 120px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.st-kpis dt { font-size: 13px; color: var(--muted); }
+.st-kpis dd { margin: 2px 0 0; font-size: 20px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+.st-controls { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.st-filters { display: flex; gap: 10px; flex-wrap: wrap; }
+.st-chart {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 18px 10px;
+}
+.st-detail { font-size: 17px; color: var(--text); min-height: 24px; }
+.st-detail strong { color: var(--navy); }
+.st-svg { flex: 1 1 auto; min-height: 0; width: 100%; display: block; overflow: visible; }
+.st-svg .bar { fill: var(--blue); transition: opacity 200ms ease; }
+.st-svg .bar--max { fill: var(--navy); }
+.st-svg .bar--dim { opacity: 0.3; }
+.st-svg .hit { fill: transparent; cursor: pointer; }
+.st-svg .val { font-size: 15px; font-weight: 700; fill: var(--text); font-variant-numeric: tabular-nums; }
+.st-svg .lbl { font-size: 15px; fill: var(--muted); }
+.st-svg .base { stroke: var(--line); stroke-width: 1; }
+
+@media (orientation: portrait) {
+  .st-head { align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seg button, .st-svg .bar { transition: none; }
+}

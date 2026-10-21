@@ -4,9 +4,10 @@ import { createIdleTimer } from './idle.js';
 import { createRotator } from './rotator.js';
 import rezervasyon from './pages/rezervasyon.js';
 import anket from './pages/anket.js';
+import istatistik from './pages/istatistik.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
-const PAGE_MODULES = [rezervasyon, anket];
+const PAGE_MODULES = [rezervasyon, anket, istatistik];
 
 const stage = document.getElementById('stage');
 const dots = document.getElementById('dots');

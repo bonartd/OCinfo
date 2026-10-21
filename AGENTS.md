@@ -236,7 +236,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 | Sıra | Sayfa | Modül | Durum |
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
-| 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | 🧪 Deneme (Drive bağlantısı kurulacak) |
+| 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
 | 3 | En çok kullanılan ekipmanlar | — | Planlandı |
 | 4 | Ekipman kullanım yoğunlukları (grafikler) | — | Planlandı |
 

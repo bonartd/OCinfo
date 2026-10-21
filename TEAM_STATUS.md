@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/config.js`, `app/sw.js`, `AGENTS.md` | 2026-10-21 14:20 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -98,3 +98,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Güvenlik değerlendirmesi sonrası kullanıcı kararıyla anket yanıtları ortak "Mega Tablo - 2026" yerine **yalnızca anket için açılmış ayrı bir e-tabloya** yazılacak (adresi depoya yazılmadı; kullanıcıda). Betik tabloya **bağlı** hâle getirildi ve `appsscript.json` ile izni `spreadsheets.currentonly`'ye daraltıldı (hesaptaki diğer tablolara erişemez). "Yanıtlar" sayfası yoksa boş ilk sayfa yeniden adlandırılır. `doGet` artık tablo bilgisi döndürmüyor; `doPost` hata ayrıntısı sızdırmıyor. Önceki kayıttaki `SPREADSHEET_ID` / `openById` yaklaşımı kaldırıldı. Rehber ve AGENTS.md 3.6 güncellendi.
 - **Sıradaki adım:** Kullanıcı rehberdeki 7 adımla betiği anket tablosuna kurup Web uygulaması URL'sini verecek → `config.surveyEndpoint` + `sw.js` sürümü → gerçek gönderim testi.
 - **Commit:** `d319e92`
+
+### 2026-10-21 14:25 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/config.js`, `app/sw.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı, anket tablosuna bağlı Apps Script'i (odunccihaz@gmail.com hesabı, `spreadsheets.currentonly` izni) kurup Web uygulaması olarak dağıttı; adres `config.surveyEndpoint`'e yazıldı. `sw.js` → `ocinfo-v4`. Doğrulama: `doGet` yanıt veriyor; POST ile satır yazılıyor; aynı id ikinci kez yazılmıyor (`duplicate`); geçersiz puan reddediliyor; tarayıcıdan `text/plain` POST'ta CORS sorunu yok, yanıt okunabiliyor. AGENTS.md sayfa tablosunda Sayfa 2 "Hazır".
+- **Not:** Testler sırasında tabloya "TEST … (silinebilir)" adlı deneme satırları yazıldı; kullanıcı silebilir.
+- **Sıradaki adım:** iPad'de canlı adresle uçtan uca dene (çevrimdışı yanıtın bağlantı gelince gitmesi dahil). KVKK aydınlatma metnini kurumla teyit et. Sonra Sayfa 3 (en çok kullanılan ekipmanlar) — veri kaynağı belirlenmeli.
+- **Commit:** (doldurulacak)

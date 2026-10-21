@@ -13,5 +13,5 @@ export const config = {
   reservationUrl: 'https://odunccihaz.yasar.edu.tr/',
   // Memnuniyet anketi yanıtlarının gönderileceği Google Apps Script web uygulaması adresi
   // (docs/ANKET_KURULUM.md). Boşken yanıtlar iPad'de kuyrukta bekler, adres girilince gönderilir.
-  surveyEndpoint: '',
+  surveyEndpoint: 'https://script.google.com/macros/s/AKfycbymnv8CoAwFrMxn6SoeNmGLDYU8oWaXQXppWdbezJ1TAP7vWgOdaURk2rN8KogQQobbpg/exec',
 };

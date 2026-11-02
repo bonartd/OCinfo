@@ -1,7 +1,7 @@
-// Sayfa 3 — Ödünç Cihaz Sistemi kullanım bilgileri: açılır menüden seçilen etkileşimli grafikler.
-// Veri: data/istatistik.json (tools/veri/istatistik_olustur.py ile Excel'den üretilir; yalnızca
-// anonim rezervasyon sayımları, eğitim yılı bazında). Birden çok yıl varsa yıl seçimi görünür.
-// Grafikler kütüphanesiz, satır içi SVG'dir (AGENTS.md 3.5).
+// Sayfa 3 — Ödünç Cihaz Sistemi kullanım bilgileri: üç görsel özet kartı + açılır menüden
+// seçilen büyük grafik. Veri: data/istatistik.json (tools/veri/istatistik_olustur.py ile Excel'den
+// üretilir; yalnızca anonim rezervasyon sayımları, eğitim yılı bazında). Birden çok yıl varsa yıl
+// seçimi görünür. Grafikler kütüphanesiz, satır içi SVG'dir (AGENTS.md 3.5).
 
 import { log } from '../log.js';
 
@@ -27,7 +27,7 @@ const DEFAULT_VIEW = 'bolum';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const num = new Intl.NumberFormat('tr-TR');
-const pct = new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 1 });
+const pct = new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 });
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({
@@ -35,9 +35,14 @@ function esc(s) {
   }[c]));
 }
 
-function ayAdi(key, kisa) {
+function ayParca(key) {
   const [y, m] = key.split('-').map(Number);
-  return kisa ? `${AY_KISA[m - 1]} ${String(y).slice(2)}` : `${AYLAR[m - 1]} ${y}`;
+  return { ay: AYLAR[m - 1], kisa: AY_KISA[m - 1], yil: y };
+}
+
+function ayAdi(key, kisa) {
+  const p = ayParca(key);
+  return kisa ? `${p.kisa} ${String(p.yil).slice(2)}` : `${p.ay} ${p.yil}`;
 }
 
 function sumBy(rows, col) {
@@ -73,18 +78,7 @@ function aggregate(data, state) {
   return yil.aylar.map((a) => ({ label: ayAdi(a), short: ayAdi(a, true), value: m.get(a) || 0 }));
 }
 
-function kpis(data, state) {
-  const rows = data.yillar[state.yil].kayit;
-  const ay = maxEntry(sumBy(rows, C.ay));
-  const bolum = maxEntry(sumBy(rows, C.bolum), (k) => k === 'Diğer');
-  return {
-    rez: num.format(total(rows)),
-    enAy: ay ? ayAdi(ay[0]) : '—',
-    enBolum: bolum ? bolum[0] : '—',
-  };
-}
-
-// ---- SVG çubuk grafik (tek seri: tek renk, lejant yok, değerler çubukta) ----
+// ---- Özet kartları (iri sayı + küçük grafik) ----
 function svgEl(name, attrs, text) {
   const el = document.createElementNS(SVG_NS, name);
   Object.keys(attrs).forEach((k) => el.setAttribute(k, attrs[k]));
@@ -92,9 +86,42 @@ function svgEl(name, attrs, text) {
   return el;
 }
 
+// En yoğun ay kartı: 12 aylık mini çubuk şeridi, en yoğun ay koyu.
+function monthStrip(svg, yil, aylarMap, enAy) {
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const W = 120;
+  const H = 44;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  const max = Math.max(1, ...yil.aylar.map((a) => aylarMap.get(a) || 0));
+  const bw = W / yil.aylar.length;
+  yil.aylar.forEach((a, i) => {
+    const v = aylarMap.get(a) || 0;
+    const h = v ? Math.max(3, (H - 4) * (v / max)) : 2;
+    svg.appendChild(svgEl('rect', {
+      x: i * bw + 1, y: H - h, width: bw - 2, height: h, rx: 1.5,
+      class: a === enAy ? 'mini mini--max' : 'mini',
+    }));
+  });
+}
+
+// En çok kullanan bölüm kartı: toplam içindeki payı gösteren halka.
+function shareRing(svg, oran) {
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const r = 26;
+  const cev = 2 * Math.PI * r;
+  svg.setAttribute('viewBox', '0 0 64 64');
+  svg.appendChild(svgEl('circle', { cx: 32, cy: 32, r, class: 'ring-bg' }));
+  svg.appendChild(svgEl('circle', {
+    cx: 32, cy: 32, r, class: 'ring-fg',
+    'stroke-dasharray': `${(cev * oran).toFixed(1)} ${cev.toFixed(1)}`, transform: 'rotate(-90 32 32)',
+  }));
+}
+
+// ---- SVG çubuk grafik (tek seri: tek renk, lejant yok, değerler çubukta) ----
 // Yalnızca veri ucu yuvarlatılmış çubuk (taban düz).
 function barPath(x, y, w, h, horizontal) {
-  const r = Math.min(4, (horizontal ? h : w) / 2, horizontal ? w : h);
+  const r = Math.min(6, (horizontal ? h : w) / 2, horizontal ? w : h);
   if (horizontal) {
     return `M${x},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h - r}Q${x + w},${y + h} ${x + w - r},${y + h}H${x}Z`;
   }
@@ -113,7 +140,7 @@ function drawChart(svg, items, opts) {
   const sel = opts.selected;
   const horizontal = opts.horizontal;
   const g = svg.appendChild(svgEl('g', { class: horizontal ? 'chart chart--h' : 'chart chart--v' }));
-  const bottom = 40;
+  const bottom = 44;
 
   if (!horizontal) {
     g.appendChild(svgEl('line', { x1: 0, x2: W, y1: H - bottom + 0.5, y2: H - bottom + 0.5, class: 'base' }));
@@ -126,39 +153,33 @@ function drawChart(svg, items, opts) {
     if (sel !== null && sel !== i) cls.push('bar--dim');
 
     if (horizontal) {
-      // Dar ekranda (telefon) etiket çubuğun üstüne yazılır; geniş ekranda solda.
-      const stacked = W < 520;
-      const labelW = stacked ? 0 : Math.min(300, W * 0.36);
-      const labelH = stacked ? 22 : 0;
-      const valueW = 56;
+      // Ad çubuğun üstünde; çubuk tüm genişliği kullanır, değer çubuğun ucunda.
+      const labelH = 26;
+      const valueW = 64;
       const band = H / items.length;
-      h = Math.min(48, (band - labelH) * 0.74);
-      x = labelW;
-      w = Math.max(2, ((W - labelW - valueW) * d.value) / max);
+      h = Math.min(46, (band - labelH) * 0.82);
+      x = 0;
+      w = Math.max(4, ((W - valueW) * d.value) / max);
       y = i * band + labelH + (band - labelH - h) / 2;
       hit = svgEl('rect', { x: 0, y: i * band, width: W, height: band, class: 'hit' });
-      if (stacked) {
-        g.appendChild(svgEl('text', { x: 0, y: y - 6, class: 'lbl' }, d.label));
-      } else {
-        g.appendChild(svgEl('text', { x: labelW - 12, y: y + h / 2, class: 'lbl', 'text-anchor': 'end', 'dominant-baseline': 'central' }, d.label));
-      }
+      g.appendChild(svgEl('text', { x: 0, y: y - 8, class: 'lbl lbl--h' }, d.label));
       g.appendChild(svgEl('path', { d: barPath(x, y, w, h, true), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
-      g.appendChild(svgEl('text', { x: x + w + 8, y: y + h / 2, class: 'val', 'dominant-baseline': 'central' }, num.format(d.value)));
+      g.appendChild(svgEl('text', { x: x + w + 10, y: y + h / 2, class: 'val', 'dominant-baseline': 'central' }, num.format(d.value)));
     } else {
-      const top = 30;
+      const top = 40;
       const plotH = H - top - bottom;
       const band = W / items.length;
-      w = Math.min(110, band * 0.8);
-      h = d.value ? Math.max(2, (plotH * d.value) / max) : 0;
+      w = Math.min(150, band * 0.84);
+      h = d.value ? Math.max(3, (plotH * d.value) / max) : 0;
       x = i * band + (band - w) / 2;
       y = top + plotH - h;
       hit = svgEl('rect', { x: i * band, y: 0, width: band, height: H, class: 'hit' });
       if (h) g.appendChild(svgEl('path', { d: barPath(x, y, w, h, false), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
-      g.appendChild(svgEl('text', { x: x + w / 2, y: y - 8, class: 'val', 'text-anchor': 'middle' }, num.format(d.value)));
+      g.appendChild(svgEl('text', { x: x + w / 2, y: y - 10, class: 'val', 'text-anchor': 'middle' }, num.format(d.value)));
       // Dar sütunlarda yalnızca ilk kelime ("Eyl 25" → "Eyl").
       const label = d.short || d.label;
-      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 24, class: 'lbl', 'text-anchor': 'middle' },
-        band < 50 ? label.split(' ')[0] : label));
+      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 28, class: 'lbl', 'text-anchor': 'middle' },
+        band < 80 ? label.split(' ')[0] : label));
     }
     hit.setAttribute('data-i', i);
     hit.setAttribute('role', 'button');
@@ -185,14 +206,29 @@ export default {
 
     el.innerHTML = `
       <div class="st">
-        <header class="st-head">
-          <h2 class="section-title anim" style="--i:0">Ödünç Cihaz Sistemi Kullanım Bilgileri</h2>
-          <dl class="st-kpis">
-            <div class="anim" style="--i:1"><dt>Rezervasyon sayısı <span data-k="yil"></span></dt><dd data-k="rez"></dd></div>
-            <div class="anim" style="--i:2"><dt>En yoğun ay</dt><dd data-k="enAy"></dd></div>
-            <div class="anim" style="--i:3"><dt>En çok kullanan bölüm</dt><dd data-k="enBolum"></dd></div>
-          </dl>
-        </header>
+        <h2 class="section-title st-title anim" style="--i:0">Kullanım Bilgileri</h2>
+
+        <div class="st-kpis">
+          <div class="kpi card anim" style="--i:1">
+            <span class="kpi-val" data-k="rez"></span>
+            <span class="kpi-lbl">rezervasyon <span data-k="yil"></span></span>
+          </div>
+          <div class="kpi card anim" style="--i:2">
+            <span class="kpi-lbl">En yoğun ay</span>
+            <span class="kpi-val kpi-val--word" data-k="enAy"></span>
+            <svg class="kpi-strip" aria-hidden="true"></svg>
+          </div>
+          <div class="kpi kpi--ring card anim" style="--i:3">
+            <div class="kpi-ring">
+              <svg aria-hidden="true"></svg>
+              <span data-k="pay"></span>
+            </div>
+            <div>
+              <span class="kpi-lbl">En çok kullanan</span>
+              <span class="kpi-name" data-k="enBolum"></span>
+            </div>
+          </div>
+        </div>
 
         <section class="st-chart card anim" style="--i:4">
           <div class="st-chart-head">
@@ -209,12 +245,12 @@ export default {
               <div class="seg" role="group" data-name="yil">
                 ${years.map((y) => `<button type="button" data-v="${esc(y)}" aria-pressed="false">${esc(y)}</button>`).join('')}
               </div>` : ''}
+            <p class="st-detail" aria-live="polite"></p>
           </div>
-          <p class="st-detail" aria-live="polite"></p>
           <svg class="st-svg" role="img"></svg>
         </section>
 
-        <p class="source anim" style="--i:5">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları.</p>
+        <p class="source st-source anim" style="--i:5">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları.</p>
       </div>`;
 
     const svg = el.querySelector('.st-svg');
@@ -223,6 +259,9 @@ export default {
     const ddLabel = el.querySelector('.dd-label');
     const ddMenu = el.querySelector('.dd-menu');
     const yilSeg = el.querySelector('.seg[data-name="yil"]');
+    const strip = el.querySelector('.kpi-strip');
+    const ring = el.querySelector('.kpi-ring svg');
+    const k = (key) => el.querySelector(`[data-k="${key}"]`);
     let state = Object.assign({}, DEFAULT);
     let selected = null;
     let items = [];
@@ -232,18 +271,31 @@ export default {
       ddBtn.setAttribute('aria-expanded', String(open));
     }
 
+    // Ayrıntı yalnızca bir çubuğa dokununca görünür (az metin).
     function detailText() {
-      if (!items.length) return 'Bu yıl için veri yok.';
-      if (selected === null) {
-        const max = items.reduce((a, d) => (d.value > a.value ? d : a), items[0]);
-        return `En yüksek: <strong>${esc(max.label)}</strong> · ${num.format(max.value)} rezervasyon`;
-      }
+      if (selected === null || !items[selected]) return '';
       const sum = items.reduce((t, d) => t + d.value, 0) || 1;
       const d = items[selected];
-      return `<strong>${esc(d.label)}</strong> · ${num.format(d.value)} rezervasyon · toplam içindeki payı %${pct.format((d.value / sum) * 100)}`;
+      return `<strong>${esc(d.label)}</strong> · ${num.format(d.value)} · %${pct.format((d.value / sum) * 100)}`;
     }
 
-    // Dokunma seçimi grafiği yeniden çizmez (çubuklar yeniden büyümesin); yalnızca sınıflar değişir.
+    function updateKpis() {
+      const yil = data.yillar[state.yil];
+      const rows = yil.kayit;
+      const toplam = total(rows);
+      const aylar = sumBy(rows, C.ay);
+      const ay = maxEntry(aylar);
+      const bolum = maxEntry(sumBy(rows, C.bolum), (b) => b === 'Diğer');
+      k('rez').textContent = num.format(toplam);
+      k('yil').textContent = `· ${state.yil}`;
+      k('enAy').textContent = ay ? ayParca(ay[0]).ay : '—';
+      monthStrip(strip, yil, aylar, ay && ay[0]);
+      k('enBolum').textContent = bolum ? bolum[0] : '—';
+      const oran = bolum && toplam ? bolum[1] / toplam : 0;
+      k('pay').textContent = `%${pct.format(oran * 100)}`;
+      shareRing(ring, oran);
+    }
+
     function applySelection() {
       svg.querySelectorAll('.bar').forEach((b) => {
         b.classList.toggle('bar--dim', selected !== null && Number(b.getAttribute('data-i')) !== selected);
@@ -260,9 +312,7 @@ export default {
         yilSeg.hidden = state.view === 'yillar';
         yilSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === state.yil)));
       }
-      const k = kpis(data, state);
-      Object.keys(k).forEach((key) => { el.querySelector(`[data-k="${key}"]`).textContent = k[key]; });
-      el.querySelector('[data-k="yil"]').textContent = years.length > 1 ? `· ${state.yil}` : '';
+      updateKpis();
       svg.setAttribute('aria-label', `${view.etiket} rezervasyon grafiği`);
       drawChart(svg, items, { horizontal: state.view === 'bolum', selected });
       detail.innerHTML = detailText();

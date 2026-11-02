@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js` | 2026-11-02 19:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -239,3 +239,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Tarayıcıda (sahte uç nokta): teşekkür 5 sn sonra soru ekranına dönüyor, ikinci yanıt hemen verilebiliyor; rozet "2 yanıt gönderiliyor" → çevrimdışı "Çevrimdışı · 2 yanıt bekliyor" → gönderilince gizli.
 - **Sıradaki adım:** —
 - **Commit:** `3183cea`
+
+### 2026-11-02 19:30 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/assets/js/config.js`, `app/sw.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 3, Sayfa 1'deki görsel dile taşındı: başlık "Kullanım Bilgileri"; **solda üç özet kartı** — iri toplam ("845 rezervasyon · 2025-2026"), en yoğun ay (iri ay adı + 12 aylık mini çubuk şeridi, en yoğun ay koyu), en çok kullanan bölüm (toplam içindeki payı gösteren halka + iri yüzde + bölüm adı); **sağda büyük grafik** (açılır menü korunarak): bölüm grafiğinde ad çubuğun üstünde, çubuk tüm genişlikte (46 px), dikey çubuklar bandın %84'ü (≤150 px), değerler 17–22 px kalın, etiketler 15–18 px; "En yüksek: …" satırı kaldırıldı, ayrıntı yalnızca çubuğa dokununca (ad · sayı · %). Halka ve ay şeridi de girişte animasyonlu. Dar sütunda ay etiketi tek kelime (eşik 80 px). Dikeyde kartlar üstte 3 sütun; telefonda alt alta. `ocinfo-v18`.
+- **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de taşma yok; aylar grafiğinde etiket çakışması yok (12 ay); özet kartları ve tüm grafik türleri doğru; log çağrıları (grafik/yıl/çubuk) korunuyor.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

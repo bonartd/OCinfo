@@ -1,5 +1,6 @@
-// Sayfa 4 — Sisteme yeni eklenen ekipmanlar: görselli kartlar; karta dokununca görsel büyür.
-// Liste data/ekipmanlar.json'dadır; görseller assets/img/ekipman/ altında (520 px JPEG).
+// Sayfa 4 — Sisteme yeni eklenen ekipmanlar: görselli kartlar; karta dokununca kart döner,
+// arka yüzde temel özellikler görünür. Liste data/ekipmanlar.json'dadır; görseller
+// assets/img/ekipman/ altında (520 px JPEG).
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({
@@ -8,7 +9,9 @@ function esc(s) {
 }
 
 const IMG = 'assets/img/ekipman/';
-let kapat = () => {};
+// Ön yüzde "çevir" ipucu simgesi
+const DONDUR = '<svg class="eq-flip-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0113.7-5.6L20 9M20 4v5h-5M20 12a8 8 0 01-13.7 5.6L4 15M4 20v-5h5"/></svg>';
+let hepsiniKapat = () => {};
 
 export default {
   id: 'ekipman',
@@ -23,13 +26,23 @@ export default {
 
     const cards = list.map((e, i) => `
       <li class="eq-item anim" style="--i:${i + 1}">
-        <button type="button" class="eq-card card" data-i="${i}" aria-label="${esc(e.cihaz)}, ${esc(e.model)}, ${e.adet} adet — görseli büyüt">
-          <span class="eq-img"><img src="${IMG}${esc(e.gorsel)}" alt="" width="${e.en}" height="${e.boy}" draggable="false"></span>
-          <span class="eq-text">
-            <b class="eq-name">${esc(e.cihaz)}</b>
-            <span class="eq-model">${esc(e.model)}</span>
+        <button type="button" class="eq-card" aria-pressed="false"
+                aria-label="${esc(e.cihaz)}, ${esc(e.model)}, ${e.adet} adet — özellikleri göster">
+          <span class="eq-inner">
+            <span class="eq-face eq-front card">
+              <span class="eq-img"><img src="${IMG}${esc(e.gorsel)}" alt="" width="${e.en}" height="${e.boy}" draggable="false"></span>
+              <span class="eq-text">
+                <b class="eq-name">${esc(e.cihaz)}</b>
+                <span class="eq-model">${esc(e.model)}</span>
+              </span>
+              <span class="eq-count">${e.adet} adet</span>
+              ${DONDUR}
+            </span>
+            <span class="eq-face eq-back card" aria-hidden="true">
+              <b class="eq-back-model">${esc(e.cihaz)}</b>
+              <ul class="eq-specs">${(e.ozellik || []).map((o) => `<li>${esc(o)}</li>`).join('')}</ul>
+            </span>
           </span>
-          <span class="eq-count">${e.adet} adet</span>
         </button>
       </li>`).join('');
 
@@ -40,41 +53,28 @@ export default {
           <p class="eq-sum"><b>${list.length}</b> çeşit · <b>${adet}</b> adet</p>
         </header>
         <ul class="eq-grid">${cards}</ul>
-        <p class="source eq-source anim" style="--i:${list.length + 1}">Görseller temsilidir.</p>
-        <div class="eq-zoom" hidden role="dialog" aria-modal="true" aria-label="Ekipman görseli">
-          <figure class="eq-zoom-box card">
-            <img class="eq-zoom-img" alt="" draggable="false">
-            <figcaption>
-              <b class="eq-zoom-name"></b>
-              <span class="eq-zoom-model"></span>
-              <span class="eq-count eq-zoom-count"></span>
-            </figcaption>
-          </figure>
-          <p class="eq-zoom-hint">Kapatmak için dokun</p>
-        </div>
       </div>`;
 
-    const zoom = el.querySelector('.eq-zoom');
-    const zImg = zoom.querySelector('.eq-zoom-img');
+    const buttons = Array.from(el.querySelectorAll('.eq-card'));
+    const cevir = (btn, acik) => {
+      btn.classList.toggle('is-flipped', acik);
+      btn.setAttribute('aria-pressed', String(acik));
+      btn.querySelector('.eq-back').setAttribute('aria-hidden', String(!acik));
+    };
+    hepsiniKapat = () => buttons.forEach((b) => cevir(b, false));
 
-    kapat = () => { zoom.hidden = true; };
-
+    // Aynı anda tek kart açık: dokunulan döner, diğerleri ön yüze döner.
     el.querySelector('.eq-grid').addEventListener('click', (ev) => {
       const btn = ev.target.closest('.eq-card');
       if (!btn) return;
-      const e = list[Number(btn.dataset.i)];
-      zImg.src = IMG + e.gorsel;
-      zImg.alt = `${e.cihaz} — ${e.model}`;
-      zoom.querySelector('.eq-zoom-name').textContent = e.cihaz;
-      zoom.querySelector('.eq-zoom-model').textContent = e.model;
-      zoom.querySelector('.eq-zoom-count').textContent = `${e.adet} adet`;
-      zoom.hidden = false;
+      const acik = !btn.classList.contains('is-flipped');
+      buttons.forEach((b) => { if (b !== btn) cevir(b, false); });
+      cevir(btn, acik);
     });
-    zoom.addEventListener('click', () => kapat());
   },
 
-  // Hareketsizlikte / sayfa sıfırlanınca büyütülmüş görsel kapanır.
+  // Hareketsizlikte / sayfa sıfırlanınca kartlar ön yüze döner.
   reset() {
-    kapat();
+    hepsiniKapat();
   },
 };

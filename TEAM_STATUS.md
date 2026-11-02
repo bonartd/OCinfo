@@ -287,3 +287,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de taşma ve kaydırma yok (telefonda dikey kayar), tüm görseller yükleniyor, büyütme penceresi ekrana sığıyor. Geçici PDF kopyası silindi.
 - **Sıradaki adım:** Gerçek iPad'de görsel netliği kontrolü; yeni ekipman geldikçe JSON + görsel eklenir.
 - **Commit:** `4cd5a9a`
+
+### 2026-11-02 23:55 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/ekipman.js`, `app/data/ekipmanlar.json`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 4'te "Görseller temsilidir." notu kaldırıldı; görsel büyütme penceresi yerine **dönen kart** yapıldı: karta dokununca kart 3B döner (yalnızca transform), lacivert arka yüzde cihaz adı ve **3 temel özellik** görünür; aynı anda tek kart açık, tekrar dokununca / başka karta dokununca / hareketsizlikte ön yüze döner. Ön yüzün sağ altında küçük "çevir" simgesi. Özellikler üretici/satıcı sayfalarından derlendi (`ekipmanlar.json` → `ozellik`; ör. FX30 Super 35 26 MP, 4K 120p; Osmo Pocket 4 1 inç, 4K 240 fps; VB99 Lite 99 Wh, USB-C PD 65 W; MK290XTA3 ~171 cm). `ocinfo-v24`.
+- **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de hiçbir arka yüzde taşma yok, sayfa kaydırması yok (telefonda dikey kayar); reset() açık kartı kapatıyor.
+- **Not:** Aktif çalışma satırı bu kısa düzeltmede eklenmedi (tek oturum, aynı dosyalar).
+- **Sıradaki adım:** Özellik metinlerini ofis personeli kontrol edebilir.
+- **Commit:** (doldurulacak)

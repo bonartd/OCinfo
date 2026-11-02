@@ -674,22 +674,58 @@ input, textarea {
   gap: var(--gap);
 }
 .eq-item { min-width: 0; min-height: 0; display: flex; }
+/* Döner kart: ön yüz görsel + ad, arka yüz temel özellikler (yalnızca transform, AGENTS.md 3.5) */
 .eq-card {
-  position: relative;
   flex: 1 1 auto;
   display: flex;
-  flex-direction: column;
   min-width: 0;
   min-height: 0;
-  padding: 12px;
-  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
   font: inherit;
   color: inherit;
   text-align: left;
   cursor: pointer;
-  transition: transform 160ms ease;
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
 }
-.eq-card:active { transform: scale(0.97); }
+.eq-inner {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  min-width: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  transition: transform 520ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.eq-card.is-flipped .eq-inner { transform: rotateY(180deg); }
+.eq-face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  min-width: 0;
+}
+.eq-front {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 10px;
+}
+.eq-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: clamp(14px, 1.6vw, 20px);
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+  transform: rotateY(180deg);
+}
 /* Görsel kartın büyük kısmını kaplar; oranı korunur, kesilmez. */
 .eq-img {
   flex: 1 1 auto;
@@ -702,7 +738,7 @@ input, textarea {
   overflow: hidden;
 }
 .eq-img img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 8px; }
-.eq-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.eq-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-right: 26px; }
 .eq-name { font-size: clamp(16px, 1.75vw, 21px); font-weight: 800; color: var(--navy); line-height: 1.2; }
 .eq-model { font-size: clamp(13px, 1.3vw, 16px); color: var(--muted); line-height: 1.25; }
 .eq-count {
@@ -716,50 +752,48 @@ input, textarea {
   font-size: 15px;
   font-weight: 700;
 }
-.eq-source { text-align: right; }
-
-/* Büyütülmüş görsel (karta dokununca; dokununca kapanır) */
-.eq-zoom {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 24px;
-  background: rgba(11, 37, 69, 0.82);
-  animation: oc-fade 220ms ease both;
+.eq-flip-ico {
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.eq-zoom[hidden] { display: none; }
-.eq-zoom-box {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 22px;
-  max-width: min(760px, 92vw);
-  max-height: 84vh;
-  animation: oc-enter 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+.eq-back-model { font-size: clamp(17px, 2vw, 22px); font-weight: 800; line-height: 1.2; }
+.eq-specs { display: flex; flex-direction: column; gap: 8px; }
+.eq-specs li {
+  position: relative;
+  padding-left: 16px;
+  font-size: clamp(15px, 1.65vw, 18px);
+  line-height: 1.3;
 }
-.eq-zoom-img { display: block; min-height: 0; max-width: 100%; max-height: 62vh; margin: 0 auto; object-fit: contain; border-radius: 12px; }
-.eq-zoom-box figcaption { position: relative; display: flex; flex-direction: column; gap: 4px; padding-right: 100px; }
-.eq-zoom-name { font-size: clamp(24px, 3vw, 34px); font-weight: 800; color: var(--navy); }
-.eq-zoom-model { font-size: clamp(18px, 2vw, 22px); color: var(--muted); }
-.eq-zoom-count { top: 4px; right: 0; font-size: 18px; padding: 6px 14px; }
-.eq-zoom-hint { color: rgba(255, 255, 255, 0.85); font-size: 16px; }
+.eq-specs li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7fb2f0;
+}
 
 /* Dikey iPad: iki sütun, görsel solda, yazı sağda */
 @media (orientation: portrait) {
   .eq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, minmax(0, 1fr)); }
-  .eq-card { flex-direction: row; align-items: center; gap: 14px; }
+  .eq-front { flex-direction: row; align-items: center; gap: 14px; }
   .eq-img { flex: 0 0 52%; height: 100%; }
   .eq-text { flex: 1 1 auto; }
+  .eq-back { gap: 8px; }
+  .eq-specs { gap: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .eq-card { transition: none; }
-  .eq-zoom, .eq-zoom-box { animation: none; }
+  .eq-inner { transition: none; }
 }
 
 /* ===== Telefon (app.js: html.is-phone — ekranın kısa kenarı < config.phoneMaxShortSide) ===== */
@@ -816,9 +850,11 @@ html:not(.is-phone) .phone-only { display: none !important; }
 /* Yeni ekipmanlar: iki sütun, sayfa aşağı kayar, görsele sabit yükseklik verilir. */
 .is-phone .eq { height: auto; min-height: 0; }
 .is-phone .eq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; }
-.is-phone .eq-card { flex-direction: column; align-items: stretch; padding: 10px; gap: 8px; }
+.is-phone .eq-front { flex-direction: column; align-items: stretch; padding: 10px; gap: 8px; }
+.is-phone .eq-back { padding: 12px; gap: 8px; }
+.is-phone .eq-specs li { font-size: 13px; }
+.is-phone .eq-back-model { font-size: 15px; }
 .is-phone .eq-img { flex: none; height: 130px; }
 .is-phone .eq-name { font-size: 16px; }
 .is-phone .eq-model { font-size: 13px; }
 .is-phone .eq-count { font-size: 13px; padding: 3px 8px; }
-.is-phone .eq-source { text-align: left; }

@@ -238,4 +238,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı kararıyla **60 sn bekleme kuralı şimdilik kapatıldı** (`config.surveyCooldownSec: 0`; yoğunluk olursa yeniden açılacak). Teşekkür ekranı bekleme kuralından bağımsız en az 5 sn görünür (`THANKS_SEC`). **Bekleyen yanıt rozeti:** üst çubukta çevrimdışıyken "Çevrimdışı · N yanıt bekliyor" (sarı), bağlıyken gönderilemeyen yanıt varsa "N yanıt gönderiliyor" (mavi), hepsi gidince gizli (`anket.js` → `bekleyenYanit()`, `app.js` her saniye günceller). Bilgi: anket kuyruğunun adet/süre sınırı yok; Safari localStorage ~5 MB → binlerce yanıt; risk süre değil, uygulamanın ana ekrandan silinmesi / Safari verisinin temizlenmesi (belgelere uyarı eklendi). `config.appVersion` ve `sw.js` → `ocinfo-v17`.
 - **Doğrulama:** Tarayıcıda (sahte uç nokta): teşekkür 5 sn sonra soru ekranına dönüyor, ikinci yanıt hemen verilebiliyor; rozet "2 yanıt gönderiliyor" → çevrimdışı "Çevrimdışı · 2 yanıt bekliyor" → gönderilince gizli.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `3183cea`

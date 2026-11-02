@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `app/assets/js/pages/rezervasyon.js`, `app/data/kurallar.json`, `app/assets/css/app.css`, `app/assets/js/pages/{anket,istatistik}.js`, `app/sw.js`, `AGENTS.md` | 2026-11-02 10:00 |
 
 ---
 

@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `app/assets/js/log.js`, `app/assets/js/{app,config,rotator}.js`, `app/assets/js/pages/*.js`, `app/sw.js`, `tools/google-apps-script/anket.gs`, `docs/KULLANIM_LOGU.md`, `docs/ANKET_KURULUM.md`, `AGENTS.md` | 2026-11-02 16:00 |
 
 ---
 

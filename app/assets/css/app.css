@@ -630,11 +630,17 @@ input, textarea {
 .page.is-active .chart .val { animation: oc-fade 300ms ease 450ms both; }
 .page.is-active .chart .bar { animation-delay: calc(250ms + var(--i, 0) * 40ms); }
 .st-svg .bar--max { fill: var(--navy); }
+.st-svg .bar--muted { fill: #b9c3d3; }
 .st-svg .bar--dim { opacity: 0.3; }
 .st-svg .hit { fill: transparent; cursor: pointer; }
 .st-svg .val { font-size: clamp(17px, 2.6vh, 22px); font-weight: 800; fill: var(--navy); font-variant-numeric: tabular-nums; }
 .st-svg .lbl { font-size: clamp(15px, 2.2vh, 18px); font-weight: 600; fill: var(--muted); }
 .st-svg .lbl--h { font-weight: 700; fill: var(--text); }
+.st-svg .val--sm { font-size: clamp(13px, 1.9vh, 16px); }
+.st-note { margin: -4px 0 6px; font-size: clamp(13px, 1.8vh, 15px); color: var(--muted); }
+.st-note[hidden] { display: none; }
+.dd[hidden] { display: none; }
+.dd-menu--yil { max-height: min(60vh, 480px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .st-svg .base { stroke: var(--line); stroke-width: 1; }
 
 /* Dikey iPad: özet kartları üstte yan yana, grafik altta */

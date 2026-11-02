@@ -12,3 +12,6 @@ node_modules/
 *.csv
 # Sentetik örnek dosyalar (kişisel veri içermez) depoda tutulur
 !docs/ornekler/*.xlsx
+
+# Proje sorumlusu → bölüm eşlemesi (kişi adı içerir) yalnızca yerelde tutulur
+tools/veri/sorumlu_bolum.json

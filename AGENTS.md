@@ -176,13 +176,18 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 - **Ham veri (Excel/CSV) depoya ASLA girmez** (`.gitignore`: `*.xlsx`, `*.xls`, `*.csv`); kişisel
   bilgi (ad soyad vb.) içerir ve depo herkese açıktır. İstatistikler yalnızca
   `tools/veri/istatistik_olustur.py` ile üretilen **anonim rezervasyon sayımları** olarak
-  yayınlanır. Kurallar: veri **eğitim yılı** (1 Eylül – 31 Ağustos) bazında tutulur; yalnızca
-  **tamamlanmış** eğitim yılları alınır; **Medya Merkezi Müdürlüğü** (personel) kayıtları ve
-  **sınıf bilgisi 1–4 olmayan** (ör. "0") kayıtlar hiçbir yerde kullanılmaz;
-  bir yılda 5 kişiden az kullanıcılı birimler "Diğer"de birleştirilir; yalnızca rezervasyon
-  sayısı gösterilir (kişi sayısı yok). Önceki yıllar eklenirken betik yalnızca verilen
-  dosyalardaki yılları yeniler, diğer yılları korur; sütunlar başlık adından bulunur. Betik
-  teslim alma / iade günü ve saatini de JSON'a yazar ancak sayfada şu an gösterilmez. Güncelleme:
+  yayınlanır. Kurallar: veri **eğitim yılı** (1 Eylül – 31 Ağustos) bazında tutulur — "YY-YY Kayıtlar"
+  sayfalarında yıl **sayfa adından** ("20-21" → 2020-2021), tek sayfalı dosyada tarihten alınır;
+  yalnızca **tamamlanmış** eğitim yılları alınır; aynı yıl birden çok kaynakta varsa **kaydı en çok**
+  olan kaynak kullanılır. **Medya Merkezi** (personel) ve sınıfı açıkça **"0"** olan kayıtlar hiçbir
+  yerde kullanılmaz; sınıfı **boş** eski kayıtlar sayılır ama sınıf grafiğinde görünmez (not satırı
+  oranı yazar). Bölümü belirtilmemiş kayıtlar **proje sorumlusuna göre** bölüme bağlanır
+  (kişi adı içerdiğinden **yalnızca yerel** `tools/veri/sorumlu_bolum.json` — `.gitignore`; şablon:
+  `sorumlu_bolum.ornek.json`; dosyayı depo sahibinden alın); bağlanamayanlar "Belirtilmemiş" olur ve grafikte çubuk
+  değil, not satırında sayı olarak gösterilir. Bilinen bölümler (Film Tasarımı ve Endüstriyel Tasarım
+  dahil) kendi adıyla, diğer birimler "Diğer" altında; "Animasyon" → Çizgi Film ve Animasyon,
+  "Yeni Medya ve Gazetecilik" → Yeni Medya ve İletişim. Yalnızca rezervasyon sayısı (bölüm × sınıf × ay)
+  yayınlanır; kişi, proje sorumlusu, açıklama yazılmaz. Güncelleme:
   `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya1>.xlsx" ["<dosya2>.xlsx" …]`
   → `app/data/istatistik.json` değişir → `sw.js` sürümünü artır → commit/push.
 - Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. **Bölüm
@@ -282,7 +287,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar (zaman şeridi + 8 simgeli kart; metinler `kurallar.json` → `ekran`) | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda açılır menülü büyük grafik: bölüm / sınıf / ay / yıl) | `pages/istatistik.js` | ✅ Hazır |
+| 3 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
 | 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`

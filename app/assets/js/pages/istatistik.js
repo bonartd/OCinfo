@@ -14,8 +14,8 @@ const SINIFLAR = [
   { id: '4', etiket: '4. sınıf' },
 ];
 
-// Kayıt sütunları: [bölüm, sınıf, ay, teslim günü, iade günü, teslim saati, iade saati, sayı]
-const C = { bolum: 0, sinif: 1, ay: 2, n: 7 };
+// Kayıt sütunları: [bölüm, sınıf ("" = bilinmiyor), "YYYY-AA", rezervasyon sayısı]
+const C = { bolum: 0, sinif: 1, ay: 2, n: 3 };
 
 const VIEWS = [
   { id: 'bolum', etiket: 'Bölümlere göre' },
@@ -58,17 +58,28 @@ function maxEntry(m, skip) {
 }
 
 const total = (rows) => rows.reduce((t, r) => t + r[C.n], 0);
+const BELIRSIZ = 'Belirtilmemiş';
+const DIGER = 'Diğer';
+// Bölüm sıralaması: gerçek bölümler (çoktan aza), en sonda Diğer.
+const sonaKalan = (label) => (label === DIGER ? 1 : 0);
+// "2015-2016" → "15-16"
+const kisaYil = (y) => `${y.slice(2, 4)}-${y.slice(7, 9)}`;
 
 // ---- Seçili yıl ve görünüm için grafik kalemleri ----
 function aggregate(data, state) {
   if (state.view === 'yillar') {
-    return Object.keys(data.yillar).map((y) => ({ label: `${y} eğitim yılı`, short: y, value: total(data.yillar[y].kayit) }));
+    return Object.keys(data.yillar).map((y) => ({
+      label: `${y} eğitim yılı${data.yillar[y].kismi ? ' (kısmi)' : ''}`,
+      short: y, tiny: kisaYil(y), value: total(data.yillar[y].kayit),
+    }));
   }
   const yil = data.yillar[state.yil];
   const rows = yil.kayit;
   if (state.view === 'bolum') {
+    // "Belirtilmemiş" çubuk olarak çizilmez (ölçeği bozar); sayısı not satırında verilir.
     return Array.from(sumBy(rows, C.bolum), ([label, value]) => ({ label, value }))
-      .sort((a, b) => (a.label === 'Diğer') - (b.label === 'Diğer') || b.value - a.value);
+      .filter((d) => d.label !== BELIRSIZ)
+      .sort((a, b) => sonaKalan(a.label) - sonaKalan(b.label) || b.value - a.value);
   }
   if (state.view === 'sinif') {
     const m = sumBy(rows, C.sinif);
@@ -136,7 +147,8 @@ function drawChart(svg, items, opts) {
   if (!items.length) return;
 
   const max = Math.max(1, ...items.map((d) => d.value));
-  const maxIdx = items.findIndex((d) => d.value === max);
+  const vurgu = Math.max(...items.filter((d) => !d.muted).map((d) => d.value));
+  const maxIdx = items.findIndex((d) => !d.muted && d.value === vurgu);
   const sel = opts.selected;
   const horizontal = opts.horizontal;
   const g = svg.appendChild(svgEl('g', { class: horizontal ? 'chart chart--h' : 'chart chart--v' }));
@@ -150,6 +162,7 @@ function drawChart(svg, items, opts) {
     let x; let y; let w; let h; let hit;
     const cls = ['bar'];
     if (i === maxIdx) cls.push('bar--max');
+    if (d.muted) cls.push('bar--muted');
     if (sel !== null && sel !== i) cls.push('bar--dim');
 
     if (horizontal) {
@@ -175,11 +188,14 @@ function drawChart(svg, items, opts) {
       y = top + plotH - h;
       hit = svgEl('rect', { x: i * band, y: 0, width: band, height: H, class: 'hit' });
       if (h) g.appendChild(svgEl('path', { d: barPath(x, y, w, h, false), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
-      g.appendChild(svgEl('text', { x: x + w / 2, y: y - 10, class: 'val', 'text-anchor': 'middle' }, num.format(d.value)));
+      // Çok sütunlu grafikte (ör. 11 yıl) değer yazısı daralır.
+      g.appendChild(svgEl('text', { x: x + w / 2, y: y - 10, class: band < 60 ? 'val val--sm' : 'val', 'text-anchor': 'middle' }, num.format(d.value)));
       // Dar sütunlarda yalnızca ilk kelime ("Eyl 25" → "Eyl").
       const label = d.short || d.label;
-      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 28, class: 'lbl', 'text-anchor': 'middle' },
-        band < 80 ? label.split(' ')[0] : label));
+      let metin = label;
+      if (d.tiny) metin = band < 100 ? d.tiny : label;
+      else if (band < 80) metin = label.split(' ')[0];
+      g.appendChild(svgEl('text', { x: x + w / 2, y: H - bottom + 28, class: 'lbl', 'text-anchor': 'middle' }, metin));
     }
     hit.setAttribute('data-i', i);
     hit.setAttribute('role', 'button');
@@ -242,11 +258,18 @@ export default {
               </ul>
             </div>
             ${years.length > 1 ? `
-              <div class="seg" role="group" data-name="yil">
-                ${years.map((y) => `<button type="button" data-v="${esc(y)}" aria-pressed="false">${esc(y)}</button>`).join('')}
+              <div class="dd dd--yil">
+                <button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="dd-label"></span>
+                  <svg class="dd-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-7 9z"/></svg>
+                </button>
+                <ul class="dd-menu dd-menu--yil" role="listbox" hidden>
+                  ${years.slice().reverse().map((y) => `<li><button type="button" role="option" data-v="${esc(y)}" aria-selected="false">${esc(y)}${data.yillar[y].kismi ? ' (kısmi)' : ''}</button></li>`).join('')}
+                </ul>
               </div>` : ''}
             <p class="st-detail" aria-live="polite"></p>
           </div>
+          <p class="st-note" hidden></p>
           <svg class="st-svg" role="img"></svg>
         </section>
 
@@ -255,10 +278,13 @@ export default {
 
     const svg = el.querySelector('.st-svg');
     const detail = el.querySelector('.st-detail');
-    const ddBtn = el.querySelector('.dd-btn');
-    const ddLabel = el.querySelector('.dd-label');
-    const ddMenu = el.querySelector('.dd-menu');
-    const yilSeg = el.querySelector('.seg[data-name="yil"]');
+    const ddBtn = el.querySelector('.dd:not(.dd--yil) .dd-btn');
+    const ddLabel = el.querySelector('.dd:not(.dd--yil) .dd-label');
+    const ddMenu = el.querySelector('.dd:not(.dd--yil) .dd-menu');
+    const yilDd = el.querySelector('.dd--yil');
+    const yilBtn = yilDd && yilDd.querySelector('.dd-btn');
+    const yilMenu = yilDd && yilDd.querySelector('.dd-menu');
+    const note = el.querySelector('.st-note');
     const strip = el.querySelector('.kpi-strip');
     const ring = el.querySelector('.kpi-ring svg');
     const k = (key) => el.querySelector(`[data-k="${key}"]`);
@@ -269,6 +295,33 @@ export default {
     function openMenu(open) {
       ddMenu.hidden = !open;
       ddBtn.setAttribute('aria-expanded', String(open));
+    }
+    function openYil(open) {
+      if (!yilMenu) return;
+      yilMenu.hidden = !open;
+      yilBtn.setAttribute('aria-expanded', String(open));
+    }
+
+    // Tek satırlık açıklama: kısmi yıl, bölümü belirtilmemiş kayıtlar, eksik sınıf bilgisi.
+    function noteText() {
+      const yil = data.yillar[state.yil];
+      if (state.view === 'yillar') {
+        const k = years.filter((y) => data.yillar[y].kismi);
+        return k.length ? `${k.join(', ')} kısmi yıldır (yalnızca kayıtlı aylar).` : '';
+      }
+      const parca = [];
+      if (yil.kismi) parca.push(`${state.yil} kısmi yıldır (yalnızca kayıtlı aylar).`);
+      if (state.view === 'bolum') {
+        const t = total(yil.kayit);
+        const b = sumBy(yil.kayit, C.bolum).get(BELIRSIZ) || 0;
+        if (b) parca.push(`Bölüm bilgisi olmayan ${num.format(b)} kayıt (%${pct.format((b / t) * 100)}) grafikte yok.`);
+      }
+      if (state.view === 'sinif') {
+        const t = total(yil.kayit);
+        const bilinen = items.reduce((s, d) => s + d.value, 0);
+        if (bilinen < t) parca.push(`Sınıf bilgisi olan kayıtlar: %${pct.format((bilinen / t) * 100)} (${num.format(bilinen)} / ${num.format(t)}).`);
+      }
+      return parca.join(' ');
     }
 
     // Ayrıntı yalnızca bir çubuğa dokununca görünür (az metin).
@@ -285,7 +338,8 @@ export default {
       const toplam = total(rows);
       const aylar = sumBy(rows, C.ay);
       const ay = maxEntry(aylar);
-      const bolum = maxEntry(sumBy(rows, C.bolum), (b) => b === 'Diğer');
+      // "Diğer" ve "Belirtilmemiş" bölüm sayılmaz.
+      const bolum = maxEntry(sumBy(rows, C.bolum), (b) => b === DIGER || b === BELIRSIZ);
       k('rez').textContent = num.format(toplam);
       k('yil').textContent = `· ${state.yil}`;
       k('enAy').textContent = ay ? ayParca(ay[0]).ay : '—';
@@ -308,17 +362,21 @@ export default {
       const view = VIEWS.find((v) => v.id === state.view);
       ddLabel.textContent = view.etiket;
       ddMenu.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.v === state.view)));
-      if (yilSeg) {
-        yilSeg.hidden = state.view === 'yillar';
-        yilSeg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === state.yil)));
+      if (yilDd) {
+        yilDd.hidden = state.view === 'yillar';
+        yilDd.querySelector('.dd-label').textContent = state.yil;
+        yilMenu.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.v === state.yil)));
       }
       updateKpis();
       svg.setAttribute('aria-label', `${view.etiket} rezervasyon grafiği`);
       drawChart(svg, items, { horizontal: state.view === 'bolum', selected });
       detail.innerHTML = detailText();
+      const n = noteText();
+      note.textContent = n;
+      note.hidden = !n;
     }
 
-    ddBtn.addEventListener('click', () => openMenu(ddMenu.hidden));
+    ddBtn.addEventListener('click', () => { openYil(false); openMenu(ddMenu.hidden); });
     ddMenu.addEventListener('click', (e) => {
       const opt = e.target.closest('button[data-v]');
       if (!opt) return;
@@ -330,15 +388,17 @@ export default {
     });
     // Menü dışına dokununca kapanır.
     el.addEventListener('click', (e) => {
-      if (!ddMenu.hidden && !e.target.closest('.dd')) openMenu(false);
+      if (!e.target.closest('.dd')) { openMenu(false); openYil(false); }
     });
 
-    if (yilSeg) {
-      yilSeg.addEventListener('click', (e) => {
+    if (yilDd) {
+      yilBtn.addEventListener('click', () => { openMenu(false); openYil(yilMenu.hidden); });
+      yilMenu.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-v]');
         if (!btn) return;
         state.yil = btn.dataset.v;
         selected = null;
+        openYil(false);
         log('Yıl seçildi', { ayrinti: state.yil });
         update();
       });
@@ -364,6 +424,7 @@ export default {
       state = Object.assign({}, DEFAULT);
       selected = null;
       openMenu(false);
+      openYil(false);
       update();
     };
     update();

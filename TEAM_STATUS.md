@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `tools/veri/istatistik_olustur.py`, `app/data/istatistik.json`, `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md` | 2026-11-02 20:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -247,3 +247,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de taşma yok; aylar grafiğinde etiket çakışması yok (12 ay); özet kartları ve tüm grafik türleri doğru; log çağrıları (grafik/yıl/çubuk) korunuyor.
 - **Sıradaki adım:** —
 - **Commit:** `d64d0c9`
+
+### 2026-11-02 21:00 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `tools/veri/istatistik_olustur.py`, `tools/veri/sorumlu_bolum.ornek.json` (yeni), `.gitignore`, `app/data/istatistik.json`, `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/assets/js/config.js`, `app/sw.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcının verdiği "2016-2025 Eğitim Yıllarına Ait Ödünç Cihaz Ofisi Verileri.xlsx" (sayfalar "15-16 Kayıtlar" … "25-26 Kayıtlar"; "Bölümler"/"Kullanıcılar" özetleri atlandı) Sayfa 3'e eklendi. **Betik:** yıl sayfa adından; aynı yıl iki kaynakta varsa kaydı çok olan seçilir (2025-26 için ayrı dosya, 845 kayıt; eski dosyadaki 4 kayıtlık parça elendi); Medya Merkezi ve sınıf "0" hariç, boş sınıf dahil (bilinmiyor); bölümü belirtilmemiş kayıtlar kullanıcının verdiği 14 kişilik proje sorumlusu → bölüm eşlemesiyle bağlandı (1.526 kayıt) — eşleme kişi adı içerdiği için depoda değil, yerel `tools/veri/sorumlu_bolum.json`'da (.gitignore; depoda adsız şablon `sorumlu_bolum.ornek.json`); Film Tasarımı ve Endüstriyel Tasarım kendi adıyla; "Animasyon" → Çizgi Film ve Animasyon, "Yeni Medya ve Gazetecilik" → Yeni Medya ve İletişim; diğer birimler (Video Tasarımcısı, Web Ofisi, Sosyal Medya, Radyo Program Yapımcısı vb.) "Diğer"; "5 kişiden az → Diğer" kuralı kaldırıldı; kısmi yıl işareti (2015-16: Ocak–Ağustos 2016); veri küpü bölüm × sınıf × ay'a indirildi (269 KB → 39 KB). Sonuç: 11 yıl, **10.370 rezervasyon**. **Sayfa 3:** yıl seçimi açılır menü ("2025-2026 ▼", kısmi yıllar işaretli), "Yıllara göre" 11 sütun (dar ekranda "15-16"); "Belirtilmemiş" çubuk değil not satırında ("Bölüm bilgisi olmayan 1.613 kayıt (%84) grafikte yok."); sınıf görünümünde bilinen sınıf oranı notu; kısmi yıl notu; "En çok kullanan" Diğer ve Belirtilmemiş'i saymaz. `ocinfo-v19`.
+- **Doğrulama:** Toplamlar betik çıktısıyla aynı; JSON'da ad yok; 1080×810 ve 375×812'de taşma yok; yıl menüsü telefonda kaydırılabilir; tüm görünüm/yıl kombinasyonları denendi. Geçici Excel kopyaları silindi.
+- **Açık konu:** Eski yıllarda bölümsüz kaydın çoğunda proje sorumlusu da boş (4.249). Eşlemede olmayan ve çok kaydı olan başka proje sorumluları da var (en kalabalık 9 kişi ~1.300 kayıt); kullanıcıya soruldu. (Adlar burada yazılmaz.)
+- **Commit:** (doldurulacak)

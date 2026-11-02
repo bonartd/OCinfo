@@ -3,7 +3,7 @@ import { config } from './config.js';
 import { createIdleTimer } from './idle.js';
 import { createRotator } from './rotator.js';
 import rezervasyon from './pages/rezervasyon.js';
-import anket from './pages/anket.js';
+import anket, { bekleyenYanit } from './pages/anket.js';
 import istatistik from './pages/istatistik.js';
 import {
   initLog, log, setSayfa, sayfaAdi, oturumBasladi, oturumBitti,
@@ -58,8 +58,8 @@ async function init() {
   if (isPhone) {
     const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
     log('Uygulama açıldı', { ayrinti: standalone ? 'Ana ekran (PWA)' : 'Tarayıcı' });
-    // Yalnızca saat; sayfalar arasında noktalar ve kaydırma ile geçilir.
-    setInterval(updateClock, 1000);
+    // Yalnızca saat ve rozet; sayfalar arasında noktalar ve kaydırma ile geçilir.
+    setInterval(() => { updateClock(); updateOnline(); }, 1000);
     updateClock();
     return;
   }
@@ -97,6 +97,7 @@ async function init() {
   setInterval(() => {
     idle.tick();
     updateClock();
+    updateOnline();
     if (reloadAt && Date.now() >= reloadAt && idle.isIdle()) {
       log('Gece yenilemesi', { sistem: true, ayrinti: `Uygulama ${String(config.nightlyReloadHour).padStart(2, '0')}:00'te kendini yeniledi` });
       location.reload();
@@ -126,8 +127,15 @@ function updateClock() {
     + '<span class="clock-date">' + dateFmt.format(now) + '</span>';
 }
 
+// Üst çubuk rozeti: çevrimdışıyken ya da gönderilmeyi bekleyen anket yanıtı varken görünür.
+// Ofis personeli iPad'i sıfırlamadan / uygulamayı silmeden önce bekleyen veri var mı görebilir.
 function updateOnline() {
-  offline.hidden = navigator.onLine;
+  const n = bekleyenYanit();
+  const online = navigator.onLine;
+  offline.hidden = online && n === 0;
+  offline.classList.toggle('offline--sending', online);
+  const text = !online ? (n ? `Çevrimdışı · ${n} yanıt bekliyor` : 'Çevrimdışı') : `${n} yanıt gönderiliyor`;
+  if (offline.textContent !== text) offline.textContent = text;
 }
 let offlineSince = 0;
 window.addEventListener('online', () => {

@@ -1,7 +1,7 @@
 // OCinfo ayarları — kiosk davranışı buradan değiştirilir.
 export const config = {
   // Uygulama sürümü (kullanım loguna yazılır). sw.js'deki CACHE ile BİRLİKTE güncelleyin.
-  appVersion: 'ocinfo-v16',
+  appVersion: 'ocinfo-v17',
   // Hiç dokunulmazsa ilk sayfaya dönüş ve otomatik geçişin yeniden başlaması (saniye)
   idleTimeoutSec: 90,
   // Otomatik geçişte her sayfanın varsayılan ekranda kalma süresi (saniye).
@@ -17,7 +17,8 @@ export const config = {
   // Sayfa 1'de QR yerine rezervasyon düğmesi gösterilir.
   phoneMaxShortSide: 600,
   // Bir anket yanıtından sonra yeni yanıt alınmadan önce beklenecek süre (saniye).
-  surveyCooldownSec: 60,
+  // Şimdilik kapalı (0); yoğunluk/kötüye kullanım olursa ör. 60 yapın.
+  surveyCooldownSec: 0,
   // Memnuniyet anketi yanıtlarının gönderileceği Google Apps Script web uygulaması adresi
   // (docs/ANKET_KURULUM.md). Boşken yanıtlar iPad'de kuyrukta bekler, adres girilince gönderilir.
   surveyEndpoint: 'https://script.google.com/macros/s/AKfycbymnv8CoAwFrMxn6SoeNmGLDYU8oWaXQXppWdbezJ1TAP7vWgOdaURk2rN8KogQQobbpg/exec',

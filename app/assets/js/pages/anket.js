@@ -9,6 +9,8 @@ import { log } from '../log.js';
 const QUEUE_KEY = 'ocinfo-anket-kuyruk';
 const COOLDOWN_KEY = 'ocinfo-anket-son-gonderim';
 const FLUSH_EVERY_SEC = 60;
+// Teşekkür ekranının en az görünme süresi (bekleme kuralı kapalıyken de).
+const THANKS_SEC = 5;
 
 const LEVELS = [
   { puan: 1, metin: 'Hiç memnun değilim', renk: '#e5484d', agiz: 'M30 70 Q50 52 70 70' },
@@ -62,6 +64,11 @@ function save(key, value) {
 }
 
 const readQueue = () => load(QUEUE_KEY, []);
+
+// Gönderilmeyi bekleyen anket yanıtı sayısı (üst çubuktaki rozet için, app.js).
+export function bekleyenYanit() {
+  return readQueue().length;
+}
 const writeQueue = (q) => save(QUEUE_KEY, q);
 
 let flushing = false;
@@ -184,6 +191,7 @@ export default {
     let level = null;
     let bolum = '';
     let waitTimer = null;
+    let thanksUntil = 0;
 
     function go(name) {
       Object.keys(steps).forEach((k) => steps[k].classList.toggle('is-active', k === name));
@@ -215,14 +223,16 @@ export default {
     }
 
     // Bekleme süresi boyunca teşekkür ekranı kalır; kalan süre her saniye güncellenir.
+    // Teşekkür ekranı: en az THANKS_SEC, bekleme kuralı açıksa kural bitene kadar görünür.
     function showCooldown() {
       clearTimeout(waitTimer);
-      const ms = remainingMs();
+      const cool = remainingMs();
+      const ms = Math.max(cool, thanksUntil - Date.now());
       if (ms <= 0) {
         go('rate');
         return;
       }
-      waitText.textContent = `Yeni yanıt ${Math.ceil(ms / 1000)} sn sonra alınabilir.`;
+      waitText.textContent = cool > 0 ? `Yeni yanıt ${Math.ceil(cool / 1000)} sn sonra alınabilir.` : '';
       // Yeniden yüklemeden sonra seçilen yüz bilinmez; onay işareti gösterilir.
       if (!thanksFace.innerHTML) thanksFace.innerHTML = CHECK;
       go('thanks');
@@ -275,6 +285,7 @@ export default {
       writeQueue(readQueue().concat(entry));
       log('Anket gönderildi', { ayrinti: `Yanıtlar sayfasındaki Kayıt ID: ${entry.id}` });
       save(COOLDOWN_KEY, Date.now());
+      thanksUntil = Date.now() + THANKS_SEC * 1000;
       flush(config.surveyEndpoint);
       if (document.activeElement) document.activeElement.blur();
       thanksFace.innerHTML = face(level);

@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/{app,config}.js`, `app/assets/js/pages/anket.js`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `docs/ANKET_KURULUM.md` | 2026-11-02 18:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -231,3 +231,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı yeni `anket.gs`'yi yeni sürüm olarak dağıttı. Canlı uç noktaya test paketi gönderildi (oturum "TEST", ayrıntı "TEST (silinebilir)"): `{"ok":true,"yazilan":3}` (4 olaydan geçersiz tür ayıklandı), aynı paket tekrarı `duplicate`, boş paket `geçersiz paket`. "Kullanım Logu" sayfasında 3 TEST satırı olmalı; kullanıcı silebilir.
 - **Sıradaki adım:** iPad'den gerçek olayların gelmesini izle; istenirse `gunlukOzet` için günlük tetikleyici.
 - **Commit:** (bu kayıt)
+
+### 2026-11-02 18:30 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/config.js`, `app/assets/js/pages/anket.js`, `app/assets/js/app.js`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `docs/ANKET_KURULUM.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı kararıyla **60 sn bekleme kuralı şimdilik kapatıldı** (`config.surveyCooldownSec: 0`; yoğunluk olursa yeniden açılacak). Teşekkür ekranı bekleme kuralından bağımsız en az 5 sn görünür (`THANKS_SEC`). **Bekleyen yanıt rozeti:** üst çubukta çevrimdışıyken "Çevrimdışı · N yanıt bekliyor" (sarı), bağlıyken gönderilemeyen yanıt varsa "N yanıt gönderiliyor" (mavi), hepsi gidince gizli (`anket.js` → `bekleyenYanit()`, `app.js` her saniye günceller). Bilgi: anket kuyruğunun adet/süre sınırı yok; Safari localStorage ~5 MB → binlerce yanıt; risk süre değil, uygulamanın ana ekrandan silinmesi / Safari verisinin temizlenmesi (belgelere uyarı eklendi). `config.appVersion` ve `sw.js` → `ocinfo-v17`.
+- **Doğrulama:** Tarayıcıda (sahte uç nokta): teşekkür 5 sn sonra soru ekranına dönüyor, ikinci yanıt hemen verilebiliyor; rozet "2 yanıt gönderiliyor" → çevrimdışı "Çevrimdışı · 2 yanıt bekliyor" → gönderilince gizli.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

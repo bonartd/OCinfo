@@ -186,9 +186,13 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   `python3 -m pip install openpyxl` (bir kez) → `python3 tools/veri/istatistik_olustur.py "<dosya1>.xlsx" ["<dosya2>.xlsx" …]`
   → `app/data/istatistik.json` değişir → `sw.js` sürümünü artır → commit/push.
 - Memnuniyet anketi **anonimdir**: ad, öğrenci numarası, e-posta, telefon toplanmaz. **Bölüm
-  zorunludur** ("Diğer" seçilirse bölüm adı yazılır), görüş isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
-  yanıt alınmaz; betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
+  zorunludur** ("Diğer" seçilirse bölüm adı yazılır), görüş isteğe bağlıdır. Yanıtlar arası bekleme kuralı
+  (`config.surveyCooldownSec`) kullanıcı kararıyla **şimdilik kapalı (0)**; yoğunluk olursa ör. 60
+  yapılır. Teşekkür ekranı her durumda ~5 sn görünür. Betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
   "şüpheli" işaretler. Ortak kioskta kişi başı tek yanıt garanti edilemez.
+- Gönderilmeyi bekleyen anket yanıtları üst çubuktaki rozette sayıyla görünür ("Çevrimdışı · N yanıt
+  bekliyor" / "N yanıt gönderiliyor"). Rozet görünürken uygulama ana ekrandan **silinmez**, Safari
+  verileri **temizlenmez** (bekleyen yanıtlar kaybolur).
 - **Kullanım logu** (`log.js`, `docs/KULLANIM_LOGU.md`): yalnızca anonim etkileşim olayları; kişisel
   veri, IP, konum, serbest metin (anket görüşü) loga yazılmaz. Yeni olay türü eklerken `anket.gs` →
   `LOG_OLAYLAR` da güncellenir. `config.appVersion` ile `sw.js` → `CACHE` birlikte artırılır.

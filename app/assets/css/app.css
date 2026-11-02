@@ -87,6 +87,7 @@ img { -webkit-user-drag: none; }
   font-size: 14px;
   font-weight: 600;
 }
+.offline.offline--sending { background: var(--blue-soft); color: var(--navy); }
 
 /* ---- Sahne ve sayfalar ---- */
 .stage {

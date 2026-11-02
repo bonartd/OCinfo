@@ -74,8 +74,8 @@ Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
 ## Güvenlik ve bilmeniz gerekenler
 
 - **İzin sınırlı:** Betik yalnızca bağlı olduğu anket tablosuna erişir.
-- **Tekrar yanıtı zorlaştırma:** Kiosk, bir yanıttan sonra 60 sn yeni yanıt almaz
-  (`config.surveyCooldownSec`). Betik 10 dakikada en fazla 60 kayıt kabul eder; sınır dolarsa
+- **Tekrar yanıtı zorlaştırma:** Yanıtlar arası bekleme (`config.surveyCooldownSec`) şimdilik
+  **kapalı (0)**; yoğunluk olursa ör. 60 yapılır. Betik 10 dakikada en fazla 60 kayıt kabul eder; sınır dolarsa
   iPad yanıtı kuyrukta tutup sonra yeniden gönderir. Ortak kioskta kişi başı tek yanıt
   **garanti edilemez**; sonuçlar eğilim olarak okunmalıdır.
 - **URL gizli değildir** (yayınlanan sitede görünür). Bu adresle tablodaki veriler **okunamaz,
@@ -85,8 +85,10 @@ Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
 - **Erişim:** Tabloyu yalnızca anket sonuçlarını görmesi gereken kişilerle paylaşın.
 - **KVKK:** Yanıtlar anonimdir (ad toplanmaz). Serbest metin alanına kişisel bilgi yazılabileceği
   için kısa bilgilendirme metni kurumla teyit edilebilir.
-- **Bağlantı yoksa:** Yanıtlar iPad'de saklanır; internet gelince (ve en geç 60 sn'de bir)
-  otomatik gönderilir. `surveyEndpoint` boşken de yanıtlar iPad'de birikir, adres girilince gider.
+- **Bağlantı yoksa:** Yanıtlar iPad'de (`localStorage`, Safari'de ~5 MB; binlerce yanıt) saklanır;
+  internet gelince (ve en geç 60 sn'de bir) otomatik gönderilir. Bekleyen yanıt sayısı üst çubuktaki
+  rozette görünür. **Rozet görünürken** uygulamayı ana ekrandan silmeyin ve Safari verilerini
+  temizlemeyin — bekleyen yanıtlar kaybolur. `surveyEndpoint` boşken de yanıtlar iPad'de birikir.
 - **Betiği değiştirirseniz:** Dağıt → Dağıtımları yönet → kalem simgesi → Sürüm: **Yeni sürüm** →
   Dağıt. Böylece URL değişmez. "Yeni dağıtım" yeni URL üretir; o zaman `config.js` güncellenmelidir.
 - Betik, dağıtımı yapan hesabın yetkisiyle yazar; o hesabın tabloda düzenleme yetkisi olmalıdır.

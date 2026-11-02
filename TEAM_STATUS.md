@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js` | 2026-11-02 22:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -263,3 +263,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Kalan "belirtilmemiş" kayıtların çoğunda proje sorumlusu da boş; bunlar eşlemeyle çözülemez.
 - **Sıradaki adım:** —
 - **Commit:** `33bae44`
+
+### 2026-11-02 22:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 3'teki açıklama satırı tamamen kaldırıldı: "Bölüm bilgisi olmayan … kayıt grafikte yok", "Sınıf bilgisi olan kayıtlar …" ve "2015-2016 kısmi yıldır" notları; yıl menüsündeki ve "Yıllara göre" etiketlerindeki "(kısmi)" ekleri. Grafik ve veri değişmedi (Belirtilmemiş yine çubuk olarak çizilmez). JSON'daki `kismi` alanı korunuyor ama gösterilmiyor. `ocinfo-v21`.
+- **Doğrulama:** Bölüm / sınıf / yıllar görünümlerinde ve 2015-2016 seçiliyken sayfada "kısmi", "grafikte yok", "Sınıf bilgisi" metni yok; taşma yok.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

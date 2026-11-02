@@ -69,7 +69,7 @@ const kisaYil = (y) => `${y.slice(2, 4)}-${y.slice(7, 9)}`;
 function aggregate(data, state) {
   if (state.view === 'yillar') {
     return Object.keys(data.yillar).map((y) => ({
-      label: `${y} eğitim yılı${data.yillar[y].kismi ? ' (kısmi)' : ''}`,
+      label: `${y} eğitim yılı`,
       short: y, tiny: kisaYil(y), value: total(data.yillar[y].kayit),
     }));
   }
@@ -264,12 +264,11 @@ export default {
                   <svg class="dd-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-7 9z"/></svg>
                 </button>
                 <ul class="dd-menu dd-menu--yil" role="listbox" hidden>
-                  ${years.slice().reverse().map((y) => `<li><button type="button" role="option" data-v="${esc(y)}" aria-selected="false">${esc(y)}${data.yillar[y].kismi ? ' (kısmi)' : ''}</button></li>`).join('')}
+                  ${years.slice().reverse().map((y) => `<li><button type="button" role="option" data-v="${esc(y)}" aria-selected="false">${esc(y)}</button></li>`).join('')}
                 </ul>
               </div>` : ''}
             <p class="st-detail" aria-live="polite"></p>
           </div>
-          <p class="st-note" hidden></p>
           <svg class="st-svg" role="img"></svg>
         </section>
 
@@ -284,7 +283,6 @@ export default {
     const yilDd = el.querySelector('.dd--yil');
     const yilBtn = yilDd && yilDd.querySelector('.dd-btn');
     const yilMenu = yilDd && yilDd.querySelector('.dd-menu');
-    const note = el.querySelector('.st-note');
     const strip = el.querySelector('.kpi-strip');
     const ring = el.querySelector('.kpi-ring svg');
     const k = (key) => el.querySelector(`[data-k="${key}"]`);
@@ -300,28 +298,6 @@ export default {
       if (!yilMenu) return;
       yilMenu.hidden = !open;
       yilBtn.setAttribute('aria-expanded', String(open));
-    }
-
-    // Tek satırlık açıklama: kısmi yıl, bölümü belirtilmemiş kayıtlar, eksik sınıf bilgisi.
-    function noteText() {
-      const yil = data.yillar[state.yil];
-      if (state.view === 'yillar') {
-        const k = years.filter((y) => data.yillar[y].kismi);
-        return k.length ? `${k.join(', ')} kısmi yıldır (yalnızca kayıtlı aylar).` : '';
-      }
-      const parca = [];
-      if (yil.kismi) parca.push(`${state.yil} kısmi yıldır (yalnızca kayıtlı aylar).`);
-      if (state.view === 'bolum') {
-        const t = total(yil.kayit);
-        const b = sumBy(yil.kayit, C.bolum).get(BELIRSIZ) || 0;
-        if (b) parca.push(`Bölüm bilgisi olmayan ${num.format(b)} kayıt (%${pct.format((b / t) * 100)}) grafikte yok.`);
-      }
-      if (state.view === 'sinif') {
-        const t = total(yil.kayit);
-        const bilinen = items.reduce((s, d) => s + d.value, 0);
-        if (bilinen < t) parca.push(`Sınıf bilgisi olan kayıtlar: %${pct.format((bilinen / t) * 100)} (${num.format(bilinen)} / ${num.format(t)}).`);
-      }
-      return parca.join(' ');
     }
 
     // Ayrıntı yalnızca bir çubuğa dokununca görünür (az metin).
@@ -371,9 +347,6 @@ export default {
       svg.setAttribute('aria-label', `${view.etiket} rezervasyon grafiği`);
       drawChart(svg, items, { horizontal: state.view === 'bolum', selected });
       detail.innerHTML = detailText();
-      const n = noteText();
-      note.textContent = n;
-      note.hidden = !n;
     }
 
     ddBtn.addEventListener('click', () => { openYil(false); openMenu(ddMenu.hidden); });

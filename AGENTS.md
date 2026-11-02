@@ -180,11 +180,10 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   sayfalarında yıl **sayfa adından** ("20-21" → 2020-2021), tek sayfalı dosyada tarihten alınır;
   yalnızca **tamamlanmış** eğitim yılları alınır; aynı yıl birden çok kaynakta varsa **kaydı en çok**
   olan kaynak kullanılır. **Medya Merkezi** (personel) ve sınıfı açıkça **"0"** olan kayıtlar hiçbir
-  yerde kullanılmaz; sınıfı **boş** eski kayıtlar sayılır ama sınıf grafiğinde görünmez (not satırı
-  oranı yazar). Bölümü belirtilmemiş kayıtlar **proje sorumlusuna göre** bölüme bağlanır
+  yerde kullanılmaz; sınıfı **boş** eski kayıtlar sayılır ama sınıf grafiğinde görünmez. Bölümü belirtilmemiş kayıtlar **proje sorumlusuna göre** bölüme bağlanır
   (kişi adı içerdiğinden **yalnızca yerel** `tools/veri/sorumlu_bolum.json` — `.gitignore`; şablon:
   `sorumlu_bolum.ornek.json`; dosyayı depo sahibinden alın); bağlanamayanlar "Belirtilmemiş" olur ve grafikte çubuk
-  değil, not satırında sayı olarak gösterilir. Bilinen bölümler (Film Tasarımı ve Endüstriyel Tasarım
+  olarak gösterilmez (sayfada bunun için not satırı da yok — kullanıcı kararı). Bilinen bölümler (Film Tasarımı ve Endüstriyel Tasarım
   dahil) kendi adıyla, diğer birimler "Diğer" altında; "Animasyon" → Çizgi Film ve Animasyon,
   "Yeni Medya ve Gazetecilik" → Yeni Medya ve İletişim. Yalnızca rezervasyon sayısı (bölüm × sınıf × ay)
   yayınlanır; kişi, proje sorumlusu, açıklama yazılmaz. Güncelleme:

@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `docs/KULLANIM_LOGU.md`, `docs/ornekler/`, `tools/veri/ornek_log_olustur.py`, `.gitignore` | 2026-11-02 15:00 |
 
 ---
 

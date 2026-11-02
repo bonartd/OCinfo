@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/data/istatistik.json`, `app/sw.js`, `app/assets/js/config.js` | 2026-11-02 21:30 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -255,3 +255,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Toplamlar betik çıktısıyla aynı; JSON'da ad yok; 1080×810 ve 375×812'de taşma yok; yıl menüsü telefonda kaydırılabilir; tüm görünüm/yıl kombinasyonları denendi. Geçici Excel kopyaları silindi.
 - **Açık konu:** Eski yıllarda bölümsüz kaydın çoğunda proje sorumlusu da boş (4.249). Eşlemede olmayan ve çok kaydı olan başka proje sorumluları da var (en kalabalık 9 kişi ~1.300 kayıt); kullanıcıya soruldu. (Adlar burada yazılmaz.)
 - **Commit:** `b3d7f49`
+
+### 2026-11-02 21:40 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/data/istatistik.json`, `app/sw.js`, `app/assets/js/config.js`, `TEAM_STATUS.md` (+ yerel, depoda olmayan `tools/veri/sorumlu_bolum.json`)
+- **Yapılan iş:** Kullanıcı, önceki kayıtta açık kalan 9 proje sorumlusunun bölümlerini bildirdi (7'si bir bölüme, 1'i "Diğer"e); yerel eşleme 14 → 23 kişi. Veri yeniden üretildi: proje sorumlusundan bölüme bağlanan kayıt 1.526 → 2.836; ör. 2016-17'de bölüm bilgisi olmayan oran %84 → %61. Toplam değişmedi (10.370). JSON'da ad yok; geçici Excel kopyaları silindi. `ocinfo-v20`.
+- **Not:** Kalan "belirtilmemiş" kayıtların çoğunda proje sorumlusu da boş; bunlar eşlemeyle çözülemez.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

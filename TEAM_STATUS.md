@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `app/data/istatistik.json`, `app/sw.js`, `app/assets/js/config.js` | 2026-11-02 21:30 |
 
 ---
 

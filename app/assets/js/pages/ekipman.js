@@ -27,13 +27,13 @@ export default {
     const cards = list.map((e, i) => `
       <li class="eq-item anim" style="--i:${i + 1}">
         <button type="button" class="eq-card" aria-pressed="false"
-                aria-label="${esc(e.cihaz)}, ${esc(e.model)}, ${e.adet} adet — özellikleri göster">
+                aria-label="${esc(e.model)}, ${esc(e.cihaz)}, ${e.adet} adet — özellikleri göster">
           <span class="eq-inner">
             <span class="eq-face eq-front card">
               <span class="eq-img"><img src="${IMG}${esc(e.gorsel)}" alt="" width="${e.en}" height="${e.boy}" draggable="false"></span>
               <span class="eq-text">
-                <b class="eq-name">${esc(e.cihaz)}</b>
-                <span class="eq-model">${esc(e.model)}</span>
+                <b class="eq-name">${esc(e.model)}</b>
+                <span class="eq-model">${esc(e.cihaz)}</span>
               </span>
               <span class="eq-count">${e.adet} adet</span>
               ${DONDUR}

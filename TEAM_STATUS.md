@@ -296,3 +296,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Aktif çalışma satırı bu kısa düzeltmede eklenmedi (tek oturum, aynı dosyalar).
 - **Sıradaki adım:** Özellik metinlerini ofis personeli kontrol edebilir.
 - **Commit:** `24b5223`
+
+### 2026-11-03 00:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/ekipman.js`, `app/sw.js`, `app/assets/js/config.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 4 kartlarının ön yüzünde **marka ve model üstte kalın** (ör. "DJI Osmo Pocket 4"), **ürün adı altta** (ör. "Gimballi El Kamerası"). Arka yüz değişmedi. `ocinfo-v25`.
+- **Doğrulama:** 1024×768, 810×1080 ve 375×812'de taşma ve sayfa kaydırması yok.
+- **Not:** Tek satırlık düzeltme; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

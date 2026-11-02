@@ -1,6 +1,6 @@
 // OCinfo Service Worker — klasik betik (iOS 15 modül worker desteklemez).
 // Kabuk dosyalarından birini değiştirdiğinizde CACHE sürümünü artırın (AGENTS.md 3.4).
-var CACHE = 'ocinfo-v22';
+var CACHE = 'ocinfo-v23';
 
 var SHELL = [
   './',
@@ -15,13 +15,25 @@ var SHELL = [
   './assets/js/pages/rezervasyon.js',
   './assets/js/pages/anket.js',
   './assets/js/pages/istatistik.js',
+  './assets/js/pages/ekipman.js',
   './assets/img/qr-odunccihaz.svg',
   './assets/img/logo-yasar.png',
   './assets/img/icon-180.png',
   './assets/img/icon-192.png',
   './assets/img/icon-512.png',
   './data/kurallar.json',
-  './data/istatistik.json'
+  './data/istatistik.json',
+  './data/ekipmanlar.json',
+  './assets/img/ekipman/dji-osmo-pocket-4.jpg',
+  './assets/img/ekipman/sony-fx30.jpg',
+  './assets/img/ekipman/sony-100-400.jpg',
+  './assets/img/ekipman/gopro-hero13.jpg',
+  './assets/img/ekipman/godox-lc500r.jpg',
+  './assets/img/ekipman/godox-ml100bi.jpg',
+  './assets/img/ekipman/rode-wireless-pro.jpg',
+  './assets/img/ekipman/smallrig-vb99.jpg',
+  './assets/img/ekipman/sony-np-fz100.jpg',
+  './assets/img/ekipman/manfrotto-mk290.jpg'
 ];
 
 self.addEventListener('install', function (event) {

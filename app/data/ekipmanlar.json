@@ -1,0 +1,17 @@
+{
+  "kaynak": "Alınan Ekipmanlar-2026.pdf (Ödünç Cihaz Ofisi ekipman listesi)",
+  "yil": 2026,
+  "not": "Görseller listedeki ürün görselleridir (temsilî); assets/img/ekipman/ altında 520 px JPEG.",
+  "ekipmanlar": [
+    { "cihaz": "Gimballi El Kamerası", "model": "DJI Osmo Pocket 4", "adet": 2, "gorsel": "dji-osmo-pocket-4.jpg", "en": 381, "boy": 520 },
+    { "cihaz": "Video Kamera", "model": "Sony FX30", "adet": 2, "gorsel": "sony-fx30.jpg", "en": 520, "boy": 339 },
+    { "cihaz": "Telefoto Lens", "model": "Sony 100–400 mm", "adet": 1, "gorsel": "sony-100-400.jpg", "en": 520, "boy": 278 },
+    { "cihaz": "Aksiyon Kamerası Seti", "model": "GoPro HERO13 Black", "adet": 1, "gorsel": "gopro-hero13.jpg", "en": 485, "boy": 520 },
+    { "cihaz": "RGB Tüp Işık", "model": "Godox LC500R", "adet": 1, "gorsel": "godox-lc500r.jpg", "en": 520, "boy": 337 },
+    { "cihaz": "Portatif LED Işık", "model": "Godox ML100Bi", "adet": 2, "gorsel": "godox-ml100bi.jpg", "en": 520, "boy": 371 },
+    { "cihaz": "Kablosuz Mikrofon Seti", "model": "RØDE Wireless PRO", "adet": 2, "gorsel": "rode-wireless-pro.jpg", "en": 520, "boy": 466 },
+    { "cihaz": "V-Mount Batarya", "model": "SmallRig 5245 VB99 Lite Mini V", "adet": 3, "gorsel": "smallrig-vb99.jpg", "en": 431, "boy": 520 },
+    { "cihaz": "Kamera Pili", "model": "Sony NP-FZ100", "adet": 7, "gorsel": "sony-np-fz100.jpg", "en": 520, "boy": 482 },
+    { "cihaz": "Fotoğraf Tripodu", "model": "Manfrotto MK290XTA3-3W Xtra", "adet": 5, "gorsel": "manfrotto-mk290.jpg", "en": 271, "boy": 520 }
+  ]
+}

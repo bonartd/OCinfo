@@ -269,11 +269,13 @@ OCinfo/
     │   └── pages/             # Her kiosk sayfası ayrı modül
     │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
     │       ├── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)
-    │       └── istatistik.js  # Sayfa 3: kullanım istatistikleri (SVG çubuk grafikler)
-    ├── assets/img/            # İkonlar (geçici "OC" ikonu) ve QR SVG
+    │       ├── istatistik.js  # Sayfa 3: kullanım istatistikleri (SVG çubuk grafikler)
+    │       └── ekipman.js     # Sayfa 4: sisteme yeni eklenen ekipmanlar (görselli kartlar)
+    ├── assets/img/            # Logo, ana ekran ikonları, QR SVG; ekipman/ = ekipman görselleri (520 px JPEG)
     └── data/
         ├── kurallar.json      # Ödünç alma kuralları (resmî metin + ekrandaki kısa kartlar "ekran")
-        └── istatistik.json    # Anonim kullanım sayımları (tools/veri ile üretilir)
+        ├── istatistik.json    # Anonim kullanım sayımları (tools/veri ile üretilir)
+        └── ekipmanlar.json    # Yeni eklenen ekipmanlar: cihaz, model, adet, görsel dosyası
 ```
 
 ### 4.2.1 Kiosk sayfa düzeni
@@ -287,7 +289,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 | 1 | Ödünç Cihaz Sistemi QR + kurallar (zaman şeridi + 8 simgeli kart; metinler `kurallar.json` → `ekran`) | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
 | 3 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
-| 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |
+| 4 | Sisteme yeni eklenen ekipmanlar (10 görselli kart: cihaz, model, adet; karta dokununca görsel büyür). Yeni ekipman: görseli `assets/img/ekipman/`'a ≤520 px JPEG olarak ekle, `data/ekipmanlar.json`'a satır ekle, `sw.js` SHELL + sürüm | `pages/ekipman.js` | ✅ Hazır |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`
 nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni

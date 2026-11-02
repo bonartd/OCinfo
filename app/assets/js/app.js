@@ -5,12 +5,13 @@ import { createRotator } from './rotator.js';
 import rezervasyon from './pages/rezervasyon.js';
 import anket, { bekleyenYanit } from './pages/anket.js';
 import istatistik from './pages/istatistik.js';
+import ekipman from './pages/ekipman.js';
 import {
   initLog, log, setSayfa, sayfaAdi, oturumBasladi, oturumBitti,
 } from './log.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
-const PAGE_MODULES = [rezervasyon, anket, istatistik];
+const PAGE_MODULES = [rezervasyon, anket, istatistik, ekipman];
 
 const stage = document.getElementById('stage');
 const dots = document.getElementById('dots');

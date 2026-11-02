@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/ekipman.js` (yeni), `app/data/ekipmanlar.json` (yeni), `app/assets/img/ekipman/` (yeni), `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md` | 2026-11-02 23:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -279,3 +279,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1024×768 ve 810×1080'de 11 yılın hepsinde ad/değer taşması yok (dışarıdaki ad en az 18 px); 375×812'de taşma yok.
 - **Sıradaki adım:** —
 - **Commit:** `bfd6c0b`
+
+### 2026-11-02 23:30 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/ekipman.js` (yeni), `app/data/ekipmanlar.json` (yeni), `app/assets/img/ekipman/*.jpg` (yeni, 10 dosya), `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcının verdiği "Alınan Ekipmanlar-2026.pdf" listesinden **Sayfa 4 — "Sisteme yeni eklenen ekipmanlar"** eklendi. PDF'teki 10 ürün görseli çıkarıldı, beyaz zemine JPEG (520 px, toplam ~245 KB) olarak `assets/img/ekipman/`'a kondu. Yatay iPad'de 5×2 görselli kart (görsel büyük, altında cihaz adı + model, sağ üstte "N adet"), dikey iPad'de 2×5 (görsel solda), telefonda 2 sütun kayan liste. Başlıkta "10 çeşit · 26 adet". Karta dokununca görsel büyür; dokununca / hareketsizlikte kapanır. Yeni log olayı yok (yalnızca sayfa adı "4 · Yeni Ekipmanlar"). `ocinfo-v23`.
+- **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de taşma ve kaydırma yok (telefonda dikey kayar), tüm görseller yükleniyor, büyütme penceresi ekrana sığıyor. Geçici PDF kopyası silindi.
+- **Sıradaki adım:** Gerçek iPad'de görsel netliği kontrolü; yeni ekipman geldikçe JSON + görsel eklenir.
+- **Commit:** (doldurulacak)

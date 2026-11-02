@@ -8,7 +8,7 @@ const MAX_QUEUE = 2000;
 const BATCH = 50;
 const FLUSH_EVERY_MS = 5 * 60 * 1000;
 const GUNLER = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
-const SAYFA_ADLARI = { rezervasyon: '1 · Kurallar', anket: '2 · Anket', istatistik: '3 · Kullanım Bilgileri' };
+const SAYFA_ADLARI = { rezervasyon: '1 · Kurallar', anket: '2 · Anket', istatistik: '3 · Kullanım Bilgileri', ekipman: '4 · Yeni Ekipmanlar' };
 
 let cfg = { endpoint: '', surum: '', cihaz: 'Kiosk (iPad)' };
 let oturum = '—';

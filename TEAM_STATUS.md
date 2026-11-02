@@ -295,4 +295,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de hiçbir arka yüzde taşma yok, sayfa kaydırması yok (telefonda dikey kayar); reset() açık kartı kapatıyor.
 - **Not:** Aktif çalışma satırı bu kısa düzeltmede eklenmedi (tek oturum, aynı dosyalar).
 - **Sıradaki adım:** Özellik metinlerini ofis personeli kontrol edebilir.
-- **Commit:** (doldurulacak)
+- **Commit:** `24b5223`

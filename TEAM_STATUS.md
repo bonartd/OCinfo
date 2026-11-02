@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js` | 2026-11-02 22:20 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -271,3 +271,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Bölüm / sınıf / yıllar görünümlerinde ve 2015-2016 seçiliyken sayfada "kısmi", "grafikte yok", "Sınıf bilgisi" metni yok; taşma yok.
 - **Sıradaki adım:** —
 - **Commit:** `fcc74d2`
+
+### 2026-11-02 22:45 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle "Bölümlere göre" çubukları kalınlaştırıldı: geniş grafikte çubuk satır yüksekliğinin %80'i (≤76 px; 1080×810'da 53 px, dikeyde 56 px), bölüm adı çubuğun **içinde** beyaz kalın yazı; ad sığmazsa çubuğun sağında, sığmıyorsa yazı 13 px'e kadar küçülür (gerçek yazı genişliği `getComputedTextLength` ile ölçülür); değer yazısı 17–24 px. Dar grafikte (telefon, < 560 px) ad çubuğun üstünde, çubuk ≤52 px; telefonda grafik yüksekliği 420 → 560 px (çubuk 38 px). `ocinfo-v22`.
+- **Doğrulama:** 1024×768 ve 810×1080'de 11 yılın hepsinde ad/değer taşması yok (dışarıdaki ad en az 18 px); 375×812'de taşma yok.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

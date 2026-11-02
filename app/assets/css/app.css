@@ -636,6 +636,9 @@ input, textarea {
 .st-svg .val { font-size: clamp(17px, 2.6vh, 22px); font-weight: 800; fill: var(--navy); font-variant-numeric: tabular-nums; }
 .st-svg .lbl { font-size: clamp(15px, 2.2vh, 18px); font-weight: 600; fill: var(--muted); }
 .st-svg .lbl--h { font-weight: 700; fill: var(--text); }
+.st-svg .lbl--in { font-weight: 800; fill: #fff; pointer-events: none; }
+.st-svg .lbl--out { font-weight: 800; fill: var(--text); pointer-events: none; }
+.page.is-active .chart .lbl--in, .page.is-active .chart .lbl--out { animation: oc-fade 300ms ease 400ms both; }
 .st-svg .val--sm { font-size: clamp(13px, 1.9vh, 16px); }
 .dd[hidden] { display: none; }
 .dd-menu--yil { max-height: min(60vh, 480px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
@@ -699,5 +702,5 @@ html:not(.is-phone) .phone-only { display: none !important; }
 .is-phone .st-kpis { grid-template-columns: 1fr; }
 .is-phone .kpi--ring { flex-direction: row; align-items: center; }
 .is-phone .st-chart { flex: none; }
-.is-phone .st-svg { flex: none; height: 420px; }
+.is-phone .st-svg { flex: none; height: 560px; }
 .is-phone .st-detail { margin-left: 0; width: 100%; }

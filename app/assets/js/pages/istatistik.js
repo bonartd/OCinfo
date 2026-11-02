@@ -166,18 +166,46 @@ function drawChart(svg, items, opts) {
     if (sel !== null && sel !== i) cls.push('bar--dim');
 
     if (horizontal) {
-      // Ad çubuğun üstünde; çubuk tüm genişliği kullanır, değer çubuğun ucunda.
-      const labelH = 26;
-      const valueW = 64;
+      // Kalın çubuk. Geniş grafikte ad çubuğun içinde (beyaz), sığmazsa sağında; dar grafikte
+      // (telefon) ad çubuğun üstünde. Değer en sonda.
+      const valueW = 72;
       const band = H / items.length;
-      h = Math.min(46, (band - labelH) * 0.82);
+      const ust = W < 560;
+      const fs = ust ? 16 : Math.round(Math.max(15, Math.min(22, band * 0.8 * 0.36)));
+      const labelH = ust ? fs + 10 : 0;
+      h = ust ? Math.min(52, (band - labelH) * 0.86) : Math.min(76, band * 0.8);
       x = 0;
-      w = Math.max(4, ((W - valueW) * d.value) / max);
+      w = Math.max(6, ((W - valueW) * d.value) / max);
       y = i * band + labelH + (band - labelH - h) / 2;
       hit = svgEl('rect', { x: 0, y: i * band, width: W, height: band, class: 'hit' });
-      g.appendChild(svgEl('text', { x: 0, y: y - 8, class: 'lbl lbl--h' }, d.label));
       g.appendChild(svgEl('path', { d: barPath(x, y, w, h, true), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
-      g.appendChild(svgEl('text', { x: x + w + 10, y: y + h / 2, class: 'val', 'dominant-baseline': 'central' }, num.format(d.value)));
+      const ad = g.appendChild(svgEl('text', {
+        x: 14, y: y + h / 2, class: 'lbl lbl--in', 'dominant-baseline': 'central', style: `font-size:${fs}px`,
+      }, d.label));
+      // Gerçek yazı genişliği (ölçülemezse yaklaşık değer).
+      const olc = (size) => ad.getComputedTextLength() || d.label.length * size * 0.58;
+      let adGenislik = olc(fs);
+      let icerde = !ust && adGenislik + 28 <= w;
+      if (ust) {
+        ad.setAttribute('x', 0);
+        ad.setAttribute('y', y - 8);
+        ad.removeAttribute('dominant-baseline');
+        ad.setAttribute('class', 'lbl lbl--out');
+      } else if (!icerde) {
+        // Dışarıda sağa sığmıyorsa yazıyı küçült (en az 13 px).
+        let size = fs;
+        while (size > 13 && w + 12 + adGenislik + 12 + 48 > W) {
+          size -= 1;
+          ad.setAttribute('style', `font-size:${size}px`);
+          adGenislik = olc(size);
+        }
+        ad.setAttribute('x', w + 12);
+        ad.setAttribute('class', 'lbl lbl--out');
+      }
+      const valX = icerde || ust ? w + 12 : w + 12 + adGenislik + 12;
+      g.appendChild(svgEl('text', {
+        x: valX, y: y + h / 2, class: 'val', 'dominant-baseline': 'central', style: `font-size:${fs + 2}px`,
+      }, num.format(d.value)));
     } else {
       const top = 40;
       const plotH = H - top - bottom;

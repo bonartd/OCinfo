@@ -304,4 +304,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1024×768, 810×1080 ve 375×812'de taşma ve sayfa kaydırması yok.
 - **Not:** Tek satırlık düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `a819ab2`

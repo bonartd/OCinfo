@@ -224,3 +224,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** anket.gs sahte Google servisleriyle (JXA) denendi: anket yanıtı çalışıyor; 7 olaylık pakette geçersiz tür ayıklandı (6 yazıldı); aynı paket tekrarında yazılmadı; özet ve saatlik tablo doğru. Tarayıcıda (sahte uç nokta) kiosk oturumunun 11 olayı doğru sırayla tek pakette gitti, kuyruk boşaldı; telefon olayları doğru; eski betik reddederken olaylar kuyrukta kaldı. Gerçek tabloda **henüz denenmedi**.
 - **Sıradaki adım:** Kullanıcı yeni `anket.gs`'yi yapıştırıp `kurulumTesti` çalıştıracak ve Dağıtımları yönet → Yeni sürüm ile dağıtacak; isteğe bağlı `gunlukOzet` için günlük tetikleyici. Sonra gerçek tabloda birkaç olay kontrol edilecek.
 - **Commit:** `4a70111`
+
+### 2026-11-02 17:30 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı yeni `anket.gs`'yi yeni sürüm olarak dağıttı. Canlı uç noktaya test paketi gönderildi (oturum "TEST", ayrıntı "TEST (silinebilir)"): `{"ok":true,"yazilan":3}` (4 olaydan geçersiz tür ayıklandı), aynı paket tekrarı `duplicate`, boş paket `geçersiz paket`. "Kullanım Logu" sayfasında 3 TEST satırı olmalı; kullanıcı silebilir.
+- **Sıradaki adım:** iPad'den gerçek olayların gelmesini izle; istenirse `gunlukOzet` için günlük tetikleyici.
+- **Commit:** (bu kayıt)

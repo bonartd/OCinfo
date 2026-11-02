@@ -119,28 +119,28 @@ export default {
     el.innerHTML = `
       <div class="sv">
         <div class="sv-step sv-step--rate is-active">
-          <p class="eyebrow">Görüşün bizim için değerli</p>
-          <h2 class="sv-question">Ödünç Cihaz Ofisi'nin hizmetlerinden memnun musun?</h2>
+          <p class="eyebrow anim" style="--i:0">Görüşün bizim için değerli</p>
+          <h2 class="sv-question anim" style="--i:1">Ödünç Cihaz Ofisi'nin hizmetlerinden memnun musun?</h2>
           <ul class="sv-faces">
-            ${LEVELS.map((l) => `
-              <li>
+            ${LEVELS.map((l, i) => `
+              <li class="anim" style="--i:${i + 2}">
                 <button type="button" class="sv-face" data-puan="${l.puan}" aria-label="${l.metin}">
                   ${face(l)}
                   <span>${l.metin}</span>
                 </button>
               </li>`).join('')}
           </ul>
-          <p class="sv-hint">Bir yüze dokunarak puan ver.</p>
+          <p class="sv-hint anim" style="--i:7">Bir yüze dokunarak puan ver.</p>
         </div>
 
         <form class="sv-step sv-step--detail card" autocomplete="off" novalidate>
-          <div class="sv-picked"></div>
-          <label class="sv-field">
+          <div class="sv-picked anim" style="--i:0"></div>
+          <label class="sv-field anim" style="--i:1">
             <span>Görüş ve önerilerin <em>(isteğe bağlı)</em></span>
             <textarea name="gorus" rows="3" maxlength="500"
               placeholder="Hizmetimizi nasıl daha iyi hâle getirebiliriz?"></textarea>
           </label>
-          <fieldset class="sv-field sv-dept">
+          <fieldset class="sv-field sv-dept anim" style="--i:2">
             <legend>Bölümün</legend>
             <div class="sv-chips">
               ${BOLUMLER.concat(DIGER).map((b) => `
@@ -150,7 +150,7 @@ export default {
               placeholder="Bölümünü yaz" hidden>
           </fieldset>
           <p class="sv-privacy">Yanıtlar anonimdir.</p>
-          <div class="sv-actions">
+          <div class="sv-actions anim" style="--i:3">
             <button type="button" class="btn btn--ghost" data-action="back">Geri</button>
             <button type="submit" class="btn btn--primary" disabled>Gönder</button>
           </div>
@@ -158,9 +158,9 @@ export default {
         </form>
 
         <div class="sv-step sv-step--thanks" role="status">
-          <div class="sv-thanks-face"></div>
-          <h2 class="sv-question">Teşekkürler!</h2>
-          <p class="sv-hint">Yanıtın kaydedildi.</p>
+          <div class="sv-thanks-face anim" style="--i:0"></div>
+          <h2 class="sv-question anim" style="--i:1">Teşekkürler!</h2>
+          <p class="sv-hint anim" style="--i:2">Yanıtın kaydedildi.</p>
           <p class="sv-wait"></p>
         </div>
       </div>`;

@@ -110,7 +110,7 @@ function drawChart(svg, items, opts) {
   const maxIdx = items.findIndex((d) => d.value === max);
   const sel = opts.selected;
   const horizontal = opts.horizontal;
-  const g = svg.appendChild(svgEl('g', {}));
+  const g = svg.appendChild(svgEl('g', { class: horizontal ? 'chart chart--h' : 'chart chart--v' }));
   const bottom = 40;
 
   if (!horizontal) {
@@ -140,7 +140,7 @@ function drawChart(svg, items, opts) {
       } else {
         g.appendChild(svgEl('text', { x: labelW - 12, y: y + h / 2, class: 'lbl', 'text-anchor': 'end', 'dominant-baseline': 'central' }, d.label));
       }
-      g.appendChild(svgEl('path', { d: barPath(x, y, w, h, true), class: cls.join(' ') }));
+      g.appendChild(svgEl('path', { d: barPath(x, y, w, h, true), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
       g.appendChild(svgEl('text', { x: x + w + 8, y: y + h / 2, class: 'val', 'dominant-baseline': 'central' }, num.format(d.value)));
     } else {
       const top = 30;
@@ -151,7 +151,7 @@ function drawChart(svg, items, opts) {
       x = i * band + (band - w) / 2;
       y = top + plotH - h;
       hit = svgEl('rect', { x: i * band, y: 0, width: band, height: H, class: 'hit' });
-      if (h) g.appendChild(svgEl('path', { d: barPath(x, y, w, h, false), class: cls.join(' ') }));
+      if (h) g.appendChild(svgEl('path', { d: barPath(x, y, w, h, false), class: cls.join(' '), style: `--i:${i}`, 'data-i': i }));
       g.appendChild(svgEl('text', { x: x + w / 2, y: y - 8, class: 'val', 'text-anchor': 'middle' }, num.format(d.value)));
       // Dar sütunlarda yalnızca ilk kelime ("Eyl 25" → "Eyl").
       const label = d.short || d.label;
@@ -184,15 +184,15 @@ export default {
     el.innerHTML = `
       <div class="st">
         <header class="st-head">
-          <h2 class="section-title">Ödünç Cihaz Sistemi Kullanım Bilgileri</h2>
+          <h2 class="section-title anim" style="--i:0">Ödünç Cihaz Sistemi Kullanım Bilgileri</h2>
           <dl class="st-kpis">
-            <div><dt>Rezervasyon sayısı <span data-k="yil"></span></dt><dd data-k="rez"></dd></div>
-            <div><dt>En yoğun ay</dt><dd data-k="enAy"></dd></div>
-            <div><dt>En çok kullanan bölüm</dt><dd data-k="enBolum"></dd></div>
+            <div class="anim" style="--i:1"><dt>Rezervasyon sayısı <span data-k="yil"></span></dt><dd data-k="rez"></dd></div>
+            <div class="anim" style="--i:2"><dt>En yoğun ay</dt><dd data-k="enAy"></dd></div>
+            <div class="anim" style="--i:3"><dt>En çok kullanan bölüm</dt><dd data-k="enBolum"></dd></div>
           </dl>
         </header>
 
-        <section class="st-chart card">
+        <section class="st-chart card anim" style="--i:4">
           <div class="st-chart-head">
             <div class="dd">
               <button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false">
@@ -212,7 +212,7 @@ export default {
           <svg class="st-svg" role="img"></svg>
         </section>
 
-        <p class="source">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları.</p>
+        <p class="source anim" style="--i:5">Kaynak: Ödünç Cihaz Ofisi rezervasyon kayıtları.</p>
       </div>`;
 
     const svg = el.querySelector('.st-svg');
@@ -239,6 +239,14 @@ export default {
       const sum = items.reduce((t, d) => t + d.value, 0) || 1;
       const d = items[selected];
       return `<strong>${esc(d.label)}</strong> · ${num.format(d.value)} rezervasyon · toplam içindeki payı %${pct.format((d.value / sum) * 100)}`;
+    }
+
+    // Dokunma seçimi grafiği yeniden çizmez (çubuklar yeniden büyümesin); yalnızca sınıflar değişir.
+    function applySelection() {
+      svg.querySelectorAll('.bar').forEach((b) => {
+        b.classList.toggle('bar--dim', selected !== null && Number(b.getAttribute('data-i')) !== selected);
+      });
+      detail.innerHTML = detailText();
     }
 
     function update() {
@@ -287,7 +295,7 @@ export default {
       if (!hit) return;
       const i = Number(hit.getAttribute('data-i'));
       selected = selected === i ? null : i;
-      update();
+      applySelection();
     });
 
     // Yönlendirme değişince yeniden çiz (tek gözlemci, sayfa ömrü boyunca).

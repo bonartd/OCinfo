@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/pages/rezervasyon.js`, `app/data/kurallar.json`, `app/assets/css/app.css`, `app/assets/js/pages/{anket,istatistik}.js`, `app/sw.js`, `AGENTS.md` | 2026-11-02 10:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -201,3 +201,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı gerçek telefonda doğruladı: `ocinfo-v14` ile (aktif olmayan sayfalar `visibility: hidden`) ilk sayfa artık tam görünüyor ve kaydırılabiliyor. Önceki kayıttaki iOS kaydırma teşhisi doğrulandı.
 - **Sıradaki adım:** Önceki yılların Excel verileri gelince Sayfa 3'e ekle; Sayfa 4 (en çok kullanılan ekipmanlar) için cihaz bazlı veri bekleniyor.
 - **Commit:** (bu kayıt)
+
+### 2026-11-02 14:35 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/rezervasyon.js`, `app/data/kurallar.json`, `app/assets/js/pages/anket.js`, `app/assets/js/pages/istatistik.js`, `app/assets/css/app.css`, `app/sw.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteği: sayfa içeriklerine minimalist geliş/gidiş animasyonları; Sayfa 1'de daha az ve daha iri metin, daha çok grafik. **Sayfa 1 yeniden tasarlandı:** QR kartı sadeleşti ("Rezervasyon için okut", büyük QR, adımlar simgeli: Okut › Giriş yap › Talep et; güvenlik notu kaldırıldı); kurallar 10 satırlık liste yerine **zaman şeridi** (Teslim al en erken 11:00 — en fazla 3 gün — İade et en geç 10:00; çizgi soldan çizilir) + **8 simgeli kart** (Online talep, 1 adet, Her gün ayrı talep, Onay şart, Devredilemez, Kontrol ederek al, Eksiksiz iade, Geç iade [kırmızı]). Kart metinleri `kurallar.json` → `ekran` (her kart dayandığı kural numaralarıyla; 10 kuralın tümü kapsanıyor; resmî metin aynı dosyada). Simgeler satır içi SVG (kütüphane yok). Dikeyde kartlar 2 sütun, simge solda; telefonda 2 sütun, zaman şeridi 2 satır. **Animasyonlar:** sayfa geçişi kayma yerine hafif ölçek+solma; `.anim` + `--i` ile sıralı giriş (460 ms, 60 ms arayla); ankette adım değişince yeniden oynar; Sayfa 3'te çubuklar tabandan büyür, değerler sonra belirir; çubuğa dokunma grafiği yeniden çizmez. `prefers-reduced-motion` ile hepsi kapanır. `ocinfo-v15`.
+- **Doğrulama:** 1180×820, 1080×810, 1024×768, 810×1080'de Sayfa 1 taşmasız, kart başlıkları taşmıyor (1024'te başlık boyutu genişliğe bağlandı); 375×812 telefonda yatay taşma yok. Animasyonların oynadığı ekran görüntüsü ve hesaplanan stil ile doğrulandı. Gerçek iPad'de akıcılık henüz denenmedi.
+- **Sıradaki adım:** iPad'de animasyonların akıcılığını kontrol et. Önceki yılların verisi ve Sayfa 4 için cihaz verisi bekleniyor.
+- **Commit:** (doldurulacak)

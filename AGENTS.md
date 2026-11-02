@@ -159,8 +159,12 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 
 - Grafik, animasyon ve görseller iPad performansını olumsuz etkilememelidir:
   - Grafikler için önce **satır içi SVG** veya basit `<canvas>`; ağır grafik kütüphanesi eklenmez.
-  - Animasyonlar yalnızca `transform` ve `opacity` ile, kısa (≤ 300 ms);
-    `prefers-reduced-motion` desteklenir. Sürekli dönen/oynayan animasyon yok.
+  - Animasyonlar yalnızca `transform` ve `opacity` ile, kısa (geçişler ≤ 300 ms, giriş
+    animasyonları ≤ ~700 ms); `prefers-reduced-motion` desteklenir. Sürekli dönen/oynayan animasyon yok.
+  - **Giriş animasyonları:** sayfa etkinleşince içerik sırayla, hafifçe yukarı kayarak belirir.
+    Bir öğeye `class="anim"` ve sırası için `style="--i:N"` verin (`app.css` → "Giriş animasyonları").
+    Anket adımları değişince yeni adımın `.anim` öğeleri yeniden oynar; istatistik çubukları
+    tabandan büyür (dokunma seçimi grafiği yeniden çizmez, yalnızca sınıfları değiştirir).
   - Görseller **WebP/JPEG**, ekran boyutuna uygun ölçüde (en fazla ~1600 px genişlik),
     `loading="lazy"` ile. Büyük video yok.
   - Büyük `box-shadow`, `backdrop-filter` ve `filter: blur()` kullanımından kaçınılır.
@@ -253,7 +257,7 @@ OCinfo/
     │       └── istatistik.js  # Sayfa 3: kullanım istatistikleri (SVG çubuk grafikler)
     ├── assets/img/            # İkonlar (geçici "OC" ikonu) ve QR SVG
     └── data/
-        ├── kurallar.json      # Ödünç alma kuralları (docs/OFIS_KURALLARI.md kaynaklı)
+        ├── kurallar.json      # Ödünç alma kuralları (resmî metin + ekrandaki kısa kartlar "ekran")
         └── istatistik.json    # Anonim kullanım sayımları (tools/veri ile üretilir)
 ```
 
@@ -265,7 +269,7 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 
 | Sıra | Sayfa | Modül | Durum |
 |---|---|---|---|
-| 1 | Ödünç Cihaz Sistemi QR + kurallar | `pages/rezervasyon.js` | ✅ Hazır |
+| 1 | Ödünç Cihaz Sistemi QR + kurallar (zaman şeridi + 8 simgeli kart; metinler `kurallar.json` → `ekran`) | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
 | 3 | Kullanım bilgileri (açılır menü: bölümlere / sınıflara / aylara / yıllara göre rezervasyon; varsayılan bölümler; çok yıl varsa yıl seçimi) | `pages/istatistik.js` | ✅ Hazır |
 | 4 | En çok kullanılan ekipmanlar | — | Planlandı (ekipman/cihaz verisi gerekli) |

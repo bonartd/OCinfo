@@ -1,7 +1,7 @@
 {
   "kaynak": "https://odunccihaz.yasar.edu.tr/",
   "sonKontrol": "2026-10-21",
-  "not": "Kısa metinler resmî sitedeki kuralların sadeleştirilmiş hâlidir; asıl metin 'orijinal' alanındadır. Belirsizlikler için docs/OFIS_KURALLARI.md Bölüm 3'e bakın.",
+  "not": "Sayfa 1 kiosk ekranında 'ekran' bölümündeki kısa kartlar gösterilir (her kart dayandığı kural numaralarını 'kurallar' alanında taşır). Resmî metin 'kurallar[].orijinal' alanındadır; belirsizlikler için docs/OFIS_KURALLARI.md Bölüm 3.",
   "kurallar": [
     {
       "no": 1,
@@ -64,5 +64,83 @@
       "kisa": "İadede alınan cihazların tamamı getirilmeli, kontroller bitene kadar beklenmelidir.",
       "orijinal": "Cihazların teslimi esnasında, alınan cihazların tamamının getirilmesi gerekmektedir ve kontroller tamamlanana kadar beklenmelidir."
     }
-  ]
+  ],
+  "ekran": {
+    "zaman": {
+      "teslim": "11:00",
+      "iade": "10:00",
+      "enFazlaGun": 3,
+      "kurallar": [
+        3,
+        5
+      ]
+    },
+    "kartlar": [
+      {
+        "ikon": "web",
+        "baslik": "Online talep",
+        "alt": "Formu sitede doldur",
+        "kurallar": [
+          1
+        ]
+      },
+      {
+        "ikon": "bir",
+        "baslik": "1 adet",
+        "alt": "Her cihazdan yalnızca bir",
+        "kurallar": [
+          2
+        ]
+      },
+      {
+        "ikon": "takvim",
+        "baslik": "Her gün ayrı talep",
+        "alt": "Farklı günler için",
+        "kurallar": [
+          4
+        ]
+      },
+      {
+        "ikon": "onay",
+        "baslik": "Onay şart",
+        "alt": "Proje sorumlusundan",
+        "kurallar": [
+          6
+        ]
+      },
+      {
+        "ikon": "kisi",
+        "baslik": "Devredilemez",
+        "alt": "Yalnızca sana, ofiste",
+        "kurallar": [
+          8
+        ]
+      },
+      {
+        "ikon": "kontrol",
+        "baslik": "Kontrol ederek al",
+        "alt": "Sorumluluk sende",
+        "kurallar": [
+          9
+        ]
+      },
+      {
+        "ikon": "kutu",
+        "baslik": "Eksiksiz iade",
+        "alt": "Kontrol bitene kadar bekle",
+        "kurallar": [
+          10
+        ]
+      },
+      {
+        "ikon": "uyari",
+        "baslik": "Geç iade",
+        "alt": "1 dönem sistem engeli",
+        "kurallar": [
+          7
+        ],
+        "vurgu": true
+      }
+    ]
+  }
 }

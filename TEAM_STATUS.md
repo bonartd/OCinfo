@@ -278,4 +278,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı isteğiyle "Bölümlere göre" çubukları kalınlaştırıldı: geniş grafikte çubuk satır yüksekliğinin %80'i (≤76 px; 1080×810'da 53 px, dikeyde 56 px), bölüm adı çubuğun **içinde** beyaz kalın yazı; ad sığmazsa çubuğun sağında, sığmıyorsa yazı 13 px'e kadar küçülür (gerçek yazı genişliği `getComputedTextLength` ile ölçülür); değer yazısı 17–24 px. Dar grafikte (telefon, < 560 px) ad çubuğun üstünde, çubuk ≤52 px; telefonda grafik yüksekliği 420 → 560 px (çubuk 38 px). `ocinfo-v22`.
 - **Doğrulama:** 1024×768 ve 810×1080'de 11 yılın hepsinde ad/değer taşması yok (dışarıdaki ad en az 18 px); 375×812'de taşma yok.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `bfd6c0b`

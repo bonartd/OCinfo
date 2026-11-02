@@ -270,4 +270,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı isteğiyle Sayfa 3'teki açıklama satırı tamamen kaldırıldı: "Bölüm bilgisi olmayan … kayıt grafikte yok", "Sınıf bilgisi olan kayıtlar …" ve "2015-2016 kısmi yıldır" notları; yıl menüsündeki ve "Yıllara göre" etiketlerindeki "(kısmi)" ekleri. Grafik ve veri değişmedi (Belirtilmemiş yine çubuk olarak çizilmez). JSON'daki `kismi` alanı korunuyor ama gösterilmiyor. `ocinfo-v21`.
 - **Doğrulama:** Bölüm / sınıf / yıllar görünümlerinde ve 2015-2016 seçiliyken sayfada "kısmi", "grafikte yok", "Sınıf bilgisi" metni yok; taşma yok.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `fcc74d2`

@@ -262,4 +262,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı, önceki kayıtta açık kalan 9 proje sorumlusunun bölümlerini bildirdi (7'si bir bölüme, 1'i "Diğer"e); yerel eşleme 14 → 23 kişi. Veri yeniden üretildi: proje sorumlusundan bölüme bağlanan kayıt 1.526 → 2.836; ör. 2016-17'de bölüm bilgisi olmayan oran %84 → %61. Toplam değişmedi (10.370). JSON'da ad yok; geçici Excel kopyaları silindi. `ocinfo-v20`.
 - **Not:** Kalan "belirtilmemiş" kayıtların çoğunda proje sorumlusu da boş; bunlar eşlemeyle çözülemez.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `33bae44`

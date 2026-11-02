@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| _(şu an aktif çalışma yok)_ | | | |
+| bonartd | Claude Code | `app/assets/js/pages/ekipman.js` (yeni), `app/data/ekipmanlar.json` (yeni), `app/assets/img/ekipman/` (yeni), `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md` | 2026-11-02 23:00 |
 
 ---
 

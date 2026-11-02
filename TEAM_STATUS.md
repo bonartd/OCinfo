@@ -286,4 +286,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcının verdiği "Alınan Ekipmanlar-2026.pdf" listesinden **Sayfa 4 — "Sisteme yeni eklenen ekipmanlar"** eklendi. PDF'teki 10 ürün görseli çıkarıldı, beyaz zemine JPEG (520 px, toplam ~245 KB) olarak `assets/img/ekipman/`'a kondu. Yatay iPad'de 5×2 görselli kart (görsel büyük, altında cihaz adı + model, sağ üstte "N adet"), dikey iPad'de 2×5 (görsel solda), telefonda 2 sütun kayan liste. Başlıkta "10 çeşit · 26 adet". Karta dokununca görsel büyür; dokununca / hareketsizlikte kapanır. Yeni log olayı yok (yalnızca sayfa adı "4 · Yeni Ekipmanlar"). `ocinfo-v23`.
 - **Doğrulama:** 1080×810, 1024×768, 810×1080 ve 375×812'de taşma ve kaydırma yok (telefonda dikey kayar), tüm görseller yükleniyor, büyütme penceresi ekrana sığıyor. Geçici PDF kopyası silindi.
 - **Sıradaki adım:** Gerçek iPad'de görsel netliği kontrolü; yeni ekipman geldikçe JSON + görsel eklenir.
-- **Commit:** (doldurulacak)
+- **Commit:** `4cd5a9a`

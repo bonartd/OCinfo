@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `docs/KULLANIM_LOGU.md`, `docs/ornekler/`, `tools/veri/ornek_log_olustur.py`, `.gitignore` | 2026-11-02 15:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -209,3 +209,10 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1180×820, 1080×810, 1024×768, 810×1080'de Sayfa 1 taşmasız, kart başlıkları taşmıyor (1024'te başlık boyutu genişliğe bağlandı); 375×812 telefonda yatay taşma yok. Animasyonların oynadığı ekran görüntüsü ve hesaplanan stil ile doğrulandı. Gerçek iPad'de akıcılık henüz denenmedi.
 - **Sıradaki adım:** iPad'de animasyonların akıcılığını kontrol et. Önceki yılların verisi ve Sayfa 4 için cihaz verisi bekleniyor.
 - **Commit:** `8ed51e7`
+
+### 2026-11-02 15:40 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (öneri; **uygulama koduna dokunulmadı**, kullanıcı onayı bekleniyor)
+- **Dokunulan dosyalar:** `docs/KULLANIM_LOGU.md` (yeni), `docs/ornekler/OCinfo_kullanim_logu_ORNEK_sentetik.xlsx` (yeni), `tools/veri/ornek_log_olustur.py` (yeni), `.gitignore`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı, istatistikler log olarak tutulacaksa önce sentetik örnek ve kayıt yeri bilgisi istedi. Uygulamada şu an kullanım logu yok (yalnızca anket). **Tasarım önerisi** yazıldı: yalnızca etkileşimler + sistem olayları (otomatik döngü kaydedilmez); 12 olay türü; oturum = ilk dokunmadan 90 sn hareketsizliğe; sütunlar Kayıt No/Tarih/Saat/Gün/Cihaz/Oturum/Olay/Sayfa/Ayrıntı/Süre/Sürüm; kişisel veri ve IP yok. **Kayıt yeri:** anket e-tablosunda yeni "Kullanım Logu" sayfası, aynı Apps Script adresine `tur: "log"` toplu POST (yeni izin/adres yok); iPad'de `localStorage` kuyruğu (≤2.000 olay, 5 dk / 50 olayda bir, çevrimdışı bekler). Hacim ~25.000 satır/yıl; eğitim yılı sonunda arşiv önerisi. **Sentetik örnek Excel** (2–15 Kasım 2026, 1.011 olay, 217 kiosk oturumu; sayfalar: Okuma Rehberi, Olay Kaydı, Günlük Özet, Saatlik Yoğunluk) — tek iPad için oturumlar çakışmaz, oturumda en fazla bir anket. `.gitignore`'a `!docs/ornekler/*.xlsx` istisnası.
+- **Sıradaki adım:** Kullanıcı örneği inceleyip onaylarsa `docs/KULLANIM_LOGU.md` Bölüm 7'deki adımlarla uygula (betik yeni sürüm dağıtımı kullanıcıda).
+- **Commit:** (doldurulacak)

@@ -10,3 +10,5 @@ node_modules/
 *.xlsx
 *.xls
 *.csv
+# Sentetik örnek dosyalar (kişisel veri içermez) depoda tutulur
+!docs/ornekler/*.xlsx

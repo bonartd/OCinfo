@@ -235,12 +235,15 @@ OCinfo/
 ├── docs/
 │   ├── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
 │   ├── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
-│   └── ANKET_KURULUM.md       # Anket → Google E-Tablosu kurulumu
+│   ├── ANKET_KURULUM.md       # Anket → Google E-Tablosu kurulumu
+│   ├── KULLANIM_LOGU.md       # Kullanım logu tasarım önerisi (henüz uygulanmadı)
+│   └── ornekler/              # Sentetik örnek dosyalar (kişisel veri yok; .gitignore istisnası)
 ├── tools/google-apps-script/
 │   ├── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
 │   └── appsscript.json        # Betik manifesti (dar izin: spreadsheets.currentonly)
 ├── tools/veri/
-│   └── istatistik_olustur.py  # Excel → app/data/istatistik.json (yalnızca sayımlar)
+│   ├── istatistik_olustur.py  # Excel → app/data/istatistik.json (yalnızca sayımlar)
+│   └── ornek_log_olustur.py   # Sentetik kullanım logu örneği (docs/ornekler/)
 └── app/                       # YAYINLANAN UYGULAMA (yalnızca bu klasör yayınlanır)
     ├── index.html             # Kiosk kabuğu: üst çubuk (saat), sahne, sayfa noktaları
     ├── manifest.webmanifest   # PWA manifest'i

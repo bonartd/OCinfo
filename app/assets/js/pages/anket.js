@@ -4,6 +4,8 @@
 // Arka arkaya yanıtı zorlaştırmak için gönderimden sonra config.surveyCooldownSec
 // boyunca yeni yanıt alınmaz.
 
+import { log } from '../log.js';
+
 const QUEUE_KEY = 'ocinfo-anket-kuyruk';
 const COOLDOWN_KEY = 'ocinfo-anket-son-gonderim';
 const FLUSH_EVERY_SEC = 60;
@@ -108,6 +110,7 @@ function makeEntry(level, bolum, gorus) {
 }
 
 let resetView = () => {};
+let pendingLevel = () => null;
 
 export default {
   id: 'anket',
@@ -226,6 +229,8 @@ export default {
       waitTimer = setTimeout(showCooldown, Math.min(1000, ms));
     }
 
+    pendingLevel = () => level;
+
     resetView = () => {
       clearTimeout(waitTimer);
       if (document.activeElement && el.contains(document.activeElement)) document.activeElement.blur();
@@ -243,6 +248,7 @@ export default {
         return;
       }
       level = LEVELS[Number(btn.dataset.puan) - 1];
+      log('Anket: puan seçildi', { ayrinti: `${level.puan} · ${level.metin}` });
       picked.innerHTML = face(level) + `<span>${level.metin}</span>`;
       picked.style.color = level.renk;
       go('detail');
@@ -255,7 +261,10 @@ export default {
 
     digerInput.addEventListener('input', updateSubmit);
 
-    form.querySelector('[data-action="back"]').addEventListener('click', resetView);
+    form.querySelector('[data-action="back"]').addEventListener('click', () => {
+      if (level) log('Anket yarıda bırakıldı', { ayrinti: "Geri'ye dokunuldu" });
+      resetView();
+    });
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -264,6 +273,7 @@ export default {
       const bolumValue = bolum === DIGER ? (digerText ? `${DIGER}: ${digerText}` : DIGER) : bolum;
       const entry = makeEntry(level, bolumValue, form.elements.gorus.value);
       writeQueue(readQueue().concat(entry));
+      log('Anket gönderildi', { ayrinti: `Yanıtlar sayfasındaki Kayıt ID: ${entry.id}` });
       save(COOLDOWN_KEY, Date.now());
       flush(config.surveyEndpoint);
       if (document.activeElement) document.activeElement.blur();
@@ -285,6 +295,7 @@ export default {
 
   // Hareketsizlikte (app.js) ilk adıma dön ve yarım kalan yanıtı temizle.
   reset() {
+    if (pendingLevel()) log('Anket yarıda bırakıldı', { ayrinti: 'Hareketsizlik (form temizlendi)' });
     resetView();
   },
 };

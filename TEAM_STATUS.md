@@ -14,7 +14,7 @@
 
 | Kim | Araç | Dosyalar | Başlangıç (YYYY-AA-GG SS:DD) |
 |-----|------|----------|------------------------------|
-| bonartd | Claude Code | `app/assets/js/log.js`, `app/assets/js/{app,config,rotator}.js`, `app/assets/js/pages/*.js`, `app/sw.js`, `tools/google-apps-script/anket.gs`, `docs/KULLANIM_LOGU.md`, `docs/ANKET_KURULUM.md`, `AGENTS.md` | 2026-11-02 16:00 |
+| _(şu an aktif çalışma yok)_ | | | |
 
 ---
 
@@ -216,3 +216,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Yapılan iş:** Kullanıcı, istatistikler log olarak tutulacaksa önce sentetik örnek ve kayıt yeri bilgisi istedi. Uygulamada şu an kullanım logu yok (yalnızca anket). **Tasarım önerisi** yazıldı: yalnızca etkileşimler + sistem olayları (otomatik döngü kaydedilmez); 12 olay türü; oturum = ilk dokunmadan 90 sn hareketsizliğe; sütunlar Kayıt No/Tarih/Saat/Gün/Cihaz/Oturum/Olay/Sayfa/Ayrıntı/Süre/Sürüm; kişisel veri ve IP yok. **Kayıt yeri:** anket e-tablosunda yeni "Kullanım Logu" sayfası, aynı Apps Script adresine `tur: "log"` toplu POST (yeni izin/adres yok); iPad'de `localStorage` kuyruğu (≤2.000 olay, 5 dk / 50 olayda bir, çevrimdışı bekler). Hacim ~25.000 satır/yıl; eğitim yılı sonunda arşiv önerisi. **Sentetik örnek Excel** (2–15 Kasım 2026, 1.011 olay, 217 kiosk oturumu; sayfalar: Okuma Rehberi, Olay Kaydı, Günlük Özet, Saatlik Yoğunluk) — tek iPad için oturumlar çakışmaz, oturumda en fazla bir anket. `.gitignore`'a `!docs/ornekler/*.xlsx` istisnası.
 - **Sıradaki adım:** Kullanıcı örneği inceleyip onaylarsa `docs/KULLANIM_LOGU.md` Bölüm 7'deki adımlarla uygula (betik yeni sürüm dağıtımı kullanıcıda).
 - **Commit:** `8731b46`
+
+### 2026-11-02 17:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı (Apps Script yeni sürüm dağıtımı kullanıcıda bekliyor)
+- **Dokunulan dosyalar:** `app/assets/js/log.js` (yeni), `app/assets/js/app.js`, `app/assets/js/rotator.js`, `app/assets/js/config.js`, `app/assets/js/pages/{rezervasyon,anket,istatistik}.js`, `app/sw.js`, `tools/google-apps-script/anket.gs`, `docs/KULLANIM_LOGU.md`, `docs/ANKET_KURULUM.md`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı onayıyla **kullanım logu uygulandı** (`docs/KULLANIM_LOGU.md`). `log.js`: olay kuyruğu (`ocinfo-log-kuyruk`, ≤2.000, aşımda "Kayıt kaybı"), kiosk oturumu (K-AAGG-NNN, günlük sayaç; ilk dokunma → başladı, hareketsizlik → bitti + etkin süre), telefon oturumu (T-AAGG-xxxx), toplu gönderim (5 dk / 50 olay / oturum sonu / bağlantı gelince; kapanışta sendBeacon), yalnızca `ok:true` ile silme. Olaylar: Uygulama açıldı, Oturum başladı/bitti, Sayfa değişti (yalnız nokta/kaydırma; rotator'a `onChange` + neden eklendi), Grafik/Yıl/Çubuk seçildi, Anket puan/gönderildi (Kayıt ID)/yarıda bırakıldı (Geri, hareketsizlik — oturum bitmeden yazılır), Rezervasyon bağlantısı açıldı (telefon), Bağlantı koptu/geldi, Gece yenilemesi. `config.appVersion = 'ocinfo-v16'` = `sw.js` CACHE. **anket.gs:** `tur:"log"` dalı → "Kullanım Logu" sayfası (12 sütun, Kayıt No + Alınma zamanı), izinli olay listesi, paket tekrar ayıklama (CacheService 6 sa), ayrı log kotası (120 paket/10 dk); `gunlukOzet()` → "Günlük Özet" + "Saatlik Yoğunluk"; `kurulumTesti` log sayfasını da hazırlar; `takeQuota` önek/sınır parametreli.
+- **Doğrulama:** anket.gs sahte Google servisleriyle (JXA) denendi: anket yanıtı çalışıyor; 7 olaylık pakette geçersiz tür ayıklandı (6 yazıldı); aynı paket tekrarında yazılmadı; özet ve saatlik tablo doğru. Tarayıcıda (sahte uç nokta) kiosk oturumunun 11 olayı doğru sırayla tek pakette gitti, kuyruk boşaldı; telefon olayları doğru; eski betik reddederken olaylar kuyrukta kaldı. Gerçek tabloda **henüz denenmedi**.
+- **Sıradaki adım:** Kullanıcı yeni `anket.gs`'yi yapıştırıp `kurulumTesti` çalıştıracak ve Dağıtımları yönet → Yeni sürüm ile dağıtacak; isteğe bağlı `gunlukOzet` için günlük tetikleyici. Sonra gerçek tabloda birkaç olay kontrol edilecek.
+- **Commit:** (doldurulacak)

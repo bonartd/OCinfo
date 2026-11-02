@@ -2,6 +2,8 @@
 // Kiosk'ta giriş yapılmaz; öğrenci QR ile siteyi kendi telefonunda açar (AGENTS.md 3.6).
 // Ekrandaki kısa metinler data/kurallar.json → "ekran" bölümündedir; resmî metin aynı dosyada.
 
+import { log } from '../log.js';
+
 function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -95,5 +97,9 @@ export default {
           <p class="source anim" style="--i:11">Kuralların tam metni: ${esc(host)}</p>
         </section>
       </div>`;
+
+    el.querySelector('.rz-link').addEventListener('click', () => {
+      log('Rezervasyon bağlantısı açıldı', { ayrinti: host });
+    });
   },
 };

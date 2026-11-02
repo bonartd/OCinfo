@@ -1,8 +1,8 @@
-# Kullanım Logu — Tasarım Önerisi
+# Kullanım Logu
 
-> **Durum: ÖNERİ — henüz uygulanmadı.** Uygulamada şu an kullanım logu tutulmuyor; yalnızca anket
-> yanıtları kaydediliyor. Bu belge ve örnek dosya, onaydan önce logların nasıl görüneceğini ve
-> nereye kaydedileceğini göstermek içindir.
+> **Durum: UYGULANDI** (`ocinfo-v16`, kullanıcı onayıyla). Uygulama tarafı: `app/assets/js/log.js`;
+> kayıt tarafı: `tools/google-apps-script/anket.gs` (`tur: "log"`). Betiğin yeni sürümü Apps
+> Script'te dağıtılana kadar olaylar iPad'de bekler, kaybolmaz.
 >
 > **Örnek (sentetik) dosya:** [`docs/ornekler/OCinfo_kullanim_logu_ORNEK_sentetik.xlsx`](ornekler/OCinfo_kullanim_logu_ORNEK_sentetik.xlsx)
 > — `tools/veri/ornek_log_olustur.py` ile üretilir; gerçek veri değildir.
@@ -26,15 +26,17 @@ otomatik sayfa geçişleri **kaydedilmez** (günde binlerce anlamsız satır olu
 | Oturum başladı | Kiosk boştayken biri ekrana dokunur | "İlk dokunma" |
 | Sayfa değişti | Kullanıcı noktalarla / kaydırarak sayfa değiştirir | `1 · Kurallar → 2 · Anket (nokta)` |
 | Grafik seçildi | Sayfa 3'te açılır menüden seçim | `Aylara göre` |
+| Yıl seçildi | Sayfa 3'te yıl seçimi (birden çok yıl varken) | `2024-2025` |
 | Çubuk seçildi | Sayfa 3'te bir çubuğa dokunma | `Nisan 2026` |
 | Anket: puan seçildi | Yüzlerden birine dokunma | `4 · Memnunum` |
 | Anket gönderildi | Yanıt gönderilir | Anket tablosundaki **Kayıt ID** (eşleştirme için) |
 | Anket yarıda bırakıldı | Puan verilip gönderilmez | `Geri'ye dokunuldu` / `Hareketsizlik` |
 | Oturum bitti | 90 sn hareketsizlik, kiosk başa döner | Süre (sn) sütununda etkin süre |
-| Uygulama açıldı | (Telefon) uygulama açılır | `Safari` / `Ana ekran (PWA)` |
+| Uygulama açıldı | Uygulama yüklenir (kiosk: sistem olayı; telefon: oturum başı) | `Kiosk` / `Tarayıcı` / `Ana ekran (PWA)` |
 | Rezervasyon bağlantısı açıldı | (Telefon) "Ödünç Cihaz Sistemi'ne git" düğmesi | — |
 | Bağlantı koptu / geldi | İnternet kesintisi başı / sonu | Kesinti süresi |
 | Gece yenilemesi | Kiosk 04:00'te kendini yeniler | Sağlık işareti: her gün 1 kez |
+| Kayıt kaybı | iPad kuyruğu 2.000 olayı aşarsa en eskiler atılır | Atılan olay sayısı |
 
 **Oturum:** Bir kişinin ilk dokunmasından 90 sn hareketsizliğe kadar geçen süreç. Numarası
 `K-AAGG-NNN` (kiosk) ya da `T-…` (telefon) biçimindedir. Sıra numarasıdır; **kişiyi tanımlamaz**.
@@ -94,9 +96,20 @@ localStorage kuyruğu  ──(toplu POST)──▶  Apps Script web uygulaması 
 - **Excel:** Dosya → İndir → Microsoft Excel (.xlsx).
 - Örnek dosyadaki **"Okuma Rehberi"** sayfası tüm sütun ve olayları açıklar.
 
-## 7. Onaylanırsa yapılacaklar
+## 7. Teknik ayrıntılar ve kurulum
 
-1. `app/assets/js/log.js`: olay kuyruğu ve toplu gönderim; sayfalara olay çağrıları.
-2. `tools/google-apps-script/anket.gs`: `tur: "log"` dalı, "Kullanım Logu" sayfası, isteğe bağlı
-   günlük özet işlevi. **Kullanıcının betiği yeni sürüm olarak dağıtması gerekir** (adres değişmez).
-3. `sw.js` sürümü, belgeler ve test (sahte uç noktayla + gerçek tabloda birkaç olay).
+- **Uygulama:** `log.js` → `log(olay, {ayrinti, sure, sistem})`; kiosk oturumu `app.js`'teki
+  hareketsizlik zamanlayıcısına bağlıdır (ilk dokunma → "Oturum başladı", 90 sn → "Oturum bitti").
+  Kuyruk anahtarı `ocinfo-log-kuyruk`; günlük oturum sayacı `ocinfo-log-sayac`. Gönderim:
+  5 dk'da bir, 50 olayda bir, oturum bitince, bağlantı gelince; sayfa kapanırken `sendBeacon`.
+  Yalnızca sunucu `ok: true` derse kuyruktan silinir; aynı paket tekrar giderse betik paket
+  kimliğiyle (6 saat) ayıklar.
+- **Yeni olay türü eklemek:** hem `log.js` çağrısında hem `anket.gs` → `LOG_OLAYLAR` listesinde
+  aynı ad olmalıdır; yoksa betik o olayı yazmaz.
+- **Sürüm:** `config.appVersion`, `sw.js` → `CACHE` ile birlikte güncellenir (logdaki "Uygulama sürümü").
+- **Betik:** `anket.gs` güncellendiğinde Apps Script'e yapıştırılıp `kurulumTesti` çalıştırılır
+  ("Kullanım Logu" sayfası oluşur) ve **Dağıtımları yönet → Yeni sürüm** ile dağıtılır (adres aynı).
+- **Günlük özet:** Apps Script'te `gunlukOzet` işlevi "Günlük Özet" ve "Saatlik Yoğunluk"
+  sayfalarını yeniden üretir. Elle çalıştırılabilir ya da **Tetikleyiciler (⏰) → Tetikleyici ekle →
+  `gunlukOzet` → Zamana dayalı → Gün zamanlayıcı → 05:00–06:00** ile her sabah otomatik güncellenir.
+  "Gece yenilemesi: YOK" görünen gün, kiosk'un o gece çalışmadığını gösterir.

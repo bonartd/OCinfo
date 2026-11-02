@@ -57,6 +57,8 @@ olarak indirilebilir.
 7. URL'yi `app/assets/js/config.js` içindeki `surveyEndpoint` alanına yazın, commit + push edin
    (ya da URL'yi YZ aracınıza verip bu adımı ona yaptırın).
 
+> Aynı betik **kullanım logunu** da "Kullanım Logu" sayfasına yazar; ayrıntılar: [`KULLANIM_LOGU.md`](KULLANIM_LOGU.md).
+
 ## Betiği güncelleme (depoda `anket.gs` değiştiğinde)
 
 1. Anket tablosu → **Uzantılar → Apps Script** → `Kod.gs` içeriğini silip depodaki güncel

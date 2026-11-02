@@ -5,6 +5,9 @@ import { createRotator } from './rotator.js';
 import rezervasyon from './pages/rezervasyon.js';
 import anket from './pages/anket.js';
 import istatistik from './pages/istatistik.js';
+import {
+  initLog, log, setSayfa, sayfaAdi, oturumBasladi, oturumBitti,
+} from './log.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
 const PAGE_MODULES = [rezervasyon, anket, istatistik];
@@ -19,6 +22,9 @@ const offline = document.getElementById('offline');
 // iPad kiosk her yönde kısa kenarı ≥ 768 olduğundan etkilenmez.
 const isPhone = Math.min(screen.width, screen.height) < config.phoneMaxShortSide;
 document.documentElement.classList.toggle('is-phone', isPhone);
+
+// Kullanım logu (docs/KULLANIM_LOGU.md) — anketle aynı uç nokta.
+initLog({ endpoint: config.surveyEndpoint, surum: config.appVersion, telefon: isPhone });
 
 async function init() {
   const pages = [];
@@ -37,24 +43,42 @@ async function init() {
     pages.push({ id: mod.id, title: mod.title, durationSec: mod.durationSec, reset: mod.reset, el });
   }
 
-  const rotator = createRotator({ pages, stage, dots, defaultSec: config.rotationSec });
+  const rotator = createRotator({
+    pages, stage, dots, defaultSec: config.rotationSec,
+    onChange: (prev, next, neden) => {
+      setSayfa(next.id);
+      // Boşta otomatik geçişler ve başa dönüş kaydedilmez; yalnızca kullanıcının geçişleri.
+      if (neden === 'nokta' || neden === 'kaydırma') {
+        log('Sayfa değişti', { ayrinti: `${sayfaAdi(prev.id)} → ${sayfaAdi(next.id)} (${neden})` });
+      }
+    },
+  });
+  setSayfa(pages[0].id);
 
   if (isPhone) {
+    const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    log('Uygulama açıldı', { ayrinti: standalone ? 'Ana ekran (PWA)' : 'Tarayıcı' });
     // Yalnızca saat; sayfalar arasında noktalar ve kaydırma ile geçilir.
     setInterval(updateClock, 1000);
     updateClock();
     return;
   }
 
+  log('Uygulama açıldı', { sistem: true, ayrinti: 'Kiosk' });
+
   const idle = createIdleTimer({
     timeoutSec: config.idleTimeoutSec,
-    onActive: () => rotator.stop(),
+    onActive: () => {
+      rotator.stop();
+      oturumBasladi();
+    },
     onIdle: () => {
       pages.forEach((p) => {
         p.el.scrollTop = 0;
-        // Sayfa yarım kalan durumu (ör. anket formu) temizlesin.
+        // Sayfa yarım kalan durumu (ör. anket formu) temizlesin (yarım anket oturuma yazılır).
         if (p.reset) p.reset();
       });
+      oturumBitti(config.idleTimeoutSec);
       rotator.home();
       rotator.start();
     },
@@ -73,7 +97,10 @@ async function init() {
   setInterval(() => {
     idle.tick();
     updateClock();
-    if (reloadAt && Date.now() >= reloadAt && idle.isIdle()) location.reload();
+    if (reloadAt && Date.now() >= reloadAt && idle.isIdle()) {
+      log('Gece yenilemesi', { sistem: true, ayrinti: `Uygulama ${String(config.nightlyReloadHour).padStart(2, '0')}:00'te kendini yeniledi` });
+      location.reload();
+    }
   }, 1000);
   updateClock();
 }
@@ -102,8 +129,18 @@ function updateClock() {
 function updateOnline() {
   offline.hidden = navigator.onLine;
 }
-window.addEventListener('online', updateOnline);
-window.addEventListener('offline', updateOnline);
+let offlineSince = 0;
+window.addEventListener('online', () => {
+  updateOnline();
+  const sn = offlineSince ? (Date.now() - offlineSince) / 1000 : 0;
+  offlineSince = 0;
+  log('Bağlantı geldi', { sistem: true, sure: sn, ayrinti: `${Math.round(sn / 60)} dk çevrimdışı; bekleyen kayıtlar gönderiliyor` });
+});
+window.addEventListener('offline', () => {
+  updateOnline();
+  offlineSince = Date.now();
+  log('Bağlantı koptu', { sistem: true, ayrinti: 'Çevrimdışı rozeti gösterildi' });
+});
 updateOnline();
 
 // iOS: iki parmakla yakınlaştırmayı engelle (kiosk).

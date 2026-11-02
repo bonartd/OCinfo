@@ -3,6 +3,8 @@
 // anonim rezervasyon sayımları, eğitim yılı bazında). Birden çok yıl varsa yıl seçimi görünür.
 // Grafikler kütüphanesiz, satır içi SVG'dir (AGENTS.md 3.5).
 
+import { log } from '../log.js';
+
 const AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 const AY_KISA = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
 const SINIFLAR = [
@@ -273,6 +275,7 @@ export default {
       state.view = opt.dataset.v;
       selected = null;
       openMenu(false);
+      log('Grafik seçildi', { ayrinti: VIEWS.find((v) => v.id === state.view).etiket });
       update();
     });
     // Menü dışına dokununca kapanır.
@@ -286,6 +289,7 @@ export default {
         if (!btn) return;
         state.yil = btn.dataset.v;
         selected = null;
+        log('Yıl seçildi', { ayrinti: state.yil });
         update();
       });
     }
@@ -295,6 +299,7 @@ export default {
       if (!hit) return;
       const i = Number(hit.getAttribute('data-i'));
       selected = selected === i ? null : i;
+      if (selected !== null) log('Çubuk seçildi', { ayrinti: items[i].label });
       applySelection();
     });
 

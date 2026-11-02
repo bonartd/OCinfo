@@ -1,5 +1,7 @@
 // OCinfo ayarları — kiosk davranışı buradan değiştirilir.
 export const config = {
+  // Uygulama sürümü (kullanım loguna yazılır). sw.js'deki CACHE ile BİRLİKTE güncelleyin.
+  appVersion: 'ocinfo-v16',
   // Hiç dokunulmazsa ilk sayfaya dönüş ve otomatik geçişin yeniden başlaması (saniye)
   idleTimeoutSec: 90,
   // Otomatik geçişte her sayfanın varsayılan ekranda kalma süresi (saniye).

@@ -1,7 +1,8 @@
 // Sayfa döndürücü: sayfaları sırayla gösterir. Otomatik geçiş yalnızca kiosk boştayken
 // çalışır; kullanıcı dokunurken durur. Geçiş yalnızca opacity/transform ile yapılır.
 
-export function createRotator({ pages, stage, dots, defaultSec }) {
+// onChange(önceki, sonraki, neden): neden 'nokta' | 'kaydırma' | 'otomatik' | 'sıfırlama'.
+export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
   let index = 0;
   let timer = null;
   let running = false;
@@ -19,7 +20,7 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
     b.type = 'button';
     b.className = 'dot';
     b.setAttribute('aria-label', page.title);
-    b.addEventListener('click', () => show(i));
+    b.addEventListener('click', () => show(i, 'nokta'));
     dots.appendChild(b);
     return b;
   });
@@ -29,9 +30,10 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
     dotButtons.forEach((b, i) => b.classList.toggle('is-active', i === index));
   }
 
-  function show(i) {
+  function show(i, neden) {
     const next = (i + pages.length) % pages.length;
     if (next !== index) {
+      const prev = index;
       pages[index].el.classList.remove('is-active');
       pages[index].el.setAttribute('aria-hidden', 'true');
       pages[next].el.classList.add('is-active');
@@ -39,6 +41,7 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
       pages[next].el.scrollTop = 0;
       index = next;
       updateDots();
+      if (onChange) onChange(pages[prev], pages[next], neden);
     }
     schedule();
   }
@@ -48,7 +51,7 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
     timer = null;
     if (!running || pages.length < 2) return;
     const sec = pages[index].durationSec || defaultSec;
-    timer = setTimeout(() => show(index + 1), sec * 1000);
+    timer = setTimeout(() => show(index + 1, 'otomatik'), sec * 1000);
   }
 
   // Basit yatay kaydırma (swipe) ile sayfa değiştirme.
@@ -61,13 +64,13 @@ export function createRotator({ pages, stage, dots, defaultSec }) {
     if (startX === null || pages.length < 2) return;
     const dx = e.clientX - startX;
     startX = null;
-    if (Math.abs(dx) > 80) show(index + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 80) show(index + (dx < 0 ? 1 : -1), 'kaydırma');
   }, { passive: true });
   stage.addEventListener('pointercancel', () => { startX = null; }, { passive: true });
 
   return {
     show,
-    home() { show(0); },
+    home() { show(0, 'sıfırlama'); },
     start() { running = true; schedule(); },
     stop() { running = false; schedule(); },
   };

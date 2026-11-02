@@ -189,6 +189,9 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   zorunludur** ("Diğer" seçilirse bölüm adı yazılır), görüş isteğe bağlıdır. Bir yanıttan sonra `config.surveyCooldownSec` (60 sn) boyunca yeni
   yanıt alınmaz; betik ayrıca zaman başına kayıt sınırı uygular ve çok yakın yanıtları
   "şüpheli" işaretler. Ortak kioskta kişi başı tek yanıt garanti edilemez.
+- **Kullanım logu** (`log.js`, `docs/KULLANIM_LOGU.md`): yalnızca anonim etkileşim olayları; kişisel
+  veri, IP, konum, serbest metin (anket görüşü) loga yazılmaz. Yeni olay türü eklerken `anket.gs` →
+  `LOG_OLAYLAR` da güncellenir. `config.appVersion` ile `sw.js` → `CACHE` birlikte artırılır.
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
   **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
   Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar). Uygulama telefondan
@@ -236,7 +239,7 @@ OCinfo/
 │   ├── EKIP_KURULUM.md        # Ekibe gönderilecek metin + hazır prompt
 │   ├── OFIS_KURALLARI.md      # Ofis kuralları (resmî siteden) + inceleme
 │   ├── ANKET_KURULUM.md       # Anket → Google E-Tablosu kurulumu
-│   ├── KULLANIM_LOGU.md       # Kullanım logu tasarım önerisi (henüz uygulanmadı)
+│   ├── KULLANIM_LOGU.md       # Kullanım logu: olaylar, kayıt yeri, kurulum
 │   └── ornekler/              # Sentetik örnek dosyalar (kişisel veri yok; .gitignore istisnası)
 ├── tools/google-apps-script/
 │   ├── anket.gs               # Anket yanıtlarını e-tabloya yazan betik (yayınlanmaz)
@@ -254,6 +257,7 @@ OCinfo/
     │   ├── app.js             # Giriş noktası; PAGE_MODULES listesi
     │   ├── idle.js            # Hareketsizlik zamanlayıcısı
     │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, kaydırma)
+    │   ├── log.js             # Kullanım logu (anonim olaylar → anket betiği, docs/KULLANIM_LOGU.md)
     │   └── pages/             # Her kiosk sayfası ayrı modül
     │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
     │       ├── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)

@@ -313,4 +313,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 1024×768, 810×1080, 375×812'de 10 kartın hepsi aynı boyutta, çakışma 0, taşma 0, sayfa kaydırması yok (telefonda dikey kayar); dönen kart arka yüzü taşmıyor. Dokunma olayı benzetimiyle: sola kaydırma ileri, sağa geri, dikey hareket sayfa değiştirmiyor. Gerçek iPad Safari 15.5'te henüz denenmedi.
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** iPad'de kartlar ve kaydırma kontrol edilmeli.
-- **Commit:** (doldurulacak)
+- **Commit:** `3dc1a7e`

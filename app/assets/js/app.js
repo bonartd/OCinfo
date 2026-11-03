@@ -80,7 +80,7 @@ async function init() {
         if (p.reset) p.reset();
       });
       oturumBitti(config.idleTimeoutSec);
-      rotator.home();
+      // Ana sayfaya dönülmez; otomatik geçiş bulunulan sayfadan devam eder.
       rotator.start();
     },
   });

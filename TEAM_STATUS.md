@@ -314,3 +314,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** iPad'de kartlar ve kaydırma kontrol edilmeli.
 - **Commit:** `3dc1a7e`
+
+### 2026-11-03 09:40 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/assets/js/config.js`, `app/assets/js/app.js`, `app/assets/js/pages/istatistik.js`, `app/sw.js`, `AGENTS.md`, `README.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle (1) Sayfa 1 zaman şeridinde "Teslim al / İade et" etiketleri 16 → `clamp(20px, 3.3vh, 30px)` (1080×810'da 27 px), "en erken / en geç" 14 → `clamp(16px, 2.4vh, 22px)` (19 px); saatler 36 px — etiketler hep saatlerden küçük; telefonda 20 / 16 px. (2) Otomatik geçiş **6 sn** (`rotationSec`), istatistik sayfasının 40 sn istisnası kaldırıldı. (3) Dokununca geçiş durur; son dokunuştan **45 sn** (`idleTimeoutSec`) sonra açık formlar/kartlar sıfırlanır ve geçiş **bulunulan sayfadan devam eder** (eskiden ana sayfaya dönüyordu). `ocinfo-v27`.
+- **Doğrulama:** Ölçüldü: sayfalar 5→11→17 sn'de döndü; 19. sn'de dokunuş → 64. sn'ye kadar aynı sayfa, 71. sn'de sonraki sayfa. Zaman şeridi 1080×810, 810×1080 ve 375×812'de taşmıyor.
+- **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** —
+- **Commit:** (doldurulacak)

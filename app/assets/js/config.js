@@ -1,12 +1,12 @@
 // OCinfo ayarları — kiosk davranışı buradan değiştirilir.
 export const config = {
   // Uygulama sürümü (kullanım loguna yazılır). sw.js'deki CACHE ile BİRLİKTE güncelleyin.
-  appVersion: 'ocinfo-v26',
-  // Hiç dokunulmazsa ilk sayfaya dönüş ve otomatik geçişin yeniden başlaması (saniye)
-  idleTimeoutSec: 90,
+  appVersion: 'ocinfo-v27',
+  // Dokunulunca otomatik geçiş durur; son dokunuştan bu kadar saniye sonra açık formlar
+  // sıfırlanır ve otomatik geçiş bulunulan sayfadan devam eder.
+  idleTimeoutSec: 45,
   // Otomatik geçişte her sayfanın varsayılan ekranda kalma süresi (saniye).
-  // Sayfa kendi "durationSec" değerini verirse o kullanılır.
-  rotationSec: 30,
+  rotationSec: 6,
   // Uzun süreli çalışma için her gece bu saatte (0–23) sessizce yeniden yükle.
   // Kapatmak için null yapın.
   nightlyReloadHour: 4,

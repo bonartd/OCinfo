@@ -237,9 +237,10 @@ img { -webkit-user-drag: none; }
 }
 .rz-time-end { display: flex; flex-direction: column; gap: 4px; }
 .rz-time-end--right { align-items: flex-end; text-align: right; }
-.rz-time-label { font-size: 16px; font-weight: 700; color: var(--muted); }
+/* Etiketler saatlerden (rz-time-val) her zaman küçük kalır. */
+.rz-time-label { font-size: clamp(20px, 3.3vh, 30px); font-weight: 700; color: var(--muted); line-height: 1.1; }
 .rz-time-val { font-size: clamp(30px, 4.4vh, 42px); font-weight: 800; color: var(--navy); line-height: 1; font-variant-numeric: tabular-nums; }
-.rz-time-val small { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.rz-time-val small { display: block; margin-bottom: 6px; font-size: clamp(16px, 2.4vh, 22px); font-weight: 600; color: var(--muted); }
 .rz-time-track { position: relative; display: flex; align-items: center; height: 52px; min-width: 0; }
 .rz-time-dot { flex: none; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); }
 .rz-time-dot--end { background: var(--navy); }
@@ -845,6 +846,8 @@ html:not(.is-phone) .phone-only { display: none !important; }
 .is-phone .rz-time-end--right { grid-area: end; }
 .is-phone .rz-time-track { grid-area: track; }
 .is-phone .rz-time-val { font-size: 30px; }
+.is-phone .rz-time-label { font-size: 20px; }
+.is-phone .rz-time-val small { font-size: 16px; }
 .is-phone .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
 .is-phone .tile { grid-template-areas: "ico" "title" "alt"; grid-template-columns: 1fr; }
 .is-phone .tile-title { font-size: 18px; }

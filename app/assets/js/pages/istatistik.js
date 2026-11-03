@@ -238,7 +238,6 @@ let resetState = () => {};
 export default {
   id: 'istatistik',
   title: 'Kullanım bilgileri',
-  durationSec: 40,
 
   async render(el) {
     const res = await fetch('data/istatistik.json');

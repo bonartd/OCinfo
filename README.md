@@ -42,7 +42,7 @@ içindedir. Özet:
 | Uygulama türü | Ana ekrana eklenen, tam ekran (standalone) **PWA** |
 | Etkileşim | Dokunmatik; hedefler ≥ 44×44 pt; dikey + yatay responsive |
 | Telefon | Telefondan açılınca kiosk davranışları kapalı, QR yerine bağlantı düğmesi (AGENTS.md 3.3.1) |
-| Hareketsizlik | Varsayılan **90 sn** işlem yoksa ana sayfaya dönüş (`config.js` ile ayarlanır) |
+| Otomatik geçiş | Sayfalar **6 sn**'de bir döner; dokununca durur, son dokunuştan **45 sn** sonra bulunulan sayfadan devam eder (`config.js`) |
 | Uzun çalışma | Gün boyu açık; bellek sızıntısı yok, zamanlayıcılar temizlenir |
 | Kiosk | **Güdümlü Erişim** + **Otomatik Kilit: Asla** + şarja bağlı (aşağıya bakın) |
 | Sınırlama | PWA tek başına ekranı açık tutmayı / çıkışı engellemeyi **garanti etmez** |

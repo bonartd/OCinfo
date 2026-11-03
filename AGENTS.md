@@ -114,9 +114,10 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
 
 ### 3.3 Kiosk kullanımı ve uzun süreli çalışma
 
-- **Hareketsizlik zaman aşımı:** Kullanıcı belirli bir süre (varsayılan **90 sn**,
+- **Hareketsizlik zaman aşımı:** Kullanıcı belirli bir süre (varsayılan **45 sn**,
   `app/assets/js/config.js` içinde ayarlanabilir) işlem yapmadığında uygulama açık
-  formları/durumları sıfırlayıp **ana sayfaya döner**. `touchstart`, `pointerdown`,
+  formları/durumları sıfırlar ve otomatik geçişe **bulunduğu sayfadan devam eder**
+  (ana sayfaya dönmez; kullanıcı isteği, 2026-11-03). `touchstart`, `pointerdown`,
   `keydown`, `scroll` olayları sayacı sıfırlar.
 - Uygulama **gün boyu açık** kalacaktır: bellek sızıntısı olmamalı (dinleyiciler, zamanlayıcılar,
   `setInterval`'ler temizlenmeli), DOM sürekli büyümemeli, konsol hatası bırakılmamalı.
@@ -281,8 +282,9 @@ OCinfo/
 ### 4.2.1 Kiosk sayfa düzeni
 
 Ekran tam ekran çalışır ve sayfalar **belirli aralıklarla otomatik döner** (`config.rotationSec`,
-varsayılan 30 sn). Biri ekrana dokunduğunda dönüş durur; `config.idleTimeoutSec` (90 sn)
-boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
+varsayılan **6 sn**, tüm sayfalar aynı). Biri ekrana dokunduğunda dönüş durur; son dokunuştan
+`config.idleTimeoutSec` (**45 sn**) sonra açık formlar sıfırlanır ve otomatik geçiş bulunulan
+sayfadan devam eder. Sayfalar ayrıca parmakla kaydırılarak çevrilir.
 
 | Sıra | Sayfa | Modül | Durum |
 |---|---|---|---|

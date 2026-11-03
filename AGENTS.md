@@ -264,7 +264,7 @@ OCinfo/
     │   ├── config.js          # Kiosk ayarları (hareketsizlik, geçiş süresi, gece yenileme)
     │   ├── app.js             # Giriş noktası; PAGE_MODULES listesi
     │   ├── idle.js            # Hareketsizlik zamanlayıcısı
-    │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, kaydırma)
+    │   ├── rotator.js         # Sayfa döndürücü (otomatik geçiş, noktalar, parmakla kaydırma: sağdan sola → sonraki)
     │   ├── log.js             # Kullanım logu (anonim olaylar → anket betiği, docs/KULLANIM_LOGU.md)
     │   └── pages/             # Her kiosk sayfası ayrı modül
     │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
@@ -288,8 +288,8 @@ boyunca dokunulmazsa ilk sayfaya dönülür ve otomatik geçiş yeniden başlar.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar (zaman şeridi + 8 simgeli kart; metinler `kurallar.json` → `ekran`) | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
-| 4 | Sisteme yeni eklenen ekipmanlar (10 görselli kart: ön yüzde görsel, cihaz, model, adet; karta dokununca kart döner, arka yüzde 3 temel özellik — `ozellik`). Yeni ekipman: görseli `assets/img/ekipman/`'a ≤520 px JPEG olarak ekle, `data/ekipmanlar.json`'a satır (en fazla 3 kısa özellik) ekle, `sw.js` SHELL + sürüm | `pages/ekipman.js` | ✅ Hazır |
+| 3 | Sisteme yeni eklenen ekipmanlar (10 görselli kart; kart boyutu yalnızca ızgara hücresinden gelir, içerik kartı büyütemez: ön yüzde görsel, cihaz, model, adet; karta dokununca kart döner, arka yüzde 3 temel özellik — `ozellik`). Yeni ekipman: görseli `assets/img/ekipman/`'a ≤520 px JPEG olarak ekle, `data/ekipmanlar.json`'a satır (en fazla 3 kısa özellik) ekle, `sw.js` SHELL + sürüm | `pages/ekipman.js` | ✅ Hazır |
+| 4 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`
 nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni

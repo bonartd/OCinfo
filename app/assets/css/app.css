@@ -102,19 +102,21 @@ img { -webkit-user-drag: none; }
   -webkit-overflow-scrolling: touch;
   padding: var(--gap) var(--pad-x) max(var(--gap), env(safe-area-inset-bottom));
   opacity: 0;
-  transform: scale(0.985);
+  /* --x: geçiş yönü (rotator.js); kaydırınca sayfa yandan gelir, yana çıkar */
+  -webkit-transform: translateX(var(--x, 0px)) scale(0.985);
+  transform: translateX(var(--x, 0px)) scale(0.985);
   pointer-events: none;
   /* Aktif olmayan sayfa geçiş bitince tamamen gizlenir: iOS Safari'de saydam ama kaydırılabilir
      bir katman, pointer-events: none olsa bile alttaki sayfanın kaydırmasını yakalayabilir. */
   visibility: hidden;
-  transition: opacity 300ms ease, transform 300ms ease, visibility 0s linear 300ms;
+  transition: opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
 }
 .page.is-active {
   opacity: 1;
   transform: none;
   pointer-events: auto;
   visibility: visible;
-  transition: opacity 300ms ease, transform 300ms ease, visibility 0s;
+  transition: opacity 320ms ease, transform 320ms ease, visibility 0s;
 }
 .page-error { font-size: 22px; color: var(--muted); text-align: center; padding-top: 20vh; }
 
@@ -504,7 +506,7 @@ input, textarea {
 }
 .seg button[aria-pressed="true"] { background: #fff; color: var(--navy); box-shadow: 0 1px 2px rgba(11, 37, 69, 0.15); }
 
-/* ===== Sayfa 3: Kullanım bilgileri (özet kartları + büyük grafik) ===== */
+/* ===== Sayfa 4: Kullanım bilgileri (özet kartları + büyük grafik) ===== */
 .st {
   display: grid;
   grid-template-columns: minmax(250px, 0.62fr) 1.65fr;
@@ -654,7 +656,7 @@ input, textarea {
   .seg button, .st-svg .bar, .dd-icon { transition: none; }
 }
 
-/* ===== Sayfa 4: Sisteme yeni eklenen ekipmanlar (görselli kartlar) ===== */
+/* ===== Sayfa 3: Sisteme yeni eklenen ekipmanlar (görselli kartlar) ===== */
 .eq {
   display: flex;
   flex-direction: column;
@@ -666,20 +668,28 @@ input, textarea {
 .eq-sum { font-size: clamp(18px, 2vw, 24px); color: var(--muted); }
 .eq-sum b { color: var(--navy); font-weight: 800; }
 .eq-grid {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: var(--gap);
 }
-.eq-item { min-width: 0; min-height: 0; display: flex; }
+/* Kart boyutu yalnızca ızgara hücresinden gelir: kart hücreye mutlak konumla oturur, içerik
+   (görsel, uzun ad) hücreyi büyütemez. iPad Safari'de görsellerin kendi boyutu kartları
+   farklı yüksekliklere itip üst üste bindiriyordu. */
+.eq-item { position: relative; min-width: 0; min-height: 0; }
 /* Döner kart: ön yüz görsel + ad, arka yüz temel özellikler (yalnızca transform, AGENTS.md 3.5) */
 .eq-card {
-  flex: 1 1 auto;
-  display: flex;
-  min-width: 0;
-  min-height: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   padding: 0;
   border: 0;
   background: none;
@@ -687,58 +697,67 @@ input, textarea {
   color: inherit;
   text-align: left;
   cursor: pointer;
+  -webkit-appearance: none;
   -webkit-perspective: 1200px;
   perspective: 1200px;
 }
 .eq-inner {
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  min-width: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition: transform 520ms cubic-bezier(0.3, 0.7, 0.2, 1);
 }
-.eq-card.is-flipped .eq-inner { transform: rotateY(180deg); }
+.eq-card.is-flipped .eq-inner { -webkit-transform: rotateY(180deg); transform: rotateY(180deg); }
 .eq-face {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  min-width: 0;
 }
-.eq-front {
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
-  gap: 10px;
-}
+.eq-front { padding: 12px; gap: 10px; }
 .eq-back {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   gap: 12px;
   padding: clamp(14px, 1.6vw, 20px);
   background: var(--navy);
   border-color: var(--navy);
   color: #fff;
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
-/* Görsel kartın büyük kısmını kaplar; oranı korunur, kesilmez. */
+/* Görsel kalan alanı kaplar; görsel bu alana mutlak oturur, oranı korunur, kesilmez. */
 .eq-img {
-  flex: 1 1 auto;
+  position: relative;
+  flex: 1 1 0;
   min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 12px;
   background: #fff;
   overflow: hidden;
 }
-.eq-img img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 8px; }
+.eq-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .eq-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-right: 26px; }
+/* Yatay iPad: yazı alanı her kartta aynı yükseklikte (en uzun ad: 3 satır), görseller eşit boyda. */
+@media (orientation: landscape) {
+  html:not(.is-phone) .eq-text { flex: 0 0 auto; height: calc(3.6 * clamp(16px, 1.75vw, 21px) + 1.4 * clamp(13px, 1.3vw, 16px) + 6px); }
+}
 .eq-name { font-size: clamp(16px, 1.75vw, 21px); font-weight: 800; color: var(--navy); line-height: 1.2; }
 .eq-model { font-size: clamp(13px, 1.3vw, 16px); color: var(--muted); line-height: 1.25; }
 .eq-count {
@@ -787,8 +806,8 @@ input, textarea {
 @media (orientation: portrait) {
   .eq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, minmax(0, 1fr)); }
   .eq-front { flex-direction: row; align-items: center; gap: 14px; }
-  .eq-img { flex: 0 0 52%; height: 100%; }
-  .eq-text { flex: 1 1 auto; }
+  .eq-img { flex: 0 0 52%; align-self: stretch; }
+  .eq-text { flex: 1 1 0; }
   .eq-back { gap: 8px; }
   .eq-specs { gap: 4px; }
 }
@@ -850,11 +869,12 @@ html:not(.is-phone) .phone-only { display: none !important; }
 /* Yeni ekipmanlar: iki sütun, sayfa aşağı kayar, görsele sabit yükseklik verilir. */
 .is-phone .eq { height: auto; min-height: 0; }
 .is-phone .eq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; }
+.is-phone .eq-item { height: 250px; }
 .is-phone .eq-front { flex-direction: column; align-items: stretch; padding: 10px; gap: 8px; }
 .is-phone .eq-back { padding: 12px; gap: 8px; }
 .is-phone .eq-specs li { font-size: 13px; }
 .is-phone .eq-back-model { font-size: 15px; }
-.is-phone .eq-img { flex: none; height: 130px; }
+.is-phone .eq-img { flex: 1 1 0; align-self: stretch; }
 .is-phone .eq-name { font-size: 16px; }
 .is-phone .eq-model { font-size: 13px; }
 .is-phone .eq-count { font-size: 13px; padding: 3px 8px; }

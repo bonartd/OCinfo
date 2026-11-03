@@ -11,7 +11,7 @@ import {
 } from './log.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
-const PAGE_MODULES = [rezervasyon, anket, istatistik, ekipman];
+const PAGE_MODULES = [rezervasyon, anket, ekipman, istatistik];
 
 const stage = document.getElementById('stage');
 const dots = document.getElementById('dots');

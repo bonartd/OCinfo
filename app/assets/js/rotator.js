@@ -2,6 +2,9 @@
 // çalışır; kullanıcı dokunurken durur. Geçiş yalnızca opacity/transform ile yapılır.
 
 // onChange(önceki, sonraki, neden): neden 'nokta' | 'kaydırma' | 'otomatik' | 'sıfırlama'.
+const KAYMA = 60; // sayfa geçişinde yatay kayma (px)
+const ESIK = 50; // sayfa değiştiren en kısa yatay kaydırma (px)
+
 export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
   let index = 0;
   let timer = null;
@@ -30,13 +33,23 @@ export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
     dotButtons.forEach((b, i) => b.classList.toggle('is-active', i === index));
   }
 
-  function show(i, neden) {
+  // yon: 1 = ileri (yeni sayfa sağdan gelir), -1 = geri (soldan gelir), 0 = yerinde belirir.
+  function show(i, neden, yon) {
     const next = (i + pages.length) % pages.length;
     if (next !== index) {
       const prev = index;
-      pages[index].el.classList.remove('is-active');
-      pages[index].el.setAttribute('aria-hidden', 'true');
-      pages[next].el.classList.add('is-active');
+      if (yon === undefined) yon = neden === 'sıfırlama' ? 0 : (next > index ? 1 : -1);
+      const giden = pages[index].el;
+      const gelen = pages[next].el;
+      // Kitap sayfası gibi: giden sayfa kayış yönünde çıkar, gelen karşı taraftan girer.
+      giden.style.setProperty('--x', `${-yon * KAYMA}px`);
+      gelen.style.transition = 'none';
+      gelen.style.setProperty('--x', `${yon * KAYMA}px`);
+      void gelen.offsetWidth; // başlangıç konumu uygulansın
+      gelen.style.transition = '';
+      giden.classList.remove('is-active');
+      giden.setAttribute('aria-hidden', 'true');
+      gelen.classList.add('is-active');
       pages[next].el.setAttribute('aria-hidden', 'false');
       pages[next].el.scrollTop = 0;
       index = next;
@@ -51,22 +64,42 @@ export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
     timer = null;
     if (!running || pages.length < 2) return;
     const sec = pages[index].durationSec || defaultSec;
-    timer = setTimeout(() => show(index + 1, 'otomatik'), sec * 1000);
+    timer = setTimeout(() => show(index + 1, 'otomatik', 1), sec * 1000);
   }
 
-  // Basit yatay kaydırma (swipe) ile sayfa değiştirme.
-  let startX = null;
+  // Parmakla yatay kaydırma (kitap gibi): sağdan sola → sonraki, soldan sağa → önceki sayfa.
+  // iPad'de pointer olayları sayfa dikey kaydırılınca iptal edildiği (pointercancel) için
+  // dokunmada touch olayları, farede pointer olayları kullanılır. Hareket belirgin biçimde
+  // yatay olmalı; dikey kaydırma ve form alanları sayfa değiştirmez.
+  let start = null;
+  const basla = (x, y, target) => {
+    start = target.closest('input, textarea, select, .dd-menu') ? null : { x, y };
+  };
+  const bitir = (x, y) => {
+    if (!start || pages.length < 2) { start = null; return; }
+    const dx = x - start.x;
+    const dy = y - start.y;
+    start = null;
+    if (Math.abs(dx) >= ESIK && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      const yon = dx < 0 ? 1 : -1;
+      show(index + yon, 'kaydırma', yon);
+    }
+  };
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { start = null; return; }
+    basla(e.touches[0].clientX, e.touches[0].clientY, e.target);
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    const t = e.changedTouches[0];
+    if (t) bitir(t.clientX, t.clientY);
+  }, { passive: true });
+  stage.addEventListener('touchcancel', () => { start = null; }, { passive: true });
   stage.addEventListener('pointerdown', (e) => {
-    // Form alanlarında metin seçerken sayfa değişmesin.
-    startX = e.target.closest('input, textarea') ? null : e.clientX;
+    if (e.pointerType === 'mouse') basla(e.clientX, e.clientY, e.target);
   }, { passive: true });
   stage.addEventListener('pointerup', (e) => {
-    if (startX === null || pages.length < 2) return;
-    const dx = e.clientX - startX;
-    startX = null;
-    if (Math.abs(dx) > 80) show(index + (dx < 0 ? 1 : -1), 'kaydırma');
+    if (e.pointerType === 'mouse') bitir(e.clientX, e.clientY);
   }, { passive: true });
-  stage.addEventListener('pointercancel', () => { startX = null; }, { passive: true });
 
   return {
     show,

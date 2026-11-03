@@ -305,3 +305,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Tek satırlık düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
 - **Commit:** `a819ab2`
+
+### 2026-11-03 09:05 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/rotator.js`, `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/js/pages/ekipman.js`, `app/assets/js/pages/istatistik.js` (yalnızca başlık yorumu), `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı bildirimi: tablette yeni ekipman kartları kayıyor, üst üste biniyor, boyutları farklı (telefonda düzgün). **Düzeltme:** kart artık ızgara hücresine mutlak konumla oturuyor (`.eq-item` relative, kart/iç/yüzler `position:absolute`), görsel de kendi alanına mutlak oturuyor (`object-fit: contain`) — görselin doğal boyutu ve uzun adlar kartı büyütemez; yatay iPad'de yazı alanı sabit yükseklikte (3 satırlık ad), böylece tüm görseller eşit; telefonda kart 250 px. **Sayfa sırası:** Yeni ekipmanlar 3., Kullanım bilgileri 4. sayfa (log adları "3 · Yeni Ekipmanlar", "4 · Kullanım Bilgileri"; eski log satırlarında eski numaralar kalır). **Parmakla kaydırma:** iPad'de pointer olayları sayfa kaydırılınca `pointercancel` ile iptal olduğu için kaydırma çalışmıyordu; dokunmada `touchstart/touchend`, farede pointer kullanılıyor; eşik 50 px ve hareket belirgin yatay olmalı (|dx| > 1,5·|dy|), form alanlarında ve açık menüde çalışmaz. Sağdan sola → sonraki, soldan sağa → önceki sayfa; geçişte sayfa kayış yönünde yana kayarak çıkar, karşı taraftan girer (`--x`, yalnızca transform/opacity). `ocinfo-v26`.
+- **Doğrulama:** 1080×810, 1024×768, 810×1080, 375×812'de 10 kartın hepsi aynı boyutta, çakışma 0, taşma 0, sayfa kaydırması yok (telefonda dikey kayar); dönen kart arka yüzü taşmıyor. Dokunma olayı benzetimiyle: sola kaydırma ileri, sağa geri, dikey hareket sayfa değiştirmiyor. Gerçek iPad Safari 15.5'te henüz denenmedi.
+- **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** iPad'de kartlar ve kaydırma kontrol edilmeli.
+- **Commit:** (doldurulacak)

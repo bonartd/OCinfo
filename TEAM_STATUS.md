@@ -322,4 +322,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Ölçüldü: sayfalar 5→11→17 sn'de döndü; 19. sn'de dokunuş → 64. sn'ye kadar aynı sayfa, 71. sn'de sonraki sayfa. Zaman şeridi 1080×810, 810×1080 ve 375×812'de taşmıyor.
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
-- **Commit:** (doldurulacak)
+- **Commit:** `378606b`

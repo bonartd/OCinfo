@@ -367,4 +367,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** Yerelde 4 sayfa ve 4 sekme yükleniyor, sayfa hatası yok.
 - **Not:** Takvim sayfası geri istenirse `2382050` commit'indeki `pages/takvim.js` ve `.tk` stilleri kullanılabilir. Kısa değişiklik; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
-- **Commit:** `—`
+- **Commit:** `7ce464c`

@@ -358,4 +358,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 768×1024'te (en dar iPad) beş sekme adı da kısaltmasız sığıyor.
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi. Eski log satırlarında "3 · Cihaz Takvimi" kalır.
 - **Sıradaki adım:** —
-- **Commit:** `—`
+- **Commit:** `2382050`

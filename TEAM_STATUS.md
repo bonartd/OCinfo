@@ -331,4 +331,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 1024×768, 810×1080, 375×812'de sekmeler kısaltmasız, sayfalar taşmıyor; anket notu en altta ortalı. Takvim çerçevede yükleniyor; "Sisteme giriş"e basınca ~1 sn içinde takvime geri dönüyor; perde üzerinde sola kaydırma sonraki sayfayı açıyor ve süre çizgisi duruyor. Gerçek iPad'de henüz denenmedi.
 - **Not:** Aktif çalışma satırı eklenmedi (tek oturum). Takvim iPad çevrimdışıyken gösterilemez (dış site).
 - **Sıradaki adım:** iPad'de takvim kaydırması ve sekmeler kontrol edilmeli.
-- **Commit:** `—`
+- **Commit:** `f7bac17`

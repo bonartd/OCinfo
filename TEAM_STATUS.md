@@ -332,3 +332,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Aktif çalışma satırı eklenmedi (tek oturum). Takvim iPad çevrimdışıyken gösterilemez (dış site).
 - **Sıradaki adım:** iPad'de takvim kaydırması ve sekmeler kontrol edilmeli.
 - **Commit:** `f7bac17`
+
+### 2026-11-11 15:00 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle takvim sayfasında sitenin üst kısmı ("Genel Bakış" sekmesi, "Cihaz Talebinizi Yapınız", "Sisteme Giriş" düğmesi, bilgi kutusu) gizlendi; görünüm renk açıklamasından başlıyor. Dış siteye erişilemediği için çerçeve `--tk-kirp` kadar yukarı kaydırılıyor (iPad 196 px, telefon 230 px; renk açıklaması 1080/810 genişlikte 207 px, 375'te 241 px'te ölçüldü). `ocinfo-v29`.
+- **Doğrulama:** 1080×810, 810×1080 ve 375×812'de takvim renk açıklamasından başlıyor, üst kısım görünmüyor.
+- **Not:** Site düzeni değişirse kırpma değeri yeniden ölçülmeli. Kısa düzeltme; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** —
+- **Commit:** `—`

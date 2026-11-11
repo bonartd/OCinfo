@@ -340,4 +340,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810, 810×1080 ve 375×812'de takvim renk açıklamasından başlıyor, üst kısım görünmüyor.
 - **Not:** Site düzeni değişirse kırpma değeri yeniden ölçülmeli. Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
-- **Commit:** `—`
+- **Commit:** `0e02a91`

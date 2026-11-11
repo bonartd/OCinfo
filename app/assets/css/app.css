@@ -937,36 +937,3 @@ html:not(.is-phone) .phone-only { display: none !important; }
 .is-phone .eq-name { font-size: 16px; }
 .is-phone .eq-model { font-size: 13px; }
 .is-phone .eq-count { font-size: 13px; padding: 3px 8px; }
-
-/* ===== Sayfa 3: Rezervasyon takvimi (pages/takvim.js) ===== */
-/* Çerçeve sayfayı boşluksuz doldurur; kaydırmayı çerçevenin içi yapar. */
-.page.page--frame { padding: 0; overflow: hidden; }
-.tk { position: absolute; inset: 0; overflow: hidden; background: #fff; }
-.tk-yukleniyor {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 20px;
-  color: var(--muted);
-}
-/* Sitenin üst kısmı ("Genel Bakış" sekmesi, "Cihaz Talebinizi Yapınız", "Sisteme Giriş",
-   bilgi kutusu) gizlenir; görünüm renk açıklamasından başlar. Çerçeve bu kadar yukarı kaydırılır
-   (ölçüm 2026-11-11: bilgi kutusu iPad genişliklerinde 184 px, telefonda 219 px'te bitiyor; renk
-   açıklaması 207 / 241 px'te başlıyor — aradaki ~20 px sekmelerle renkler arasında boşluk bırakır).
-   Site düzeni değişirse --tk-kirp yeniden ölçülmelidir. */
-.tk { --tk-kirp: 186px; }
-.is-phone .tk { --tk-kirp: 221px; }
-.tk-frame {
-  position: absolute;
-  top: calc(-1 * var(--tk-kirp));
-  left: 0;
-  width: 100%;
-  height: calc(100% + var(--tk-kirp));
-  border: 0;
-  background: transparent;
-}
-/* Saydam perde: ilk dokunuş kiosk'a ulaşsın (bkz. takvim.js) */
-.tk-perde { position: absolute; inset: 0; }
-.tk-perde[hidden] { display: none; }

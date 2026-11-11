@@ -1,4 +1,4 @@
-// Sayfa 5 — Ödünç Cihaz Sistemi kullanım bilgileri: üç görsel özet kartı + açılır menüden
+// Sayfa 4 — Ödünç Cihaz Sistemi kullanım bilgileri: üç görsel özet kartı + açılır menüden
 // seçilen büyük grafik. Veri: data/istatistik.json (tools/veri/istatistik_olustur.py ile Excel'den
 // üretilir; yalnızca anonim rezervasyon sayımları, eğitim yılı bazında). Birden çok yıl varsa yıl
 // seçimi görünür. Grafikler kütüphanesiz, satır içi SVG'dir (AGENTS.md 3.5).

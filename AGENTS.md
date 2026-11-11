@@ -204,10 +204,6 @@ Uygulama, Ödünç Cihaz Ofisi önünde öğrencilerin kullanımına sunulan
   `LOG_OLAYLAR` da güncellenir. `config.appVersion` ile `sw.js` → `CACHE` birlikte artırılır.
 - **Rezervasyon sistemi** (https://odunccihaz.yasar.edu.tr/, YAŞAR ID ile giriş) kiosk'a
   **gömülmez, bağlantı olarak açılmaz**; ortak iPad'de kimlik bilgisi girilmemelidir.
-  **Tek istisna** herkese açık takvim sayfasıdır (`/takvim/`, kullanıcı isteği 2026-11-11):
-  Sayfa 3'te çerçevede gösterilir; çerçeve `sandbox="allow-scripts allow-same-origin"`
-  (form gönderimi, açılır pencere, üst pencereye geçiş yok) ve takvim dışına giderse
-  (ör. "Sisteme giriş") hemen takvime geri yüklenir (`pages/takvim.js`). Bu korumalar gevşetilmez.
   Öğrenci yönlendirmesi **QR kod** ile yapılır (kendi telefonunda açar). Uygulama telefondan
   açıldığında (bkz. 3.7) QR yerine doğrudan bağlantı düğmesi gösterilir; kiosk'ta bu düğme gizlidir.
 - Ofis kuralları için asıl kaynak resmî sitedir; kiosk metinleri `docs/OFIS_KURALLARI.md`
@@ -275,9 +271,8 @@ OCinfo/
     │   └── pages/             # Her kiosk sayfası ayrı modül
     │       ├── rezervasyon.js # Sayfa 1: rezervasyon QR + kurallar
     │       ├── anket.js       # Sayfa 2: memnuniyet anketi (yüzler + görüş, çevrimdışı kuyruk)
-    │       ├── takvim.js      # Sayfa 3: rezervasyon takvimi (odunccihaz.yasar.edu.tr/takvim/, sandbox'lı çerçeve)
-    │       ├── ekipman.js     # Sayfa 4: sisteme yeni eklenen ekipmanlar (görselli kartlar)
-    │       └── istatistik.js  # Sayfa 5: kullanım istatistikleri (SVG çubuk grafikler)
+    │       ├── ekipman.js     # Sayfa 3: sisteme yeni eklenen ekipmanlar (görselli kartlar)
+    │       └── istatistik.js  # Sayfa 4: kullanım istatistikleri (SVG çubuk grafikler)
     ├── assets/img/            # Logo, ana ekran ikonları, QR SVG; ekipman/ = ekipman görselleri (520 px JPEG)
     └── data/
         ├── kurallar.json      # Ödünç alma kuralları (resmî metin + ekrandaki kısa kartlar "ekran")
@@ -298,9 +293,8 @@ sayfadan devam eder. Sayfalar ayrıca parmakla kaydırılarak çevrilir.
 |---|---|---|---|
 | 1 | Ödünç Cihaz Sistemi QR + kurallar (zaman şeridi + 8 simgeli kart; metinler `kurallar.json` → `ekran`) | `pages/rezervasyon.js` | ✅ Hazır |
 | 2 | Memnuniyet anketi + görüş/öneri | `pages/anket.js` | ✅ Hazır (Drive'a bağlı) |
-| 3 | Rezervasyon takvimi: odunccihaz.yasar.edu.tr/takvim/ tam sayfa çerçevede (sandbox; takvim dışına gidilirse geri yüklenir). Çerçeve içi dokunuşlar kiosk'a ulaşmadığı için üstte saydam perde vardır: ilk dokunuş kiosk'a gider (geçiş durur, kaydırma sayfa değiştirir) ve perde kalkar, 15 sn sonra geri gelir. Sitenin üst kısmı (Genel Bakış, "Cihaz Talebinizi Yapınız", "Sisteme Giriş", bilgi kutusu) çerçeve yukarı kaydırılarak gizlenir, görünüm renk açıklamasından başlar (`--tk-kirp`: iPad 186 px, telefon 221 px — sekmelerle renkler arasında ~20 px boşluk kalır; site düzeni değişirse yeniden ölçülür). Boşta 10 dk'da bir ve hareketsizlikte yeniden yüklenir; çevrimdışıyken gösterilemez | `pages/takvim.js` | ✅ Hazır |
-| 4 | Sisteme yeni eklenen ekipmanlar (10 görselli kart; kart boyutu yalnızca ızgara hücresinden gelir, içerik kartı büyütemez: ön yüzde görsel, cihaz, model, adet; karta dokununca kart döner, arka yüzde 3 temel özellik — `ozellik`). Yeni ekipman: görseli `assets/img/ekipman/`'a ≤520 px JPEG olarak ekle, `data/ekipmanlar.json`'a satır (en fazla 3 kısa özellik) ekle, `sw.js` SHELL + sürüm | `pages/ekipman.js` | ✅ Hazır |
-| 5 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
+| 3 | Sisteme yeni eklenen ekipmanlar (10 görselli kart; kart boyutu yalnızca ızgara hücresinden gelir, içerik kartı büyütemez: ön yüzde görsel, cihaz, model, adet; karta dokununca kart döner, arka yüzde 3 temel özellik — `ozellik`). Yeni ekipman: görseli `assets/img/ekipman/`'a ≤520 px JPEG olarak ekle, `data/ekipmanlar.json`'a satır (en fazla 3 kısa özellik) ekle, `sw.js` SHELL + sürüm | `pages/ekipman.js` | ✅ Hazır |
+| 4 | Kullanım bilgileri (solda 3 görsel özet kartı: toplam, en yoğun ay + ay şeridi, en çok kullanan bölüm + pay halkası; sağda büyük grafik: grafik menüsü bölüm / sınıf / ay / yıl + yıl menüsü, 2015-16 → 2025-26) | `pages/istatistik.js` | ✅ Hazır |
 
 **Yeni sayfa eklemek:** `app/assets/js/pages/<ad>.js` içinde `{ id, title, durationSec?, render(el, config), reset? }`
 nesnesini `export default` edin, `app.js` içindeki `PAGE_MODULES` listesine ekleyin, yeni

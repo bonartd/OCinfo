@@ -359,3 +359,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi. Eski log satırlarında "3 · Cihaz Takvimi" kalır.
 - **Sıradaki adım:** —
 - **Commit:** `2382050`
+
+### 2026-11-11 15:35 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/takvim.js` (silindi), `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/css/app.css`, `app/assets/js/pages/ekipman.js` ve `istatistik.js` (yalnızca başlık yorumu), `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle **Rezervasyon takvimi sayfası kaldırıldı** (modül, stiller, sekme, SW kaydı, AGENTS.md 3.6 istisnası ve tablo satırı). Sıra yeniden: 1 Kurallar, 2 Anket, 3 Yeni ekipmanlar, 4 Kullanım bilgileri (log adları buna göre). Sekmeler ve anket notu yerinde. `ocinfo-v32`.
+- **Doğrulama:** Yerelde 4 sayfa ve 4 sekme yükleniyor, sayfa hatası yok.
+- **Not:** Takvim sayfası geri istenirse `2382050` commit'indeki `pages/takvim.js` ve `.tk` stilleri kullanılabilir. Kısa değişiklik; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** —
+- **Commit:** `—`

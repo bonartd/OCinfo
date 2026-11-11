@@ -1,6 +1,6 @@
 // OCinfo Service Worker — klasik betik (iOS 15 modül worker desteklemez).
 // Kabuk dosyalarından birini değiştirdiğinizde CACHE sürümünü artırın (AGENTS.md 3.4).
-var CACHE = 'ocinfo-v31';
+var CACHE = 'ocinfo-v32';
 
 var SHELL = [
   './',
@@ -16,7 +16,6 @@ var SHELL = [
   './assets/js/pages/anket.js',
   './assets/js/pages/istatistik.js',
   './assets/js/pages/ekipman.js',
-  './assets/js/pages/takvim.js',
   './assets/img/qr-odunccihaz.svg',
   './assets/img/logo-yasar.png',
   './assets/img/icon-180.png',

@@ -953,10 +953,11 @@ html:not(.is-phone) .phone-only { display: none !important; }
 }
 /* Sitenin üst kısmı ("Genel Bakış" sekmesi, "Cihaz Talebinizi Yapınız", "Sisteme Giriş",
    bilgi kutusu) gizlenir; görünüm renk açıklamasından başlar. Çerçeve bu kadar yukarı kaydırılır
-   (ölçüm 2026-11-11: renk açıklaması iPad genişliklerinde 207 px, telefonda 241 px'te başlıyor).
+   (ölçüm 2026-11-11: bilgi kutusu iPad genişliklerinde 184 px, telefonda 219 px'te bitiyor; renk
+   açıklaması 207 / 241 px'te başlıyor — aradaki ~20 px sekmelerle renkler arasında boşluk bırakır).
    Site düzeni değişirse --tk-kirp yeniden ölçülmelidir. */
-.tk { --tk-kirp: 196px; }
-.is-phone .tk { --tk-kirp: 230px; }
+.tk { --tk-kirp: 186px; }
+.is-phone .tk { --tk-kirp: 221px; }
 .tk-frame {
   position: absolute;
   top: calc(-1 * var(--tk-kirp));

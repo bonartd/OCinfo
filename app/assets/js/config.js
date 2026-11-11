@@ -1,7 +1,7 @@
 // OCinfo ayarları — kiosk davranışı buradan değiştirilir.
 export const config = {
   // Uygulama sürümü (kullanım loguna yazılır). sw.js'deki CACHE ile BİRLİKTE güncelleyin.
-  appVersion: 'ocinfo-v29',
+  appVersion: 'ocinfo-v30',
   // Dokunulunca otomatik geçiş durur; son dokunuştan bu kadar saniye sonra açık formlar
   // sıfırlanır ve otomatik geçiş bulunulan sayfadan devam eder.
   idleTimeoutSec: 45,

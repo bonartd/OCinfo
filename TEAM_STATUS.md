@@ -341,3 +341,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Site düzeni değişirse kırpma değeri yeniden ölçülmeli. Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
 - **Commit:** `0e02a91`
+
+### 2026-11-11 15:15 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/css/app.css`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle takvimde sekmelerle renk açıklaması arasına boşluk: kırpma iPad 196 → 186 px, telefon 230 → 221 px; bilgi kutusu yine görünmüyor, renklerin üstünde sitenin kendi zemininde ~20 px boşluk kalıyor. `ocinfo-v30`.
+- **Doğrulama:** 1080×810'da sekme ile renkler arasında boşluk var, bilgi kutusundan iz yok.
+- **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
+- **Sıradaki adım:** —
+- **Commit:** `—`

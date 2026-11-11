@@ -61,7 +61,7 @@ def kiosk_oturumu(baslangic, no):
         if r < 0.35:
             yeni = random.choice([s for s in SAYFALAR if s != sayfa])
             ekle(t, "Kiosk (iPad)", oturum, "Sayfa değişti", SAYFALAR[yeni],
-                 f"{SAYFALAR[sayfa]} → {SAYFALAR[yeni]} ({random.choice(['nokta', 'kaydırma'])})")
+                 f"{SAYFALAR[sayfa]} → {SAYFALAR[yeni]} ({random.choice(['sekme', 'kaydırma'])})")
             sayfa = yeni
         elif sayfa == "istatistik":
             if r < 0.7:
@@ -185,7 +185,7 @@ rehber = [
     ("", False),
     ("OLAYLAR", True),
     ("Oturum başladı — kiosk boştayken biri ekrana dokundu (otomatik sayfa döngüsü durur).", False),
-    ("Sayfa değişti — kullanıcı noktalarla ya da kaydırarak sayfa değiştirdi. (Boşta otomatik geçişler kaydedilmez.)", False),
+    ("Sayfa değişti — kullanıcı sekmelerle ya da kaydırarak sayfa değiştirdi. (Boşta otomatik geçişler kaydedilmez.)", False),
     ("Grafik seçildi — Sayfa 3'te açılır menüden grafik seçildi.", False),
     ("Çubuk seçildi — Sayfa 3'te bir çubuğa dokunuldu (ayrıntıda hangisi).", False),
     ("Anket: puan seçildi — yüzlerden biri seçildi (ayrıntıda puan).", False),

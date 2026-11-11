@@ -141,6 +141,7 @@ export default {
               </li>`).join('')}
           </ul>
           <p class="sv-hint anim" style="--i:7">Bir yüze dokunarak puan ver.</p>
+          <p class="sv-note anim" style="--i:8">Bu değerlendirme, hizmet kalitesinin iyileştirilmesi amacıyla yapılmaktadır.<br>Katılım gönüllüdür ve kişisel veri toplanmamaktadır.</p>
         </div>
 
         <form class="sv-step sv-step--detail card" autocomplete="off" novalidate>

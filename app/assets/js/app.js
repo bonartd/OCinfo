@@ -6,15 +6,26 @@ import rezervasyon from './pages/rezervasyon.js';
 import anket, { bekleyenYanit } from './pages/anket.js';
 import istatistik from './pages/istatistik.js';
 import ekipman from './pages/ekipman.js';
+import takvim from './pages/takvim.js';
 import {
   initLog, log, setSayfa, sayfaAdi, oturumBasladi, oturumBitti,
 } from './log.js';
 
 // Yeni sayfa eklemek için: pages/ altına modül yazın ve bu listeye ekleyin.
-const PAGE_MODULES = [rezervasyon, anket, ekipman, istatistik];
+const PAGE_MODULES = [rezervasyon, anket, takvim, ekipman, istatistik];
+
+// Üst sekmelerdeki kısa ad ve simge (sayfa id'sine göre).
+const ico = (d) => `<svg class="tab-ico" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const SEKMELER = {
+  rezervasyon: { ad: 'Kurallar', ikon: ico('<path d="M9 4h6v3H9zM7 5.5H5.5v15h13v-15H17M8.5 11h7M8.5 14.5h7M8.5 18h4"/>') },
+  anket: { ad: 'Anket', ikon: ico('<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14.5a4.5 4.5 0 007 0M9.2 9.6h.01M14.8 9.6h.01"/>') },
+  takvim: { ad: 'Cihaz takvimi', ikon: ico('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>') },
+  ekipman: { ad: 'Yeni ekipmanlar', ikon: ico('<path d="M4 8.5h3l1.5-2.5h7L17 8.5h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/>') },
+  istatistik: { ad: 'Kullanım bilgileri', ikon: ico('<path d="M4 20h16M7 20v-6M12 20V6M17 20v-9"/>') },
+};
 
 const stage = document.getElementById('stage');
-const dots = document.getElementById('dots');
+const tabs = document.getElementById('tabs');
 const clock = document.getElementById('clock');
 const offline = document.getElementById('offline');
 
@@ -41,15 +52,19 @@ async function init() {
       console.error(mod.id, err);
       el.innerHTML = '<p class="page-error">Bu bölüm şu anda yüklenemedi.</p>';
     }
-    pages.push({ id: mod.id, title: mod.title, durationSec: mod.durationSec, reset: mod.reset, el });
+    const sekme = SEKMELER[mod.id] || { ad: mod.title };
+    pages.push({
+      id: mod.id, title: mod.title, sekme: sekme.ad, ikon: sekme.ikon,
+      durationSec: mod.durationSec, reset: mod.reset, el,
+    });
   }
 
   const rotator = createRotator({
-    pages, stage, dots, defaultSec: config.rotationSec,
+    pages, stage, tabs, defaultSec: config.rotationSec,
     onChange: (prev, next, neden) => {
       setSayfa(next.id);
       // Boşta otomatik geçişler ve başa dönüş kaydedilmez; yalnızca kullanıcının geçişleri.
-      if (neden === 'nokta' || neden === 'kaydırma') {
+      if (neden === 'sekme' || neden === 'kaydırma') {
         log('Sayfa değişti', { ayrinti: `${sayfaAdi(prev.id)} → ${sayfaAdi(next.id)} (${neden})` });
       }
     },
@@ -59,7 +74,7 @@ async function init() {
   if (isPhone) {
     const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
     log('Uygulama açıldı', { ayrinti: standalone ? 'Ana ekran (PWA)' : 'Tarayıcı' });
-    // Yalnızca saat ve rozet; sayfalar arasında noktalar ve kaydırma ile geçilir.
+    // Yalnızca saat ve rozet; sayfalar arasında sekmeler ve kaydırma ile geçilir.
     setInterval(() => { updateClock(); updateOnline(); }, 1000);
     updateClock();
     return;

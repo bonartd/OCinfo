@@ -1,4 +1,4 @@
-// Sayfa 3 — Sisteme yeni eklenen ekipmanlar: görselli kartlar; karta dokununca kart döner,
+// Sayfa 4 — Sisteme yeni eklenen ekipmanlar: görselli kartlar; karta dokununca kart döner,
 // arka yüzde temel özellikler görünür. Liste data/ekipmanlar.json'dadır; görseller
 // assets/img/ekipman/ altında (520 px JPEG).
 

@@ -1,11 +1,11 @@
 // Sayfa döndürücü: sayfaları sırayla gösterir. Otomatik geçiş yalnızca kiosk boştayken
 // çalışır; kullanıcı dokunurken durur. Geçiş yalnızca opacity/transform ile yapılır.
 
-// onChange(önceki, sonraki, neden): neden 'nokta' | 'kaydırma' | 'otomatik' | 'sıfırlama'.
+// onChange(önceki, sonraki, neden): neden 'sekme' | 'kaydırma' | 'otomatik' | 'sıfırlama'.
 const KAYMA = 60; // sayfa geçişinde yatay kayma (px)
 const ESIK = 50; // sayfa değiştiren en kısa yatay kaydırma (px)
 
-export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
+export function createRotator({ pages, stage, tabs, defaultSec, onChange }) {
   let index = 0;
   let timer = null;
   let running = false;
@@ -15,22 +15,31 @@ export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
     page.el.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
   });
 
-  // Tek sayfa varken nokta göstergesi gereksiz.
-  dots.hidden = pages.length < 2;
-  dots.innerHTML = '';
-  const dotButtons = pages.map((page, i) => {
+  // Sekmeler (tarayıcı sekmesi gibi): ekranda birden çok sayfa olduğu ilk bakışta görünür.
+  // Kapatma düğmesi yoktur; dokununca o sayfa açılır. Etkin sekmenin altındaki çizgi,
+  // otomatik geçişte sonraki sayfaya kalan süreyi gösterir.
+  tabs.hidden = pages.length < 2;
+  tabs.innerHTML = '';
+  const tabButtons = pages.map((page, i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'dot';
+    b.className = 'tab';
     b.setAttribute('aria-label', page.title);
-    b.addEventListener('click', () => show(i, 'nokta'));
-    dots.appendChild(b);
+    b.innerHTML = (page.ikon || '')
+      + '<span class="tab-label">' + page.sekme + '</span>'
+      + '<span class="tab-sure" aria-hidden="true"></span>';
+    b.addEventListener('click', () => show(i, 'sekme'));
+    tabs.appendChild(b);
     return b;
   });
-  updateDots();
+  updateTabs();
 
-  function updateDots() {
-    dotButtons.forEach((b, i) => b.classList.toggle('is-active', i === index));
+  function updateTabs() {
+    tabButtons.forEach((b, i) => {
+      b.classList.toggle('is-active', i === index);
+      if (i === index) b.setAttribute('aria-current', 'page');
+      else b.removeAttribute('aria-current');
+    });
   }
 
   // yon: 1 = ileri (yeni sayfa sağdan gelir), -1 = geri (soldan gelir), 0 = yerinde belirir.
@@ -53,7 +62,7 @@ export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
       pages[next].el.setAttribute('aria-hidden', 'false');
       pages[next].el.scrollTop = 0;
       index = next;
-      updateDots();
+      updateTabs();
       if (onChange) onChange(pages[prev], pages[next], neden);
     }
     schedule();
@@ -62,8 +71,13 @@ export function createRotator({ pages, stage, dots, defaultSec, onChange }) {
   function schedule() {
     clearTimeout(timer);
     timer = null;
+    tabButtons.forEach((b) => b.classList.remove('is-timing'));
     if (!running || pages.length < 2) return;
     const sec = pages[index].durationSec || defaultSec;
+    const b = tabButtons[index];
+    b.style.setProperty('--sure', sec + 's');
+    void b.offsetWidth; // süre çizgisi baştan başlasın
+    b.classList.add('is-timing');
     timer = setTimeout(() => show(index + 1, 'otomatik', 1), sec * 1000);
   }
 

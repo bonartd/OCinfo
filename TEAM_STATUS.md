@@ -323,3 +323,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
 - **Commit:** `378606b`
+
+### 2026-11-11 14:55 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/pages/takvim.js` (yeni), `app/assets/js/rotator.js`, `app/assets/js/app.js`, `app/assets/js/log.js`, `app/assets/js/pages/anket.js`, `app/assets/js/pages/ekipman.js` ve `istatistik.js` (yalnızca başlık yorumu), `app/assets/css/app.css`, `app/index.html`, `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `tools/veri/ornek_log_olustur.py`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle (1) Anket ilk adımının en altına ortalı bilgilendirme notu ("Bu değerlendirme, hizmet kalitesinin iyileştirilmesi amacıyla yapılmaktadır. Katılım gönüllüdür ve kişisel veri toplanmamaktadır."), 16 px (ipucu 18 px). (2) **Yeni Sayfa 3 — Cihaz takvimi:** https://odunccihaz.yasar.edu.tr/takvim/ tam sayfa çerçevede; sandbox (form gönderimi/açılır pencere/üst pencere yok), takvim dışına gidilirse hemen geri yüklenir; çerçeve içi dokunuşlar kiosk'a ulaşmadığından saydam perde: ilk dokunuş geçişi durdurur ve kaydırmayı kiosk'a verir, perde kalkar, 15 sn sonra geri gelir; boşta 10 dk'da bir ve hareketsizlikte yeniden yüklenir. Ekipmanlar 4., Kullanım bilgileri 5. sayfa (log adları güncellendi). AGENTS.md 3.6'daki "rezervasyon sistemi gömülmez" kuralına bu sayfa için istisna ve korumalar yazıldı. (3) **Noktalar yerine tarayıcı benzeri sekmeler** (kapatma düğmesi yok, simge + ad; etkin sekme sahneye bağlanır, altındaki çizgi sonraki sayfaya kalan 6 sn'yi gösterir, dokunulunca gizlenir); telefonda etkin olmayan sekmeler yalnızca simge. Log nedeni `nokta` → `sekme`. `ocinfo-v28`.
+- **Doğrulama:** 1080×810, 1024×768, 810×1080, 375×812'de sekmeler kısaltmasız, sayfalar taşmıyor; anket notu en altta ortalı. Takvim çerçevede yükleniyor; "Sisteme giriş"e basınca ~1 sn içinde takvime geri dönüyor; perde üzerinde sola kaydırma sonraki sayfayı açıyor ve süre çizgisi duruyor. Gerçek iPad'de henüz denenmedi.
+- **Not:** Aktif çalışma satırı eklenmedi (tek oturum). Takvim iPad çevrimdışıyken gösterilemez (dış site).
+- **Sıradaki adım:** iPad'de takvim kaydırması ve sekmeler kontrol edilmeli.
+- **Commit:** `—`

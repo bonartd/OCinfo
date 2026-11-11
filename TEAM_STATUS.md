@@ -349,4 +349,4 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Doğrulama:** 1080×810'da sekme ile renkler arasında boşluk var, bilgi kutusundan iz yok.
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
-- **Commit:** `—`
+- **Commit:** `0d998b9`

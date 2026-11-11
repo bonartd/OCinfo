@@ -19,7 +19,7 @@ const ico = (d) => `<svg class="tab-ico" viewBox="0 0 24 24" aria-hidden="true">
 const SEKMELER = {
   rezervasyon: { ad: 'Kurallar', ikon: ico('<path d="M9 4h6v3H9zM7 5.5H5.5v15h13v-15H17M8.5 11h7M8.5 14.5h7M8.5 18h4"/>') },
   anket: { ad: 'Anket', ikon: ico('<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14.5a4.5 4.5 0 007 0M9.2 9.6h.01M14.8 9.6h.01"/>') },
-  takvim: { ad: 'Cihaz takvimi', ikon: ico('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>') },
+  takvim: { ad: 'Rezervasyon takvimi', ikon: ico('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>') },
   ekipman: { ad: 'Yeni ekipmanlar', ikon: ico('<path d="M4 8.5h3l1.5-2.5h7L17 8.5h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/>') },
   istatistik: { ad: 'Kullanım bilgileri', ikon: ico('<path d="M4 20h16M7 20v-6M12 20V6M17 20v-9"/>') },
 };

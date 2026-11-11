@@ -1,4 +1,4 @@
-// Sayfa 3 — Cihaz takvimi: Ödünç Cihaz Sistemi'nin herkese açık takvim sayfası tam sayfa
+// Sayfa 3 — Rezervasyon takvimi: Ödünç Cihaz Sistemi'nin herkese açık takvim sayfası tam sayfa
 // çerçevede gösterilir. Ortak iPad'de kimlik bilgisi girilmemesi için (AGENTS.md 3.6):
 // - çerçeve sandbox'lıdır: form gönderilemez, açılır pencere ve üst pencereye geçiş yoktur;
 // - çerçeve takvim dışında bir adrese giderse (ör. "Sisteme giriş") hemen takvime döner.
@@ -15,14 +15,14 @@ let sifirla = () => {};
 
 export default {
   id: 'takvim',
-  title: 'Cihaz takvimi',
+  title: 'Rezervasyon takvimi',
 
   render(el) {
     el.classList.add('page--frame');
     el.innerHTML = `
       <div class="tk">
         <p class="tk-yukleniyor">Takvim yükleniyor…</p>
-        <iframe class="tk-frame" title="Ödünç cihaz takvimi" referrerpolicy="no-referrer"
+        <iframe class="tk-frame" title="Rezervasyon takvimi" referrerpolicy="no-referrer"
           sandbox="allow-scripts allow-same-origin"></iframe>
         <div class="tk-perde" aria-hidden="true"></div>
       </div>`;

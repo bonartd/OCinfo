@@ -938,7 +938,7 @@ html:not(.is-phone) .phone-only { display: none !important; }
 .is-phone .eq-model { font-size: 13px; }
 .is-phone .eq-count { font-size: 13px; padding: 3px 8px; }
 
-/* ===== Sayfa 3: Cihaz takvimi (pages/takvim.js) ===== */
+/* ===== Sayfa 3: Rezervasyon takvimi (pages/takvim.js) ===== */
 /* Çerçeve sayfayı boşluksuz doldurur; kaydırmayı çerçevenin içi yapar. */
 .page.page--frame { padding: 0; overflow: hidden; }
 .tk { position: absolute; inset: 0; overflow: hidden; background: #fff; }

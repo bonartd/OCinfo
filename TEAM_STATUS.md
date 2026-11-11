@@ -350,3 +350,12 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
 - **Commit:** `0d998b9`
+
+### 2026-11-11 15:25 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `app/assets/js/app.js`, `app/assets/js/pages/takvim.js`, `app/assets/js/log.js`, `app/assets/css/app.css` (yorum), `app/sw.js`, `app/assets/js/config.js`, `AGENTS.md`, `TEAM_STATUS.md`
+- **Yapılan iş:** Kullanıcı isteğiyle Sayfa 3'ün adı "Cihaz takvimi" → **"Rezervasyon takvimi"** (sekme, sayfa başlığı, çerçeve başlığı, log adı "3 · Rezervasyon Takvimi"). `ocinfo-v31`.
+- **Doğrulama:** 768×1024'te (en dar iPad) beş sekme adı da kısaltmasız sığıyor.
+- **Not:** Kısa düzeltme; aktif çalışma satırı eklenmedi. Eski log satırlarında "3 · Cihaz Takvimi" kalır.
+- **Sıradaki adım:** —
+- **Commit:** `—`

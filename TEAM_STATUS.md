@@ -368,3 +368,11 @@ Aşağıdaki bloğu kopyalayıp **Kayıt Defteri'nin en altına** yapıştır ve
 - **Not:** Takvim sayfası geri istenirse `2382050` commit'indeki `pages/takvim.js` ve `.tk` stilleri kullanılabilir. Kısa değişiklik; aktif çalışma satırı eklenmedi.
 - **Sıradaki adım:** —
 - **Commit:** `7ce464c`
+
+### 2026-11-19 16:10 — bonartd (Claude Code)
+- **Durum:** Tamamlandı
+- **Dokunulan dosyalar:** `docs/ANKET_KURULUM.md`, `TEAM_STATUS.md` (+ anket e-tablosunda yeni "Haftalık Özet" sekmesi; depoda değil)
+- **Yapılan iş:** Kullanıcı isteğiyle anket e-tablosuna ilk sekme olarak **"Haftalık Özet"** eklendi (Sheets bağlantısıyla). Yalnızca formül (betik/tetikleyici yok, `TODAY()` ile kendini günceller): son tamamlanan hafta (pzt–paz) yanıt sayısı, ortalama puan, önceki haftayla fark, 5→1 puan dağılımı (█ çubuklarıyla), görüş yazan ve şüpheli sayısı, başından beri toplam/ortalama; son 8 hafta tablosu ve sütun (yanıt) + çizgi (ortalama) grafiği. Görüş metinleri gösterilmiyor. Tablo yerel ayarı tr_TR → formül ayırıcısı `;`. `docs/ANKET_KURULUM.md`'ye bölüm eklendi. Ayrıca bu Mac'te "OCinfo haftalık anket özeti" zamanlanmış görevi (pazartesi 09:00, Claude uygulaması) kuruldu.
+- **Doğrulama:** 9–15 Kasım için 6 yanıt / 4,7; önceki hafta 21 / 4,4; toplam 31 / 4,4 — ham veriden elle hesaplananla aynı.
+- **Sıradaki adım:** "Yanıtlar" sütun sırası değişirse Haftalık Özet formülleri güncellenmeli.
+- **Commit:** (bu kayıt)

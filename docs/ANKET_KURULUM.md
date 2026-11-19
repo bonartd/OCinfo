@@ -67,6 +67,15 @@ olarak indirilebilir.
 3. **Dağıt → Dağıtımları yönet** → mevcut dağıtımda ✏️ (kalem) → **Sürüm: Yeni sürüm** → **Dağıt**.
    *"Yeni dağıtım" yapmayın*; o yeni bir URL üretir ve `config.js` güncellenmesi gerekir.
 
+## "Haftalık Özet" sayfası
+
+Tablonun ilk sekmesi **Haftalık Özet**: son tamamlanan haftanın (pazartesi–pazar) yanıt sayısı,
+ortalama puanı, önceki haftayla farkı, puan dağılımı, görüş yazan ve "şüpheli" sayısı, başından beri
+toplam/ortalama ve son 8 haftanın grafiği. Betik değil, yalnızca formüller kullanır (`TODAY()` ile
+her açılışta güncellenir; pazartesi açınca yeni hafta görünür). Formüller "Yanıtlar" sayfasının
+sütun sırasına (A Tarih, D Puan, F Görüş, I Not) bağlıdır; sütunlar değişirse sayfa güncellenmelidir.
+Tablonun dili Türkçe olduğundan formüllerde ayırıcı `;`'dir. Görüş metinleri bu sayfada gösterilmez.
+
 ## Excel olarak indirme
 
 Tablo açıkken **Dosya → İndir → Microsoft Excel (.xlsx)**.
